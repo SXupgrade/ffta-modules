@@ -1,0 +1,22 @@
+{
+  "title": "Championnat par équipe",
+  "navigation": {
+    "title": "Championnat par équipe"
+  },
+  "actions": {
+    "recalculate": "Recalculer",
+    "exportPdf": "Exporter en PDF"
+  },
+  "messages": {
+    "recalculated": "Le classement du championnat par équipe a été recalculé.",
+    "settingsSaved": "Les paramètres du championnat par équipe ont été enregistrés."
+  },
+  "errors": {
+    "loadFailed": "Impossible de charger le classement du championnat par équipe."
+  },
+  "warnings": {
+    "missingMaster": "Le tournoi primaire n’est pas configuré.",
+    "missingRounds": "Aucune manche de championnat n’est configurée.",
+    "tooManyRounds": "Un maximum de {max} manches peut être associé."
+  }
+}

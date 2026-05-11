@@ -1,0 +1,9 @@
+.ffta-app {
+  color: var(--ffta-color-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.ffta-page {
+  display: grid;
+  gap: var(--ffta-space-lg);
+}

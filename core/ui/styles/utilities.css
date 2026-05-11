@@ -1,0 +1,2 @@
+.ffta-muted { color: var(--ffta-color-muted); }
+.ffta-actions { display: flex; gap: var(--ffta-space-sm); align-items: center; }

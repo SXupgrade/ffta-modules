@@ -1,0 +1,10 @@
+.league-page {
+  padding: var(--ffta-space-lg);
+}
+
+.league-header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--ffta-space-md);
+  align-items: center;
+}

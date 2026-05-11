@@ -1,0 +1,32 @@
+{
+  "settings": {
+    "masterTournamentCode": "MASTER2026",
+    "roundTournamentCodes": ["ROUND1", "ROUND2"],
+    "groupBy": "division-class",
+    "qualificationPointsGrid": [
+      { "rank": 1, "points": 5 },
+      { "rank": 2, "points": 3 },
+      { "rank": 3, "points": 1 }
+    ],
+    "matchPointsMode": "match-wins",
+    "matchWinPoints": 2,
+    "bracketPointsGrid": []
+  },
+  "masterTournament": { "code": "MASTER2026", "name": "Master" },
+  "rounds": [
+    { "code": "ROUND1", "name": "Round 1" },
+    { "code": "ROUND2", "name": "Round 2" }
+  ],
+  "teams": [
+    { "teamCode": "CLUB_A", "teamName": "Club A", "division": "CL", "className": "H" },
+    { "teamCode": "CLUB_B", "teamName": "Club B", "division": "CL", "className": "H" }
+  ],
+  "qualificationResults": [
+    { "roundCode": "ROUND1", "teamCode": "CLUB_A", "teamName": "Club A", "division": "CL", "className": "H", "rank": 1 },
+    { "roundCode": "ROUND1", "teamCode": "CLUB_B", "teamName": "Club B", "division": "CL", "className": "H", "rank": 2 }
+  ],
+  "matchResults": [
+    { "roundCode": "ROUND1", "teamCode": "CLUB_A", "teamName": "Club A", "division": "CL", "className": "H", "wins": 2 },
+    { "roundCode": "ROUND1", "teamCode": "CLUB_B", "teamName": "Club B", "division": "CL", "className": "H", "wins": 1 }
+  ]
+}

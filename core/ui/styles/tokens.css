@@ -1,0 +1,11 @@
+:root {
+  --ffta-color-primary: #1f5fbf;
+  --ffta-color-surface: #ffffff;
+  --ffta-color-text: #1f2937;
+  --ffta-color-muted: #6b7280;
+  --ffta-color-border: #e5e7eb;
+  --ffta-radius-card: 16px;
+  --ffta-space-sm: 8px;
+  --ffta-space-md: 16px;
+  --ffta-space-lg: 24px;
+}
