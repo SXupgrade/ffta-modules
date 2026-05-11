@@ -1,7 +1,12 @@
 {
-  "app": {
-    "title": "FFTA",
-    "loading": "Loading...",
-    "error": "An error occurred."
+  "title": "FFTA",
+  "loading": "Loading...",
+  "error": "An error occurred.",
+  "settingsSaved": "Settings saved.",
+  "notConfigured": "Not configured.",
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close"
   }
 }

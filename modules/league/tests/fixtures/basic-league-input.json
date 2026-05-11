@@ -12,7 +12,7 @@
     "matchWinPoints": 2,
     "bracketPointsGrid": []
   },
-  "masterTournament": { "code": "MASTER2026", "name": "Master" },
+  "masterTournament": { "code": "MASTER2026", "name": "Master 2026" },
   "rounds": [
     { "code": "ROUND1", "name": "Round 1" },
     { "code": "ROUND2", "name": "Round 2" }

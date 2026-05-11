@@ -1,0 +1,39 @@
+{
+  "settings": {
+    "masterTournamentCode": "LEAGUE2026",
+    "roundTournamentCodes": ["R1", "R2", "R3"],
+    "groupBy": "division-class",
+    "qualificationPointsGrid": [
+      { "rank": 1, "points": 8 },
+      { "rank": 2, "points": 6 },
+      { "rank": 3, "points": 4 },
+      { "rank": 4, "points": 2 }
+    ],
+    "matchPointsMode": "match-wins",
+    "matchWinPoints": 1,
+    "bracketPointsGrid": []
+  },
+  "masterTournament": { "code": "LEAGUE2026", "name": "League 2026" },
+  "rounds": [
+    { "code": "R1", "name": "Round 1" },
+    { "code": "R2", "name": "Round 2" },
+    { "code": "R3", "name": "Round 3" }
+  ],
+  "teams": [
+    { "teamCode": "TEAM_A", "teamName": "Team A", "division": "CO", "className": "H" },
+    { "teamCode": "TEAM_B", "teamName": "Team B", "division": "CO", "className": "H" },
+    { "teamCode": "TEAM_C", "teamName": "Team C", "division": "CO", "className": "H" }
+  ],
+  "qualificationResults": [
+    { "roundCode": "R1", "teamCode": "TEAM_A", "teamName": "Team A", "division": "CO", "className": "H", "rank": 1 },
+    { "roundCode": "R1", "teamCode": "TEAM_B", "teamName": "Team B", "division": "CO", "className": "H", "rank": 2 },
+    { "roundCode": "R1", "teamCode": "TEAM_C", "teamName": "Team C", "division": "CO", "className": "H", "rank": 3 },
+    { "roundCode": "R2", "teamCode": "TEAM_B", "teamName": "Team B", "division": "CO", "className": "H", "rank": 1 },
+    { "roundCode": "R2", "teamCode": "TEAM_A", "teamName": "Team A", "division": "CO", "className": "H", "rank": 2 },
+    { "roundCode": "R2", "teamCode": "TEAM_C", "teamName": "Team C", "division": "CO", "className": "H", "rank": 3 },
+    { "roundCode": "R3", "teamCode": "TEAM_C", "teamName": "Team C", "division": "CO", "className": "H", "rank": 1 },
+    { "roundCode": "R3", "teamCode": "TEAM_A", "teamName": "Team A", "division": "CO", "className": "H", "rank": 2 },
+    { "roundCode": "R3", "teamCode": "TEAM_B", "teamName": "Team B", "division": "CO", "className": "H", "rank": 3 }
+  ],
+  "matchResults": []
+}

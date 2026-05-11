@@ -1,0 +1,16 @@
+{
+  "settings": {
+    "masterTournamentCode": "OVER2026",
+    "roundTournamentCodes": ["R1","R2","R3","R4","R5","R6","R7","R8","R9"],
+    "groupBy": "division-class",
+    "qualificationPointsGrid": [],
+    "matchPointsMode": "match-wins",
+    "matchWinPoints": 1,
+    "bracketPointsGrid": []
+  },
+  "masterTournament": { "code": "OVER2026", "name": "Over 2026" },
+  "rounds": [],
+  "teams": [],
+  "qualificationResults": [],
+  "matchResults": []
+}

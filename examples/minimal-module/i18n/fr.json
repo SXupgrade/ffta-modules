@@ -1,3 +1,10 @@
 {
-  "title": "Module minimal"
+  "title": "Module minimal",
+  "navigation": {
+    "title": "Module minimal"
+  },
+  "description": "Ceci est l'exemple de référence du module minimal.",
+  "settings": {
+    "greeting": "Message d'accueil"
+  }
 }

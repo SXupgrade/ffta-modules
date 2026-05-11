@@ -1,10 +1,183 @@
+/* League page layout */
 .league-page {
   padding: var(--ffta-space-lg);
 }
 
+.league-page__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ffta-space-md);
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.league-page__body {
+  display: grid;
+  gap: var(--ffta-space-lg);
+}
+
+/* Header */
 .league-header {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: var(--ffta-space-md);
+  flex-wrap: wrap;
+}
+
+.league-header__title {
+  font-size: var(--ffta-font-size-2xl);
+  font-weight: var(--ffta-font-weight-bold);
+  margin: 0;
+}
+
+.league-header__master {
+  font-size: var(--ffta-font-size-sm);
+  color: var(--ffta-color-muted);
+  margin-top: var(--ffta-space-xs);
+  display: block;
+}
+
+/* Toolbar */
+.league-toolbar {
+  flex-wrap: wrap;
+}
+
+/* Rounds */
+.league-rounds {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ffta-space-xs);
+}
+
+.league-rounds__label {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: var(--ffta-font-weight-medium);
+}
+
+.league-rounds__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ffta-space-sm);
+}
+
+.league-round {
+  display: flex;
   align-items: center;
+  gap: var(--ffta-space-xs);
+  padding: var(--ffta-space-xs) var(--ffta-space-sm);
+  background: var(--ffta-color-surface);
+  border: 1px solid var(--ffta-color-border);
+  border-radius: var(--ffta-radius-full);
+  font-size: var(--ffta-font-size-sm);
+}
+
+.league-round--missing {
+  border-color: var(--ffta-color-warning);
+  background: var(--ffta-color-warning-bg);
+}
+
+/* Warnings */
+.league-warnings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ffta-space-sm);
+}
+
+.league-warning {
+  display: flex;
+  align-items: center;
+  gap: var(--ffta-space-sm);
+  padding: var(--ffta-space-sm) var(--ffta-space-md);
+  border-radius: var(--ffta-radius-md);
+  font-size: var(--ffta-font-size-sm);
+}
+
+.league-warning--error   { background: var(--ffta-color-error-bg);   color: var(--ffta-color-error); }
+.league-warning--warning { background: var(--ffta-color-warning-bg); color: var(--ffta-color-warning); }
+.league-warning--info    { background: var(--ffta-color-info-bg);    color: var(--ffta-color-info); }
+
+/* Group standings */
+.league-group {
+  background: var(--ffta-color-surface);
+  border: 1px solid var(--ffta-color-border);
+  border-radius: var(--ffta-radius-card);
+  overflow: hidden;
+  box-shadow: var(--ffta-shadow-sm);
+}
+
+.league-group__title {
+  font-size: var(--ffta-font-size-lg);
+  font-weight: var(--ffta-font-weight-bold);
+  padding: var(--ffta-space-md) var(--ffta-space-lg);
+  margin: 0;
+  border-bottom: 1px solid var(--ffta-color-border);
+  background: var(--ffta-color-surface-raised);
+}
+
+/* Standings table adjustments */
+.league-standings-table .cp-table__th,
+.league-standings-table .cp-table__td {
+  padding: var(--ffta-space-sm) var(--ffta-space-md);
+}
+
+.cp-table__subheader th {
+  font-size: 0.7rem;
+  color: var(--ffta-color-muted);
+  background: var(--ffta-color-surface);
+  padding: 2px var(--ffta-space-md);
+  border-bottom: 2px solid var(--ffta-color-border);
+}
+
+/* Settings form */
+.league-settings-form textarea {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--ffta-font-size-sm);
+  min-height: 80px;
+  resize: vertical;
+  width: 100%;
+}
+
+.league-settings-form input,
+.league-settings-form select {
+  width: 100%;
+}
+
+/* Rank badge for top 3 */
+.league-rank-1 { font-weight: var(--ffta-font-weight-bold); color: #b45309; }
+.league-rank-2 { font-weight: var(--ffta-font-weight-bold); color: var(--ffta-color-muted); }
+.league-rank-3 { font-weight: var(--ffta-font-weight-bold); color: #a16207; }
+
+/* Error banner */
+.league-error {
+  padding: var(--ffta-space-sm) var(--ffta-space-md);
+  border-radius: var(--ffta-radius-md);
+}
+
+/* Print / PDF */
+@media print {
+  .league-toolbar,
+  .cp-modal-backdrop,
+  .ffta-toast-container {
+    display: none !important;
+  }
+
+  .league-page {
+    padding: 0;
+  }
+
+  .league-group {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .cp-table {
+    font-size: 11px;
+  }
+
+  @page {
+    margin: 1.5cm;
+  }
 }

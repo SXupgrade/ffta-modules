@@ -1,0 +1,33 @@
+{
+  "settings": {
+    "masterTournamentCode": "BRACKET2026",
+    "roundTournamentCodes": ["BR1"],
+    "groupBy": "division-class",
+    "qualificationPointsGrid": [],
+    "matchPointsMode": "bracket-final-ranking",
+    "matchWinPoints": 0,
+    "bracketPointsGrid": [
+      { "rank": 1, "points": 10 },
+      { "rank": 2, "points": 7 },
+      { "rank": 3, "points": 5 },
+      { "rank": 4, "points": 3 }
+    ]
+  },
+  "masterTournament": { "code": "BRACKET2026", "name": "Bracket 2026" },
+  "rounds": [
+    { "code": "BR1", "name": "Bracket Round 1" }
+  ],
+  "teams": [
+    { "teamCode": "GOLD",   "teamName": "Gold Team",   "division": "CL", "className": "F" },
+    { "teamCode": "SILVER", "teamName": "Silver Team", "division": "CL", "className": "F" },
+    { "teamCode": "BRONZE", "teamName": "Bronze Team", "division": "CL", "className": "F" },
+    { "teamCode": "FOURTH", "teamName": "Fourth Team", "division": "CL", "className": "F" }
+  ],
+  "qualificationResults": [],
+  "matchResults": [
+    { "roundCode": "BR1", "teamCode": "GOLD",   "teamName": "Gold Team",   "division": "CL", "className": "F", "finalRank": 1 },
+    { "roundCode": "BR1", "teamCode": "SILVER", "teamName": "Silver Team", "division": "CL", "className": "F", "finalRank": 2 },
+    { "roundCode": "BR1", "teamCode": "BRONZE", "teamName": "Bronze Team", "division": "CL", "className": "F", "finalRank": 3 },
+    { "roundCode": "BR1", "teamCode": "FOURTH", "teamName": "Fourth Team", "division": "CL", "className": "F", "finalRank": 4 }
+  ]
+}

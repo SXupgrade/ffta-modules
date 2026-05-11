@@ -1,2 +1,3 @@
 <?php
-// TODO: Optional action endpoint split if league.php becomes too large.
+// Handled inline in league.php — this file is reserved for future expansion
+// if the getStandings action grows complex enough to warrant its own file.

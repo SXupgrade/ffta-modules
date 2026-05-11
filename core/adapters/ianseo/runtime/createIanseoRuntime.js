@@ -4,24 +4,34 @@ import { createIanseoLanguageAdapter } from '../i18n/languageAdapter.js';
 /**
  * Create the standalone Ianseo runtime context.
  *
- * TODO for agent:
- * - Inspect Ianseo public sources to locate the correct bootstrap/config include.
- * - Reuse Ianseo session, DB connection, current language and tournament context.
- * - Do not ask for database credentials.
+ * @param {{ baseUrl?: string }} options
+ *   baseUrl — absolute URL of the ffta-modules root, computed from
+ *             import.meta.url in main.js so it is correct regardless of
+ *             how Ianseo routes the page URL.
+ *
+ * TODO(ianseo-verified): Verify that $_SESSION['TourId'] is the correct
+ * session key for the active tournament in your Ianseo version.
  */
-export async function createIanseoRuntime() {
+export async function createIanseoRuntime({ baseUrl = './' } = {}) {
   const languageAdapter = createIanseoLanguageAdapter();
 
   return {
     type: 'ianseo',
     language: languageAdapter.getLanguage(),
+    baseUrl,
     adapters: {
-      settings: createIanseoSettingsAdapter(),
+      settings: createIanseoSettingsAdapter({ baseUrl }),
       notifications: null,
       tournament: {
         async getTournament() {
-          // TODO: call API endpoint backed by Ianseo context.
-          return null;
+          try {
+            const response = await fetch(baseUrl + 'api/context.php');
+            if (!response.ok) return null;
+            const payload = await response.json();
+            return payload.ok ? (payload.tournament ?? null) : null;
+          } catch {
+            return null;
+          }
         }
       }
     }

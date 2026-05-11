@@ -5,18 +5,70 @@
   },
   "actions": {
     "recalculate": "Recalculer",
-    "exportPdf": "Exporter en PDF"
+    "exportPdf": "Exporter en PDF",
+    "exportCsv": "Exporter en CSV",
+    "openSettings": "Paramètres",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer"
   },
   "messages": {
     "recalculated": "Le classement du championnat par équipe a été recalculé.",
-    "settingsSaved": "Les paramètres du championnat par équipe ont été enregistrés."
+    "settingsSaved": "Les paramètres du championnat par équipe ont été enregistrés.",
+    "calculating": "Calcul du classement en cours..."
   },
   "errors": {
     "loadFailed": "Impossible de charger le classement du championnat par équipe."
   },
   "warnings": {
-    "missingMaster": "Le tournoi primaire n’est pas configuré.",
-    "missingRounds": "Aucune manche de championnat n’est configurée.",
-    "tooManyRounds": "Un maximum de {max} manches peut être associé."
+    "missingMaster": "Le tournoi primaire n'est pas configuré.",
+    "missingRounds": "Aucune manche de championnat n'est configurée.",
+    "tooManyRounds": "Un maximum de {max} manches peut être associé.",
+    "missingRoundData": "Aucune donnée disponible pour la manche {round}.",
+    "unknownCategory": "Catégorie inconnue pour le participant {code}."
+  },
+  "emptyState": {
+    "noConfig": "Aucun tournoi configuré",
+    "noConfigDetail": "Ouvrez les paramètres pour associer un tournoi principal et au moins une manche.",
+    "noResults": "Aucun résultat",
+    "noResultsDetail": "Aucune donnée de qualification trouvée pour les manches configurées."
+  },
+  "settings": {
+    "title": "Paramètres du championnat",
+    "masterTournament": "Code du tournoi principal",
+    "masterTournamentHint": "Le code du tournoi principal (ex : LIGUE2026)",
+    "roundTournaments": "Codes des manches",
+    "roundTournamentsHint": "Un code par ligne. Maximum {max} manches.",
+    "pointsMode": "Mode de points",
+    "qualificationRanking": "Classement qualification",
+    "matchWins": "Victoires en match",
+    "bracketRanking": "Classement tableau final",
+    "combined": "Combiné",
+    "groupBy": "Regrouper par",
+    "divisionClass": "Division + Classe",
+    "qualificationPointsGrid": "Barème qualification",
+    "qualificationPointsGridHint": "Tableau JSON : [{\"rank\":1,\"points\":8},{\"rank\":2,\"points\":6}]",
+    "matchWinPoints": "Points par victoire en match",
+    "bracketPointsGrid": "Barème tableau final",
+    "bracketPointsGridHint": "Tableau JSON : [{\"rank\":1,\"points\":8},{\"rank\":2,\"points\":6}]",
+    "invalidJson": "JSON invalide. Veuillez vérifier le format.",
+    "invalidNumber": "Veuillez entrer un nombre valide."
+  },
+  "standings": {
+    "rank": "Rang",
+    "team": "Équipe",
+    "total": "Total",
+    "round": "Manche {index}",
+    "qualPts": "Qual.",
+    "matchPts": "Match",
+    "bracketPts": "Tableau",
+    "category": "Catégorie",
+    "noTeams": "Aucune équipe trouvée pour cette catégorie."
+  },
+  "rounds": {
+    "title": "Manches",
+    "noRounds": "Aucune manche configurée.",
+    "round": "Manche {index}",
+    "code": "Code"
   }
 }

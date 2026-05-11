@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test modules/league/tests/*.test.js",
-    "lint": "echo \"TODO: add linting\""
+    "test": "node --test modules/league/tests/league.points.test.js modules/league/tests/league.standings.test.js modules/league/tests/league.tiebreaks.test.js modules/league/tests/league.validation.test.js",
+    "test:watch": "node --test --watch modules/league/tests/*.test.js",
+    "lint": "echo \"No linter configured yet — add eslint if needed\""
   },
   "devDependencies": {}
 }

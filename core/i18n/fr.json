@@ -1,7 +1,12 @@
 {
-  "app": {
-    "title": "FFTA",
-    "loading": "Chargement...",
-    "error": "Une erreur est survenue."
+  "title": "FFTA",
+  "loading": "Chargement...",
+  "error": "Une erreur s'est produite.",
+  "settingsSaved": "Paramètres enregistrés.",
+  "notConfigured": "Non configuré.",
+  "actions": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer"
   }
 }

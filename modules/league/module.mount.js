@@ -3,8 +3,8 @@ import { createLeagueStore } from './application/league.store.js';
 import { createLeagueViewModel } from './application/league.vm.js';
 import { createLeagueCalculator } from './domain/league.standings.js';
 import { createIanseoLeagueRepository } from './repositories/ianseo/IanseoLeagueRepository.js';
-import en from './i18n/en.json' assert { type: 'json' };
-import fr from './i18n/fr.json' assert { type: 'json' };
+import en from './i18n/en.json' with { type: 'json' };
+import fr from './i18n/fr.json' with { type: 'json' };
 
 export async function mountModule(app) {
   app.i18n.registerNamespace('league', { en, fr });
