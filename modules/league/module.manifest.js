@@ -10,8 +10,8 @@ export default {
   styles: ['./ui/styles/league.css'],
   capabilities: ['settings', 'i18n', 'routing', 'export', 'pdf'],
   runtimeCompatibility: ['ianseo'],
+  navigation: { accentColor: '#3E62FF' },
   settings: [
-    { key: 'league.masterTournamentCode', type: 'string', defaultValue: '' },
     { key: 'league.roundTournamentCodes', type: 'array', defaultValue: [] },
     { key: 'league.groupBy', type: 'string', defaultValue: 'division-class' },
     { key: 'league.qualificationPointsGrid', type: 'array', defaultValue: [] },

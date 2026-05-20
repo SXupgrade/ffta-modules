@@ -1,0 +1,14 @@
+export const PLAN_QUALIFS_GROUPING = Object.freeze({
+  FACE: 0,
+  CATEGORY: 1
+});
+
+export const PLAN_QUALIFS_WARNINGS = Object.freeze({
+  FREE: 0,
+  FULL: 1,
+  MAJORITY_STRUCTURE: 2,
+  SINGLE_STRUCTURE: 3,
+  MIXED_DISTANCE: 4,
+  INCOMPATIBLE_FACE: 5,
+  DUPLICATE_SLOT: 6
+});

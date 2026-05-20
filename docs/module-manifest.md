@@ -23,6 +23,7 @@ Every module must export a default manifest object from `module.manifest.js`.
 | `styles` | string[] | Relative paths to CSS files |
 | `capabilities` | string[] | Declared capabilities: `settings`, `i18n`, `routing`, `export`, `pdf` |
 | `settings` | object[] | Settings schema: `{ key, type, defaultValue }` |
+| `navigation` | object | Optional navigation metadata, e.g. `{ accentColor: '#e4007f' }` for the colored underline in the FFTA module bar |
 
 ## Example
 
@@ -39,6 +40,7 @@ export default {
   styles: ['./ui/styles/my-module.css'],
   capabilities: ['settings', 'i18n', 'routing'],
   runtimeCompatibility: ['ianseo'],
+  navigation: { accentColor: '#e4007f' },
   settings: [
     { key: 'my-module.someSetting', type: 'string', defaultValue: '' }
   ]

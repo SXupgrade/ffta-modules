@@ -1,7 +1,7 @@
 import { MAX_LEAGUE_ROUNDS } from './constants/league.constants.js';
 
 export function validateLeagueInput(input) {
-  const warnings = [];
+  const warnings = [...(input?.warnings ?? [])];
   const roundCodes = input?.settings?.roundTournamentCodes ?? [];
 
   if (!input?.settings?.masterTournamentCode) {
@@ -16,5 +16,15 @@ export function validateLeagueInput(input) {
     warnings.push({ level: 'error', code: 'too-many-rounds', messageKey: 'league.warnings.tooManyRounds', params: { max: MAX_LEAGUE_ROUNDS } });
   }
 
-  return warnings;
+  return dedupeWarnings(warnings);
+}
+
+function dedupeWarnings(warnings) {
+  const seen = new Set();
+  return warnings.filter((warning) => {
+    const key = `${warning.code}:${JSON.stringify(warning.params ?? {})}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }

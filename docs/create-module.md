@@ -100,10 +100,9 @@ All user-visible strings must go through i18n — never hardcode French labels i
 In `main.js`, import the manifest and mount function then call `loadModule`:
 
 ```js
-import myManifest from './modules/my-module/module.manifest.js';
-import { mountModule as mountMyModule } from './modules/my-module/module.mount.js';
+Drop the module folder under `modules/my-module/` and refresh the FFTA page.
 
-await loadModule({ manifest: myManifest, mountModule: mountMyModule, app, registry });
+`index.php` discovers every `modules/*/module.manifest.js` file and exposes the list to `main.js` through `window.__FFTA_MODULES__`. The JavaScript loader then imports the manifest, entry file and route page dynamically. No core import should be added for a new module.
 ```
 
 ## Rules

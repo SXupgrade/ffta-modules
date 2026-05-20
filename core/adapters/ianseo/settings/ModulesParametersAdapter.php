@@ -4,81 +4,99 @@ require_once(__DIR__ . '/../database/query.php');
 /**
  * Read/write module settings through Ianseo's ModulesParameters table.
  *
- * Schema (TODO(ianseo-verified): confirm column names against your version):
- *   ModulesParameters (
- *     MpModule     VARCHAR  -- module identifier, e.g. "ffta-modules"
- *     MpParameter  VARCHAR  -- setting key
- *     MpValue      TEXT     -- JSON-encoded value
- *   )
+ * Ianseo schema:
+ *   ModulesParameters(MpModule, MpParameter, MpTournament, MpValue)
  *
- * Values are JSON-encoded on write and decoded on read so that arrays,
- * objects, numbers and booleans survive the round-trip.
+ * Ianseo stores module parameters per tournament. We keep the same behavior so
+ * settings follow the active tournament context and remain export-compatible.
  */
 class ModulesParametersAdapter {
 
-    /** @var string */
     private $moduleName;
+    private $tourId;
 
-    public function __construct($moduleName = 'ffta-modules') {
+    public function __construct($moduleName = 'ffta-modules', $tourId = null) {
         $this->moduleName = $moduleName;
+        $this->tourId = $tourId === null ? $this->resolveTourId() : (int) $tourId;
     }
 
-    /**
-     * Read one setting value.
-     *
-     * @param  string $key
-     * @return mixed|null  decoded value, or null when not found
-     */
     public function get($key) {
-        $safeModule = ffta_escape($this->moduleName);
-        $safeKey    = ffta_escape($key);
-        $sql    = "SELECT MpValue FROM ModulesParameters"
-                . " WHERE MpModule='{$safeModule}' AND MpParameter='{$safeKey}'"
-                . " LIMIT 1";
-        $row = ffta_fetch_one(ffta_query($sql));
-        if ($row === null || !isset($row->MpValue)) {
-            return null;
+        if (function_exists('getModuleParameter')) {
+            $value = getModuleParameter($this->moduleName, $key, null, $this->tourId, true);
+            return $this->decodeValue($value);
         }
-        $decoded = json_decode($row->MpValue, true);
-        return ($decoded === null && json_last_error() !== JSON_ERROR_NONE)
-            ? $row->MpValue   // stored as raw string (legacy)
-            : $decoded;
+
+        $sql = 'SELECT MpValue FROM ModulesParameters'
+             . ' WHERE MpModule=' . ffta_sql_string($this->moduleName)
+             . ' AND MpParameter=' . ffta_sql_string($key)
+             . ' AND MpTournament=' . (int) $this->tourId
+             . ' LIMIT 1';
+        $row = ffta_fetch_one(ffta_query($sql));
+        return $row ? $this->decodeStoredValue($row->MpValue) : null;
     }
 
-    /**
-     * Write one setting value (upsert).
-     *
-     * @param  string $key
-     * @param  mixed  $value  will be JSON-encoded
-     * @return bool
-     */
     public function set($key, $value) {
-        $safeModule = ffta_escape($this->moduleName);
-        $safeKey    = ffta_escape($key);
-        $safeValue  = ffta_escape(json_encode($value, JSON_UNESCAPED_UNICODE));
-        $sql = "REPLACE INTO ModulesParameters (MpModule, MpParameter, MpValue)"
-             . " VALUES ('{$safeModule}', '{$safeKey}', '{$safeValue}')";
+        if (function_exists('setModuleParameter')) {
+            setModuleParameter($this->moduleName, $key, $this->encodeValue($value), $this->tourId);
+            return true;
+        }
+
+        $stored = serialize($this->encodeValue($value));
+        $sql = 'INSERT INTO ModulesParameters SET '
+             . 'MpValue=' . ffta_sql_string($stored) . ', '
+             . 'MpModule=' . ffta_sql_string($this->moduleName) . ', '
+             . 'MpParameter=' . ffta_sql_string($key) . ', '
+             . 'MpTournament=' . (int) $this->tourId . ' '
+             . 'ON DUPLICATE KEY UPDATE MpValue=' . ffta_sql_string($stored);
         ffta_write($sql);
         return true;
     }
 
-    /**
-     * Read all settings for this module.
-     *
-     * @return array  associative [key => decoded value]
-     */
     public function getAll() {
-        $safeModule = ffta_escape($this->moduleName);
-        $sql  = "SELECT MpParameter, MpValue FROM ModulesParameters"
-              . " WHERE MpModule='{$safeModule}'";
+        if (function_exists('getModule')) {
+            $values = getModule($this->moduleName, '', $this->tourId);
+            $out = array();
+            foreach ($values as $key => $value) {
+                $out[$key] = $this->decodeValue($value);
+            }
+            return $out;
+        }
+
+        $sql = 'SELECT MpParameter, MpValue FROM ModulesParameters'
+             . ' WHERE MpModule=' . ffta_sql_string($this->moduleName)
+             . ' AND MpTournament=' . (int) $this->tourId;
         $rows = ffta_fetch_all(ffta_query($sql));
-        $out  = array();
+        $out = array();
         foreach ($rows as $row) {
-            $decoded = json_decode($row->MpValue, true);
-            $out[$row->MpParameter] = (json_last_error() === JSON_ERROR_NONE)
-                ? $decoded
-                : $row->MpValue;
+            $out[$row->MpParameter] = $this->decodeStoredValue($row->MpValue);
         }
         return $out;
+    }
+
+    private function resolveTourId() {
+        return isset($_SESSION['TourId']) ? (int) $_SESSION['TourId'] : 0;
+    }
+
+    /**
+     * Keep Ianseo storage compatible while still supporting JSON-like values.
+     */
+    private function encodeValue($value) {
+        return json_encode($value, JSON_UNESCAPED_UNICODE);
+    }
+
+    private function decodeValue($value) {
+        if ($value === null || $value === '') {
+            return $value;
+        }
+        $decoded = json_decode($value, true);
+        return (json_last_error() === JSON_ERROR_NONE) ? $decoded : $value;
+    }
+
+    private function decodeStoredValue($stored) {
+        $unserialized = @unserialize($stored);
+        if ($unserialized !== false || $stored === 'b:0;') {
+            return $this->decodeValue($unserialized);
+        }
+        return $this->decodeValue($stored);
     }
 }

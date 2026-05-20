@@ -7,7 +7,7 @@ function showToast(message, type) {
   if (!container) {
     container = document.createElement('div');
     container.className = 'ffta-toast-container';
-    document.body.appendChild(container);
+    (document.querySelector('.ffta-modules-shell') || document.body).appendChild(container);
   }
 
   const toast = document.createElement('div');

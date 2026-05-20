@@ -7,6 +7,19 @@
   "actions": {
     "save": "Save",
     "cancel": "Cancel",
-    "close": "Close"
+    "close": "Close",
+    "open": "Open",
+    "updateModule": "update module",
+    "updatingModule": "updating module",
+    "updateInstalled": "update installed",
+    "updateFailed": "Update failed."
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Enable or disable FFTA modules for the current tournament.",
+    "enabledModules": "Enabled modules",
+    "enabledModulesHelp": "Only selected modules are displayed in the FFTA navigation for this tournament.",
+    "saved": "Settings saved. Reloading modules…",
+    "noEnabledModule": "No module is enabled for this tournament."
   }
 }

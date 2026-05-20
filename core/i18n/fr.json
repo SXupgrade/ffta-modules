@@ -7,6 +7,19 @@
   "actions": {
     "save": "Enregistrer",
     "cancel": "Annuler",
-    "close": "Fermer"
+    "close": "Fermer",
+    "open": "Ouvrir",
+    "updateModule": "update module",
+    "updatingModule": "updating module",
+    "updateInstalled": "update installed",
+    "updateFailed": "La mise à jour a échoué."
+  },
+  "settings": {
+    "title": "Paramètres",
+    "description": "Activez ou désactivez les modules FFTA pour le tournoi courant.",
+    "enabledModules": "Modules activés",
+    "enabledModulesHelp": "Seuls les modules sélectionnés sont affichés dans la navigation FFTA pour ce tournoi.",
+    "saved": "Paramètres enregistrés. Rechargement des modules…",
+    "noEnabledModule": "Aucun module n’est activé pour ce tournoi."
   }
 }

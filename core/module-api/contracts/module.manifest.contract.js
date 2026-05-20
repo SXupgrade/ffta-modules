@@ -26,4 +26,5 @@ export const REQUIRED_MANIFEST_FIELDS = [
  * @property {string[]=} capabilities
  * @property {string[]} runtimeCompatibility
  * @property {Object[]=} settings
+ * @property {{accentColor?: string}=} navigation
  */

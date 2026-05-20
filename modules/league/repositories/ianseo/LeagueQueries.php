@@ -4,192 +4,192 @@ require_once(__DIR__ . '/../../../../core/adapters/ianseo/database/query.php');
 /**
  * Raw SQL queries for the league module.
  *
- * All column references are based on the Ianseo public schema
- * (verified against the brian-nelson/ianseo mirror).
- *
- * Methods marked TODO(ianseo-verified) need confirmation against a live
- * Ianseo installation before use — the schema details in those areas were
- * not fully available in public sources.
+ * League intentionally uses Ianseo event teams (Teams.TeFinEvent=1) for round
+ * results. Division/class quick teams (Teams.TeFinEvent=0) are not used for the
+ * championship binding because they are generated automatically by Ianseo and
+ * are not the official configured league teams.
  */
 class LeagueQueries {
 
-    /**
-     * Fetch tournament rows for the given codes.
-     *
-     * TODO(ianseo-verified): Confirm that ToWhere is the human-readable name
-     * column. Some versions may use a different column for the display name.
-     *
-     * @param  string[] $codes  tournament codes to fetch
-     * @return object[]
-     */
+    public static function getCurrentTournament() {
+        $tourId = self::resolveCurrentTournamentId();
+        if ($tourId <= 0) {
+            return null;
+        }
+        $sql = "SELECT ToId, ToCode, ToName, ToNameShort, ToWhere, ToVenue, ToWhenFrom, ToWhenTo"
+             . " FROM Tournament"
+             . " WHERE ToId=" . (int) $tourId
+             . " LIMIT 1";
+        return ffta_fetch_one(ffta_query($sql));
+    }
+
+    public static function getAvailableTournaments() {
+        $sql = "SELECT ToId, ToCode, ToName, ToNameShort, ToWhere, ToVenue, ToWhenFrom, ToWhenTo"
+             . " FROM Tournament"
+             . " WHERE TRIM(ToCode) <> ''"
+             . " ORDER BY ToWhenFrom DESC, ToCode ASC";
+        return ffta_fetch_all(ffta_query($sql));
+    }
+
+    private static function resolveCurrentTournamentId() {
+        if (isset($_SESSION['TourId']) && (int) $_SESSION['TourId'] > 0) {
+            return (int) $_SESSION['TourId'];
+        }
+        if (isset($_REQUEST['TourId']) && (int) $_REQUEST['TourId'] > 0) {
+            return (int) $_REQUEST['TourId'];
+        }
+        if (isset($GLOBALS['TourId']) && (int) $GLOBALS['TourId'] > 0) {
+            return (int) $GLOBALS['TourId'];
+        }
+        return 0;
+    }
+
+
     public static function getTournamentsByCodes(array $codes) {
         if (empty($codes)) {
             return array();
         }
         $inList = ffta_in_list($codes);
-        $sql    = "SELECT ToId, ToCode, ToWhere, ToVenue"
-                . " FROM Tournament"
-                . " WHERE ToCode IN ({$inList})"
-                . " ORDER BY ToCode";
+        $sql = "SELECT ToId, ToCode, ToName, ToNameShort, ToWhere, ToVenue, ToWhenFrom, ToWhenTo"
+             . " FROM Tournament"
+             . " WHERE ToCode IN ({$inList})"
+             . " ORDER BY ToWhenFrom, ToCode";
         return ffta_fetch_all(ffta_query($sql));
     }
 
-    /**
-     * Fetch one tournament by code.
-     *
-     * @param  string $code
-     * @return object|null
-     */
     public static function getTournamentByCode($code) {
-        $safeCode = ffta_escape($code);
-        $sql = "SELECT ToId, ToCode, ToWhere, ToVenue"
+        $sql = "SELECT ToId, ToCode, ToName, ToNameShort, ToWhere, ToVenue, ToWhenFrom, ToWhenTo"
              . " FROM Tournament"
-             . " WHERE ToCode='{$safeCode}'"
+             . " WHERE ToCode=" . ffta_sql_string($code)
              . " LIMIT 1";
         return ffta_fetch_one(ffta_query($sql));
     }
 
     /**
-     * Fetch all entries (teams/clubs) for the given tournament codes.
+     * Fetch the official league team registry from the master tournament.
      *
-     * In Ianseo, teams are represented by entries sharing the same sub-team
-     * code (EnSubTeam) within a tournament. We fetch distinct sub-team groups.
+     * In the master tournament, teams are entered as Entries and carry the
+     * official league division/class configuration:
+     *   EnDivision = CL / CO
+     *   EnClass    = H / F
+     * The business category key is class + division: HCL, FCL, HCO, FCO.
      *
-     * Relevant columns:
-     *   EnId          — unique entry ID
-     *   EnName        — team/club name (last name field, used for team name)
-     *   EnCountry     — country/club IOC code
-     *   EnSubTeam     — sub-team grouping identifier
-     *   EnTournament  — FK to Tournament.ToId
-     *
-     * TODO(ianseo-verified): Verify how your Ianseo version represents team
-     * entries. Some formats use EnSubTeam='' for individual entries and a
-     * non-empty value for team members. If your league uses country teams,
-     * group by EnCountry instead.
-     *
-     * @param  int[] $tournamentIds  ToId values
+     * @param int|null $masterTournamentId
      * @return object[]
      */
-    public static function getTeamEntries(array $tournamentIds) {
-        if (empty($tournamentIds)) {
+    public static function getMasterTeamEntries($masterTournamentId) {
+        $masterTournamentId = (int) $masterTournamentId;
+        if ($masterTournamentId <= 0) {
             return array();
         }
-        $inList = ffta_in_list($tournamentIds);
-        // Fetch distinct sub-teams (or countries) across all round tournaments.
-        // TODO(ianseo-verified): Adjust GROUP BY if team identification differs.
+
         $sql = "SELECT"
-             . "  e.EnTournament,"
-             . "  e.EnSubTeam,"
-             . "  e.EnCountry,"
-             . "  MIN(e.EnId)    AS EnId,"
-             . "  MIN(e.EnName)  AS EnName"
+             . "  e.EnId, e.EnTournament, e.EnCode, e.EnName, e.EnFirstName,"
+             . "  e.EnDivision, e.EnClass, e.EnSubTeam, e.EnCountry, e.EnCountry2,"
+             . "  CASE WHEN e.EnCountry2 <> 0 THEN e.EnCountry2 ELSE e.EnCountry END AS TeamCountryId,"
+             . "  c.CoCode, c.CoName, c.CoNameComplete"
              . " FROM Entries e"
-             . " WHERE e.EnTournament IN ({$inList})"
-             . "   AND e.EnSubTeam <> ''"
-             . " GROUP BY e.EnTournament, e.EnSubTeam, e.EnCountry"
-             . " ORDER BY e.EnCountry, e.EnSubTeam";
+             . " LEFT JOIN Countries c ON c.CoTournament=e.EnTournament"
+             . "  AND c.CoId=(CASE WHEN e.EnCountry2 <> 0 THEN e.EnCountry2 ELSE e.EnCountry END)"
+             . " WHERE e.EnTournament={$masterTournamentId}"
+             . "   AND e.EnStatus <= 1"
+             . "   AND TRIM(e.EnDivision) <> ''"
+             . "   AND TRIM(e.EnClass) <> ''"
+             . " ORDER BY e.EnDivision, e.EnClass, c.CoCode, e.EnName, e.EnFirstName";
         return ffta_fetch_all(ffta_query($sql));
     }
 
     /**
-     * Fetch division and class information for entries in the given tournaments.
+     * Fetch official team event ranking rows from Ianseo's native Teams table.
      *
-     * Relevant columns:
-     *   DivId          — primary key
-     *   DivTournament  — FK to Tournament.ToId
-     *   DivWaDivision  — WA division code (e.g. "CL", "CO", "BB")
-     *   DivRecDivision — local division name
-     *   ClId           — primary key
-     *   ClTournament   — FK to Tournament.ToId
-     *   ClSex          — gender (-1=all, 1=male, 2=female)
-     *   ClWaClass      — WA class code (e.g. "50M", "18M")
-     *   ClRecClass     — local class name
+     * Teams.TeFinEvent=1 is mandatory here. Rounds must expose event codes that
+     * match the master tournament category keys, for example HCL/FCL/HCO/FCO.
+     * TeRank is the qualification rank; TeRankFinal is the final/bracket rank
+     * when finals exist.
      *
-     * TODO(ianseo-verified): These column names are from the public schema.
-     * Verify ClSex values and DivWaDivision codes for your event type.
-     *
-     * @param  int[] $tournamentIds
-     * @return array  { divisions: object[], classes: object[] }
-     */
-    public static function getDivisionsAndClasses(array $tournamentIds) {
-        if (empty($tournamentIds)) {
-            return array('divisions' => array(), 'classes' => array());
-        }
-        $inList = ffta_in_list($tournamentIds);
-
-        $divisions = ffta_fetch_all(ffta_query(
-            "SELECT DivId, DivTournament, DivWaDivision, DivRecDivision, DivAthlete"
-            . " FROM Divisions WHERE DivTournament IN ({$inList})"
-        ));
-
-        $classes = ffta_fetch_all(ffta_query(
-            "SELECT ClId, ClTournament, ClWaClass, ClRecClass, ClSex, ClAthlete"
-            . " FROM Classes WHERE ClTournament IN ({$inList})"
-        ));
-
-        return array('divisions' => $divisions, 'classes' => $classes);
-    }
-
-    /**
-     * Fetch qualification rankings for team entries across round tournaments.
-     *
-     * In Ianseo, individual qualification results are in the Individuals table:
-     *   IndEntry       — FK to Entries.EnId
-     *   IndTournament  — FK to Tournament.ToId
-     *   IndRank        — qualification ranking within the category
-     *   IndRankFinal   — final (elimination phase) ranking
-     *   IndEvent       — FK to Events table
-     *
-     * We aggregate per sub-team to produce a team qualification rank.
-     *
-     * TODO(ianseo-verified): The Individuals table schema requires verification
-     * against your installed version. The aggregation method (SUM/AVG of
-     * individual scores → team rank) also depends on your competition format.
-     * This query returns raw rows; ranking is done in PHP by LeagueMapper.
-     *
-     * @param  int[] $tournamentIds
+     * @param int[] $tournamentIds
      * @return object[]
      */
-    public static function getQualificationResults(array $tournamentIds) {
+    public static function getTeamRows(array $tournamentIds) {
         if (empty($tournamentIds)) {
             return array();
         }
-        $inList = ffta_in_list($tournamentIds);
-        // TODO(ianseo-verified): Replace with the correct Ianseo Qualifications/
-        // Individuals join that reflects your archery format (scoring, team aggregation).
-        // The query below is a best-effort skeleton based on available schema docs.
+        $inList = self::intList($tournamentIds);
         $sql = "SELECT"
-             . "  i.IndTournament,"
-             . "  e.EnSubTeam,"
-             . "  e.EnCountry,"
-             . "  MIN(i.IndRank)  AS TeamQualRank,"
-             . "  SUM(COALESCE(i.IndScore, 0)) AS TeamTotalScore"
-             . " FROM Individuals i"
-             . " JOIN Entries e ON e.EnId = i.IndEntry AND e.EnTournament = i.IndTournament"
-             . " WHERE i.IndTournament IN ({$inList})"
-             . "   AND e.EnSubTeam <> ''"
-             . " GROUP BY i.IndTournament, e.EnSubTeam, e.EnCountry"
-             . " ORDER BY i.IndTournament, TeamQualRank";
+             . "  t.TeTournament, t.TeCoId, t.TeSubTeam, t.TeEvent, t.TeFinEvent,"
+             . "  t.TeScore, t.TeHits, t.TeGold, t.TeXnine, t.TeRank, t.TeRankFinal,"
+             . "  t.TeSO, t.TeTieBreak, t.TeTbDecoded, t.TeIsValidTeam,"
+             . "  c.CoCode, c.CoName, c.CoNameComplete,"
+             . "  e.EvCode, e.EvEventName, e.EvProgr, e.EvFinalFirstPhase, e.EvMatchMode,"
+             . "  e.EvMixedTeam, e.EvOdfGender, e.EvRecCategory, e.EvWaCategory"
+             . " FROM Teams t"
+             . " INNER JOIN Countries c ON c.CoId=t.TeCoId AND c.CoTournament=t.TeTournament"
+             . " INNER JOIN Events e ON e.EvCode=t.TeEvent AND e.EvTournament=t.TeTournament AND e.EvTeamEvent=1"
+             . " WHERE t.TeTournament IN ({$inList})"
+             . "   AND t.TeFinEvent=1"
+             . "   AND t.TeRank > 0"
+             . " ORDER BY e.EvProgr, t.TeEvent, t.TeRank, c.CoCode, t.TeSubTeam";
         return ffta_fetch_all(ffta_query($sql));
     }
 
     /**
-     * Fetch elimination/bracket results for team entries.
+     * Fetch match wins from TeamFinals for official team events only.
      *
-     * TODO(ianseo-verified): Ianseo's elimination bracket table structure was
-     * not fully available in public sources. This method returns an empty array
-     * until confirmed. Implement using the Eliminations table once the schema
-     * is verified.
-     *
-     * Known Eliminations columns (partial):
-     *   ElId, ElElimPhase, ElEventCode, ElTournament, ElQualRank
-     *
-     * @param  int[] $tournamentIds
+     * @param int[] $tournamentIds
      * @return object[]
      */
-    public static function getBracketResults(array $tournamentIds) {
-        // TODO(ianseo-verified): Implement bracket/elimination result query
-        // once the Eliminations table schema is confirmed.
-        return array();
+    public static function getTeamMatchWins(array $tournamentIds) {
+        if (empty($tournamentIds)) {
+            return array();
+        }
+        $inList = self::intList($tournamentIds);
+        $sql = "SELECT"
+             . "  tf.TfTournament, tf.TfEvent, tf.TfTeam AS TeCoId, tf.TfSubTeam AS TeSubTeam,"
+             . "  c.CoCode, c.CoName, c.CoNameComplete,"
+             . "  SUM(CASE WHEN tf.TfWinLose=1 THEN 1 ELSE 0 END) AS MatchWins"
+             . " FROM TeamFinals tf"
+             . " INNER JOIN Events e ON e.EvCode=tf.TfEvent AND e.EvTournament=tf.TfTournament AND e.EvTeamEvent=1"
+             . " LEFT JOIN Countries c ON c.CoId=tf.TfTeam AND c.CoTournament=tf.TfTournament"
+             . " WHERE tf.TfTournament IN ({$inList})"
+             . "   AND tf.TfTeam <> 0"
+             . " GROUP BY tf.TfTournament, tf.TfEvent, tf.TfTeam, tf.TfSubTeam, c.CoCode, c.CoName, c.CoNameComplete"
+             . " ORDER BY tf.TfTournament, tf.TfEvent, c.CoCode, tf.TfSubTeam";
+        return ffta_fetch_all(ffta_query($sql));
+    }
+
+    /**
+     * Fetch final/bracket ranks from official team event rows.
+     *
+     * @param int[] $tournamentIds
+     * @return object[]
+     */
+    public static function getTeamBracketRanks(array $tournamentIds) {
+        if (empty($tournamentIds)) {
+            return array();
+        }
+        $inList = self::intList($tournamentIds);
+        $sql = "SELECT"
+             . "  t.TeTournament, t.TeCoId, t.TeSubTeam, t.TeEvent,"
+             . "  c.CoCode, c.CoName, c.CoNameComplete,"
+             . "  e.EvFinalFirstPhase,"
+             . "  CASE"
+             . "    WHEN e.EvFinalFirstPhase=0 THEN t.TeRank"
+             . "    WHEN t.TeRankFinal > 0 THEN t.TeRankFinal"
+             . "    ELSE t.TeRank"
+             . "  END AS FinalRank"
+             . " FROM Teams t"
+             . " INNER JOIN Countries c ON c.CoId=t.TeCoId AND c.CoTournament=t.TeTournament"
+             . " INNER JOIN Events e ON e.EvCode=t.TeEvent AND e.EvTournament=t.TeTournament AND e.EvTeamEvent=1"
+             . " WHERE t.TeTournament IN ({$inList})"
+             . "   AND t.TeFinEvent=1"
+             . "   AND t.TeRank > 0"
+             . " ORDER BY t.TeTournament, t.TeEvent, FinalRank, c.CoCode, t.TeSubTeam";
+        return ffta_fetch_all(ffta_query($sql));
+    }
+
+    private static function intList(array $values) {
+        return implode(',', array_map(function ($value) {
+            return (string) ((int) $value);
+        }, $values));
     }
 }

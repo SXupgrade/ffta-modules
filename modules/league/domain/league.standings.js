@@ -1,4 +1,3 @@
-import { MATCH_POINTS_MODE } from './constants/points.constants.js';
 import { validateLeagueInput } from './league.validation.js';
 import { calculateBracketPoints, calculateMatchWinPoints, calculateQualificationPoints } from './league.points.js';
 import { createGroupKey } from './league.mapping.js';
@@ -33,6 +32,7 @@ export function calculateLeagueStandings(input) {
       teamName: team.teamName,
       division: team.division,
       className: team.className,
+      categoryKey: groupKey,
       qualificationPoints: 0,
       matchPoints: 0,
       bracketPoints: 0,
@@ -67,44 +67,77 @@ export function calculateLeagueStandings(input) {
 }
 
 function applyRoundPoints({ input, round, groupsByKey }) {
-  const settings = input.settings;
+  const settings = input.settings ?? {};
   const qualificationRows = (input.qualificationResults ?? []).filter((item) => item.roundCode === round.code);
   const matchRows = (input.matchResults ?? []).filter((item) => item.roundCode === round.code);
 
   for (const qualificationRow of qualificationRows) {
-    const group = groupsByKey.get(createGroupKey(qualificationRow));
+    const groupKey = createGroupKey(qualificationRow);
+    const group = groupsByKey.get(groupKey);
     const standingRow = group?.rowsByTeam.get(qualificationRow.teamCode);
     if (!standingRow) continue;
 
-    const points = calculateQualificationPoints({ qualificationRank: qualificationRow.rank, settings });
+    const points = calculateQualificationPoints({
+      qualificationRank: qualificationRow.rank,
+      settings,
+      categoryKey: groupKey
+    });
     standingRow.qualificationPoints += points;
-    upsertRoundDetail(standingRow, round.code).qualificationPoints = points;
+
+    const roundDetail = upsertRoundDetail(standingRow, round.code);
+    roundDetail.qualificationRank = qualificationRow.rank ?? null;
+    roundDetail.qualificationScore = qualificationRow.score ?? null;
+    roundDetail.qualificationPoints = points;
+    updateTotalRoundPoints(roundDetail);
   }
 
   for (const matchRow of matchRows) {
-    const group = groupsByKey.get(createGroupKey(matchRow));
+    const groupKey = createGroupKey(matchRow);
+    const group = groupsByKey.get(groupKey);
     const standingRow = group?.rowsByTeam.get(matchRow.teamCode);
     if (!standingRow) continue;
 
     const roundDetail = upsertRoundDetail(standingRow, round.code);
 
-    if (settings.matchPointsMode === MATCH_POINTS_MODE.BRACKET_FINAL_RANKING) {
-      const points = calculateBracketPoints({ finalRank: matchRow.finalRank, settings });
-      standingRow.bracketPoints += points;
-      roundDetail.bracketPoints = points;
-    } else {
-      const points = calculateMatchWinPoints({ wins: matchRow.wins, settings });
+    if (matchRow.wins !== null && matchRow.wins !== undefined) {
+      const points = calculateMatchWinPoints({ wins: matchRow.wins, settings, categoryKey: groupKey });
       standingRow.matchPoints += points;
+      roundDetail.matchWins = matchRow.wins;
       roundDetail.matchPoints = points;
     }
+
+    if (matchRow.finalRank !== null && matchRow.finalRank !== undefined) {
+      const points = calculateBracketPoints({ finalRank: matchRow.finalRank, settings, categoryKey: groupKey });
+      standingRow.bracketPoints += points;
+      roundDetail.finalRank = matchRow.finalRank;
+      roundDetail.bracketPoints = points;
+    }
+
+    updateTotalRoundPoints(roundDetail);
   }
 }
 
 function upsertRoundDetail(standingRow, roundCode) {
   let detail = standingRow.rounds.find((item) => item.roundCode === roundCode);
   if (!detail) {
-    detail = { roundCode, qualificationPoints: 0, matchPoints: 0, bracketPoints: 0 };
+    detail = {
+      roundCode,
+      qualificationRank: null,
+      qualificationScore: null,
+      qualificationPoints: 0,
+      matchWins: 0,
+      matchPoints: 0,
+      finalRank: null,
+      bracketPoints: 0,
+      totalRoundPoints: 0
+    };
     standingRow.rounds.push(detail);
   }
   return detail;
+}
+
+function updateTotalRoundPoints(detail) {
+  detail.totalRoundPoints = Number(detail.qualificationPoints ?? 0)
+    + Number(detail.matchPoints ?? 0)
+    + Number(detail.bracketPoints ?? 0);
 }

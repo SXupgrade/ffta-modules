@@ -1,3 +1,7 @@
 export function createGroupKey(item) {
-  return `${item.division || ''}${item.className || ''}`;
+  if (item?.categoryKey) {
+    return item.categoryKey;
+  }
+  // League categories are class + division: H + CL = HCL.
+  return `${item?.className || ''}${item?.division || ''}`;
 }

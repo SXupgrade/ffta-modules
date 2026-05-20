@@ -34,7 +34,7 @@ A runtime is the host environment that provides database access, session context
 `core/adapters/ianseo/runtime/createIanseoRuntime.js`
 
 The Ianseo runtime:
-1. Detects language from `<html lang>` or `navigator.language`.
+1. Detects language from Ianseo `SelectLanguage()` injected by `index.php`, then from the `UseLanguage` cookie, then from `navigator.language`.
 2. Wires `settings` adapter to `api/settings.php` (backed by `ModulesParameters`).
 3. Wires `tournament` adapter to `api/context.php` (backed by `$_SESSION['TourId']`).
 

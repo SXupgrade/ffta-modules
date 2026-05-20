@@ -11,7 +11,7 @@ const bracketInput     = require('./fixtures/bracket-mode-input.json');
 test('calculates standings grouped by class/division', () => {
   const result = calculateLeagueStandings(basicInput);
   assert.equal(result.groups.length, 1);
-  assert.equal(result.groups[0].groupKey, 'CLH');
+  assert.equal(result.groups[0].groupKey, 'HCL');
   assert.equal(result.groups[0].rows[0].teamCode, 'CLUB_A');
   assert.equal(result.groups[0].rows[0].totalPoints, 9);
 });

@@ -1,0 +1,7 @@
+{
+  "navigation": {
+    "title": "Beursault score entry"
+  },
+  "title": "Beursault score entry",
+  "description": "Legacy Beursault score entry module. This legacy module is mounted through the ffta-modules loader."
+}

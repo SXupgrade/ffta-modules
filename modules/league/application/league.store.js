@@ -26,6 +26,18 @@ export function createLeagueStore() {
       state.settings = settings;
       notify();
     },
+    setMasterTournament(masterTournament) {
+      state.masterTournament = masterTournament;
+      notify();
+    },
+    setAvailableTournaments(availableTournaments) {
+      state.availableTournaments = Array.isArray(availableTournaments) ? availableTournaments : [];
+      notify();
+    },
+    setRounds(rounds) {
+      state.rounds = Array.isArray(rounds) ? rounds : [];
+      notify();
+    },
     setStandings(groups) {
       state.standings = groups;
       notify();

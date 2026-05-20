@@ -71,15 +71,22 @@ class IanseoLeagueRepository {
      */
     public function getLeagueInput() {
         $settings   = $this->getSettings();
+        $currentTournament = LeagueQueries::getCurrentTournament();
+        $availableTournaments = LeagueQueries::getAvailableTournaments();
+
+        // The master tournament is always the tournament currently opened in Ianseo.
+        // It is deliberately not stored/edited as a League setting anymore.
+        $masterTournament = $currentTournament;
+        $settings['masterTournamentCode'] = $masterTournament ? $masterTournament->ToCode : '';
+        $settings['masterTournamentName'] = $masterTournament ? $this->tournamentName($masterTournament) : '';
+
         $roundCodes = isset($settings['roundTournamentCodes'])
             ? (array) $settings['roundTournamentCodes']
             : array();
 
-        $masterCode = isset($settings['masterTournamentCode'])
-            ? trim($settings['masterTournamentCode'])
-            : '';
+        $masterCode = $settings['masterTournamentCode'];
 
-        // Collect all relevant tournament codes
+        // Collect all relevant tournament codes.
         $allCodes = array_values(array_unique(array_filter(
             array_merge(
                 $masterCode !== '' ? array($masterCode) : array(),
@@ -91,17 +98,17 @@ class IanseoLeagueRepository {
             return array(
                 'settings'             => $settings,
                 'masterTournament'     => null,
+                'availableTournaments' => $this->mapTournamentOptions($availableTournaments),
                 'rounds'               => array(),
                 'teams'                => array(),
                 'qualificationResults' => array(),
-                'matchResults'         => array()
+                'matchResults'         => array(),
+                'categories'           => array(),
+                'warnings'             => array()
             );
         }
 
-        $allTournaments    = LeagueQueries::getTournamentsByCodes($allCodes);
-        $masterTournament  = $masterCode !== ''
-            ? LeagueQueries::getTournamentByCode($masterCode)
-            : null;
+        $allTournaments = LeagueQueries::getTournamentsByCodes($allCodes);
 
         // Collect tournament IDs for round tournaments
         $tourIdByCode = array();
@@ -116,25 +123,53 @@ class IanseoLeagueRepository {
             $roundCodes
         )));
 
-        $teamEntries  = LeagueQueries::getTeamEntries($roundTourIds);
-        $divAndClass  = LeagueQueries::getDivisionsAndClasses($roundTourIds);
-        $qualResults  = LeagueQueries::getQualificationResults($roundTourIds);
-        $bracketResults = LeagueQueries::getBracketResults($roundTourIds);
+        $masterTeamEntries = $masterTournament
+            ? LeagueQueries::getMasterTeamEntries((int) $masterTournament->ToId)
+            : array();
+
+        $teamRows       = LeagueQueries::getTeamRows($roundTourIds);
+        $matchWins      = LeagueQueries::getTeamMatchWins($roundTourIds);
+        $bracketRanks   = LeagueQueries::getTeamBracketRanks($roundTourIds);
 
         return LeagueMapper::toLeagueInput(
             $settings,
             $allTournaments,
             $masterTournament,
-            $teamEntries,
-            $divAndClass,
-            $qualResults,
-            $bracketResults
+            $masterTeamEntries,
+            $teamRows,
+            $matchWins,
+            $bracketRanks,
+            $this->mapTournamentOptions($availableTournaments)
         );
     }
 
     // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
+
+
+    private function mapTournamentOptions(array $rows) {
+        $out = array();
+        foreach ($rows as $row) {
+            $out[] = array(
+                'id' => isset($row->ToId) ? (int) $row->ToId : null,
+                'code' => isset($row->ToCode) ? (string) $row->ToCode : '',
+                'name' => $this->tournamentName($row),
+                'dateFrom' => isset($row->ToWhenFrom) ? (string) $row->ToWhenFrom : null,
+                'dateTo' => isset($row->ToWhenTo) ? (string) $row->ToWhenTo : null
+            );
+        }
+        return $out;
+    }
+
+    private function tournamentName($row) {
+        foreach (array('ToName', 'ToNameShort', 'ToWhere', 'ToVenue', 'ToCode') as $field) {
+            if (isset($row->{$field}) && trim((string) $row->{$field}) !== '') {
+                return (string) $row->{$field};
+            }
+        }
+        return '';
+    }
 
     private function defaultSettings() {
         return array(
@@ -145,7 +180,8 @@ class IanseoLeagueRepository {
             'matchPointsMode'         => 'match-wins',
             'matchWinPoints'          => 1,
             'bracketPointsGrid'       => array(),
-            'pointsMode'              => 'qualification-ranking'
+            'pointsMode'              => 'qualification-ranking',
+            'categoryPointSettings'   => array()
         );
     }
 }

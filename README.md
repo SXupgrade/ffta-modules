@@ -54,3 +54,13 @@ app.context.getTournament()
 
 Modules must not directly depend on Ianseo internals, SQL helpers, MariaDB, SQLite, Electron or Compet+ internals.
 
+
+## Update
+
+The root UI includes a simple `[update module]` button. It downloads the latest `ffta-modules.zip` GitHub release asset and overwrites the current module files in place. No backup is created.
+
+Expected release asset URL:
+
+```txt
+https://github.com/FFTA/ffta-modules/releases/latest/download/ffta-modules.zip
+```

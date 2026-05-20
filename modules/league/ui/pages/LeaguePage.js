@@ -4,6 +4,7 @@ import { LeagueRoundsPanel } from '../components/LeagueRoundsPanel.js';
 import { LeagueStandingsTable } from '../components/LeagueStandingsTable.js';
 import { LeagueWarningsPanel } from '../components/LeagueWarningsPanel.js';
 import { LeagueSettingsModal } from '../components/LeagueSettingsModal.js';
+import { LeagueCategorySettingsModal } from '../components/LeagueCategorySettingsModal.js';
 import { LeagueEmptyState } from '../components/LeagueEmptyState.js';
 import { CpLoader } from '../../../../core/ui/components/CpLoader.js';
 
@@ -37,6 +38,12 @@ export function mountLeaguePage({ root, vm, app }) {
       case 'openSettings':
         LeagueSettingsModal({ app, vm });
         break;
+      case 'openCategorySettings': {
+        const categoryKey = event.target.closest('[data-category-key]')?.dataset.categoryKey;
+        const group = vm.state.standings.find((item) => item.groupKey === categoryKey);
+        if (group) LeagueCategorySettingsModal({ app, vm, group });
+        break;
+      }
     }
   }
 
@@ -58,17 +65,19 @@ export function mountLeaguePage({ root, vm, app }) {
 
 function buildHtml(state, app, vm) {
   const settings    = state.settings ?? {};
-  const rounds      = (state.standings.length > 0 || state.isLoading)
-    ? buildRoundsFromSettings(settings)
+  const rounds      = Array.isArray(state.rounds) && state.rounds.length > 0
+    ? state.rounds
     : buildRoundsFromSettings(settings);
 
-  const isConfigured = Boolean(settings.masterTournamentCode);
+  const hasMaster = Boolean(state.masterTournament || settings.masterTournamentCode);
+  const hasRounds = rounds.length > 0;
+  const isConfigured = hasMaster && hasRounds;
   const hasResults   = state.standings.length > 0;
 
   let body;
   if (state.isLoading) {
     body = CpLoader({ label: app.t('league.messages.calculating') });
-  } else if (!isConfigured) {
+  } else if (!hasMaster || !hasRounds) {
     body = LeagueEmptyState({ app, reason: 'no-config' });
   } else if (!hasResults && state.warnings.some((w) => w.level !== 'info')) {
     body = `
@@ -82,7 +91,9 @@ function buildHtml(state, app, vm) {
     `;
   }
 
-  const masterName = settings.masterTournamentCode ?? '';
+  const masterName = state.masterTournament?.name
+    ? `${settings.masterTournamentCode ?? ''} — ${state.masterTournament.name}`
+    : (settings.masterTournamentCode ?? '');
 
   return `
     <section class="ffta-page league-page">

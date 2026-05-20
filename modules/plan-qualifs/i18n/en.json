@@ -1,0 +1,93 @@
+{
+  "navigation": {
+    "title": "Qualification target plan"
+  },
+  "title": "Qualification target plan",
+  "description": "Prepare qualification target assignments with native ffta-modules components.",
+  "loading": "Loading target plan...",
+  "saving": "Saving...",
+  "actions": {
+    "reload": "Reload",
+    "printTargets": "Print targets",
+    "clearSession": "Clear all targets",
+    "clearTarget": "Clear target",
+    "unassign": "Unassign",
+    "globalRecap": "Global recap",
+    "orderFaces": "Face order",
+    "newArcher": "+ New archer",
+    "deleteArcher": "Delete archer",
+    "moveTarget": "Move target"
+  },
+  "fields": {
+    "session": "Session",
+    "grouping": "Group by"
+  },
+  "grouping": {
+    "face": "Face",
+    "category": "Category"
+  },
+  "toggles": {
+    "showArchers": "Show archers",
+    "showAssigned": "Show assigned"
+  },
+  "search": {
+    "placeholder": "Archer / licence / club..."
+  },
+  "recap": {
+    "faces": "Faces:",
+    "none": "No assigned face.",
+    "globalTitle": "Global face recap"
+  },
+  "groups": {
+    "unassigned": "No session",
+    "empty": "No archer in this group."
+  },
+  "target": {
+    "label": "Target {number}",
+    "free": "Free",
+    "dropHere": "Drop here"
+  },
+  "empty": {
+    "title": "No qualification session found",
+    "description": "Open a tournament with at least one qualification session.",
+    "noTargets": "No target in this session."
+  },
+  "confirm": {
+    "clearTarget": "Clear every archer from this target?",
+    "clearSession": "Clear every target in this session?",
+    "deleteArcher": "Permanently delete “{name}”? This cannot be undone."
+  },
+  "errors": {
+    "loadFailed": "Unable to load the qualification target plan.",
+    "saveFailed": "Unable to save the target assignment.",
+    "missingTournament": "No tournament context found. Open a tournament in Ianseo first."
+  },
+  "print": {
+    "faceSummary": "Face summary"
+  },
+  "order": {
+    "title": "Face order",
+    "face": "Face type",
+    "archersPerFace": "Archers/face",
+    "quantity": "Quantity",
+    "coefficient": "Coeff.",
+    "total": "Total",
+    "grandTotal": "Grand total",
+    "addRow": "Add row",
+    "copy": "Copy",
+    "copied": "Order copied to clipboard.",
+    "copyFallback": "Copy the order below."
+  },
+  "edit": {
+    "title": "Archer edit"
+  },
+  "status": {
+    "free": "Free",
+    "full": "Full",
+    "majority": "Club majority",
+    "single": "Single club",
+    "mixed-distance": "Mixed distances",
+    "incompatible-face": "Incompatible faces",
+    "duplicate-slot": "Duplicate slot"
+  }
+}

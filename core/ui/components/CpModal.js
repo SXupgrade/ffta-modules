@@ -1,5 +1,11 @@
 /**
  * Lightweight DOM-based modal. Returns controller with close().
+ *
+ * Ianseo renders module pages inside its own shell. The modal must therefore be
+ * mounted inside the FFTA shell so scoped styles such as
+ * `.ffta-modules-shell .cp-modal-backdrop` still apply. If the shell is not
+ * available yet, we fall back to document.body.
+ *
  * @param {{ id?: string, title?: string, body?: string, footer?: string }} config
  * @returns {{ close: Function, el: HTMLElement }}
  */
@@ -23,7 +29,12 @@ export function CpModal({ id = 'cp-modal', title = '', body = '', footer = '' } 
     </div>
   `;
 
+  const handleKeydown = (event) => {
+    if (event.key === 'Escape') close();
+  };
+
   function close() {
+    document.removeEventListener('keydown', handleKeydown);
     el.remove();
   }
 
@@ -33,13 +44,10 @@ export function CpModal({ id = 'cp-modal', title = '', body = '', footer = '' } 
     }
   });
 
-  document.addEventListener('keydown', function handler(event) {
-    if (event.key === 'Escape') {
-      close();
-      document.removeEventListener('keydown', handler);
-    }
-  });
+  document.addEventListener('keydown', handleKeydown);
 
-  document.body.appendChild(el);
+  const portal = document.querySelector('.ffta-modules-shell') || document.body;
+  portal.appendChild(el);
+
   return { close, el };
 }
