@@ -1,0 +1,20 @@
+{
+  "version": "TNR-DATASET-1",
+  "name": "TAE selective para",
+  "level": "SP",
+  "tournament": {
+    "code": "2026PARA"
+  },
+  "results": [
+    {
+      "license": "345678C",
+      "lastName": "BERNARD",
+      "firstName": "PAUL",
+      "clubCode": "0750001",
+      "division": "OPCL",
+      "classCode": "S2H",
+      "score": 601,
+      "rank": 1
+    }
+  ]
+}

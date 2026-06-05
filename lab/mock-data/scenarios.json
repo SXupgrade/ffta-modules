@@ -1,0 +1,22 @@
+{
+  "standard": {
+    "label": "Standard tournament",
+    "description": "Small realistic qualification tournament."
+  },
+  "empty": {
+    "label": "Empty tournament",
+    "description": "Tournament context without entries or scores."
+  },
+  "large": {
+    "label": "Large tournament",
+    "description": "Generated dataset with many archers for table and performance checks."
+  },
+  "invalid": {
+    "label": "Invalid data",
+    "description": "Rows with missing fields to harden module rendering."
+  },
+  "generated": {
+    "label": "Generated competition",
+    "description": "Custom generated tournament from the Lab fake competition generator."
+  }
+}

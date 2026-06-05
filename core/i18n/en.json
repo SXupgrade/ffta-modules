@@ -21,5 +21,12 @@
     "enabledModulesHelp": "Only selected modules are displayed in the FFTA navigation for this tournament.",
     "saved": "Settings saved. Reloading modules…",
     "noEnabledModule": "No module is enabled for this tournament."
+  },
+  "acl": {
+    "readOnly": "Read-only mode: write actions are disabled.",
+    "writeDenied": "Write access denied."
+  },
+  "simple": {
+    "actionFailed": "Action failed."
   }
 }

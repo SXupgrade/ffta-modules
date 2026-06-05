@@ -21,7 +21,7 @@
     "loadFailed": "Impossible de charger le classement du championnat par équipe."
   },
   "warnings": {
-    "missingMaster": "Aucun tournoi n'est sélectionné dans Ianseo. Ouvrez d'abord le tournoi maître.",
+    "missingMaster": "Le tournoi primaire n'est pas configuré.",
     "missingRounds": "Aucune manche de championnat n'est configurée.",
     "tooManyRounds": "Un maximum de {max} manches peut être associé.",
     "missingRoundData": "Aucune donnée disponible pour la manche {round}.",
@@ -32,8 +32,8 @@
     "unknownRoundTeam": "La manche {round} contient l'équipe {team} en {category}, mais elle n'est pas déclarée dans le tournoi principal."
   },
   "emptyState": {
-    "noConfig": "Aucune manche configurée",
-    "noConfigDetail": "Le tournoi ouvert dans Ianseo sert de tournoi maître. Ouvrez les manches pour associer au moins une étape.",
+    "noConfig": "Aucun tournoi configuré",
+    "noConfigDetail": "Ouvrez les paramètres pour associer un tournoi principal et au moins une manche.",
     "noResults": "Aucun résultat",
     "noResultsDetail": "Aucune donnée de qualification trouvée pour les manches configurées."
   },
@@ -41,7 +41,7 @@
     "title": "Paramètres du championnat",
     "masterTournament": "Code du tournoi principal",
     "masterTournamentHint": "Le code du tournoi principal (ex : LIGUE2026)",
-    "roundTournaments": "Manches du championnat",
+    "roundTournaments": "Codes des manches",
     "roundTournamentsHint": "Un code par ligne. Maximum {max} manches.",
     "pointsMode": "Mode de points",
     "qualificationRanking": "Classement qualification",
@@ -57,14 +57,7 @@
     "bracketPointsGridHint": "Tableau JSON : [{\"rank\":1,\"points\":8},{\"rank\":2,\"points\":6}]",
     "invalidJson": "JSON invalide. Veuillez vérifier le format.",
     "invalidNumber": "Veuillez entrer un nombre valide.",
-    "bindingTitle": "Paramétrage des manches",
-    "currentMasterTournament": "Tournoi maître courant",
-    "currentMasterTournamentHint": "Le tournoi actuellement ouvert dans Ianseo est utilisé comme tournoi maître du championnat.",
-    "noCurrentTournament": "Aucun tournoi ouvert",
-    "roundTournamentsSelectHint": "Sélectionnez les manches depuis les tournois disponibles. Maximum {max} manches.",
-    "noRoundSelected": "— Aucune manche —",
-    "currentTournamentBadge": "tournoi courant",
-    "duplicateRound": "Une même manche ne peut pas être sélectionnée plusieurs fois."
+    "bindingTitle": "Paramétrage des manches"
   },
   "standings": {
     "rank": "Rang",

@@ -17,8 +17,7 @@ class LeagueMapper {
         array $masterTeamEntries,
         array $teamRows,
         array $matchWins,
-        array $bracketRanks,
-        array $availableTournaments = array()
+        array $bracketRanks
     ) {
         $roundCodes = isset($settings['roundTournamentCodes'])
             ? (array) $settings['roundTournamentCodes']
@@ -206,7 +205,6 @@ class LeagueMapper {
         return array(
             'settings'             => $settings,
             'masterTournament'     => $masterTournament,
-            'availableTournaments' => $availableTournaments,
             'rounds'               => $rounds,
             'teams'                => array_values($teamsByCode),
             'qualificationResults' => $qualificationResults,

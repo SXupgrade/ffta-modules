@@ -15,6 +15,7 @@
   display: grid;
   gap: var(--ffta-space-lg);
   padding: var(--ffta-space-lg);
+  max-width: 1280px;
   margin: 0 auto;
 }
 
@@ -331,6 +332,7 @@
 .ffta-modules-shell .ffta-shell {
   display: flex;
   flex-direction: column;
+  gap: var(--ffta-space-md);
 }
 
 .ffta-modules-shell .ffta-shell__header {
@@ -611,6 +613,7 @@ body > .ffta-toast-container {
 
 /* Tournament-level FFTA module settings */
 .ffta-modules-shell .ffta-settings-page {
+  max-width: 1120px;
   margin: 0 auto;
 }
 

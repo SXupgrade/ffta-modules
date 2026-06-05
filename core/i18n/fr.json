@@ -21,5 +21,12 @@
     "enabledModulesHelp": "Seuls les modules sélectionnés sont affichés dans la navigation FFTA pour ce tournoi.",
     "saved": "Paramètres enregistrés. Rechargement des modules…",
     "noEnabledModule": "Aucun module n’est activé pour ce tournoi."
+  },
+  "acl": {
+    "readOnly": "Mode lecture seule : les actions d’écriture sont désactivées.",
+    "writeDenied": "Accès en écriture refusé."
+  },
+  "simple": {
+    "actionFailed": "Action impossible."
   }
 }

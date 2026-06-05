@@ -1,0 +1,5 @@
+{
+  "title": "Mon module lecture seule",
+  "description": "Un module piloté uniquement par manifeste qui lit des données courantes du concours.",
+  "actions": { "listEntries": "Lister les archers" }
+}

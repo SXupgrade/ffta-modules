@@ -1,0 +1,5 @@
+{
+  "title": "My read-only module",
+  "description": "A manifest-only module that reads common tournament data.",
+  "actions": { "listEntries": "List entries" }
+}

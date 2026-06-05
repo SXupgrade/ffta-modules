@@ -1,0 +1,47 @@
+{
+  "simple-scores": {
+    "title": "Simple qualification scores",
+    "description": "A simple module example showing read, write, table rendering, ACL read-only mode and ranking recalculation.",
+    "actions": {
+      "reload": "Reload scores",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "recalculateRanking": "Recalculate ranking"
+    },
+    "badges": {
+      "readOnly": "Read only",
+      "readWrite": "Read / write"
+    },
+    "fields": {
+      "session": "Session"
+    },
+    "filters": {
+      "allSessions": "All sessions",
+      "session": "Session {session}"
+    },
+    "columns": {
+      "rank": "Rank",
+      "target": "Target",
+      "archer": "Archer",
+      "category": "Division / class",
+      "score": "Score",
+      "tens": "10s",
+      "nines": "9s",
+      "actions": "Actions"
+    },
+    "messages": {
+      "loading": "Loading qualification scores...",
+      "readOnlyHelp": "Current ACL profile only grants read access. Edit and ranking actions are disabled.",
+      "loadFailed": "Unable to load qualification scores.",
+      "saveFailed": "Unable to save qualification score.",
+      "scoreSaved": "Qualification score saved.",
+      "recalculateFailed": "Unable to recalculate ranking.",
+      "rankingRecalculated": "Ranking recalculated."
+    },
+    "empty": {
+      "title": "No qualification score",
+      "description": "Generate mock data in the Lab or select another tournament/session."
+    }
+  }
+}

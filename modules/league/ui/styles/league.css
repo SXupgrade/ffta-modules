@@ -251,31 +251,3 @@
 .league-points-grid input {
   max-width: 120px;
 }
-
-
-.league-current-master__value {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  padding: 0.65rem 0.75rem;
-  border: 1px solid var(--ffta-border, #d7dde8);
-  border-radius: 0.75rem;
-  background: var(--ffta-surface-muted, #f7f9fc);
-}
-
-.league-round-select-list {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.league-round-select-row {
-  display: grid;
-  grid-template-columns: 8rem minmax(0, 1fr);
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.league-round-select-row select {
-  width: 100%;
-  min-height: 2.25rem;
-}

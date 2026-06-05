@@ -21,7 +21,7 @@
     "loadFailed": "Unable to load team championship standings."
   },
   "warnings": {
-    "missingMaster": "No tournament is selected in Ianseo. Open the master tournament first.",
+    "missingMaster": "The primary tournament is not configured.",
     "missingRounds": "No championship round is configured.",
     "tooManyRounds": "A maximum of {max} rounds can be linked.",
     "missingRoundData": "No data available for round {round}.",
@@ -32,8 +32,8 @@
     "unknownRoundTeam": "Round {round} contains team {team} in {category}, but it is not declared in the master tournament."
   },
   "emptyState": {
-    "noConfig": "No rounds configured",
-    "noConfigDetail": "The tournament currently opened in Ianseo is used as the championship master tournament. Open binding settings to link at least one round.",
+    "noConfig": "No tournament configured",
+    "noConfigDetail": "Open the settings to link a master tournament and at least one round.",
     "noResults": "No results yet",
     "noResultsDetail": "No qualification data found for the configured rounds."
   },
@@ -41,7 +41,7 @@
     "title": "League Settings",
     "masterTournament": "Master Tournament Code",
     "masterTournamentHint": "The code of the primary tournament (e.g. LEAGUE2026)",
-    "roundTournaments": "Championship rounds",
+    "roundTournaments": "Round Tournament Codes",
     "roundTournamentsHint": "One code per line. Maximum {max} rounds.",
     "pointsMode": "Points Mode",
     "qualificationRanking": "Qualification ranking",
@@ -57,14 +57,7 @@
     "bracketPointsGridHint": "JSON array: [{\"rank\":1,\"points\":8},{\"rank\":2,\"points\":6}]",
     "invalidJson": "Invalid JSON. Please check the format.",
     "invalidNumber": "Please enter a valid number.",
-    "bindingTitle": "Round Binding",
-    "currentMasterTournament": "Current master tournament",
-    "currentMasterTournamentHint": "The tournament currently opened in Ianseo is used as the championship master tournament.",
-    "noCurrentTournament": "No tournament opened",
-    "roundTournamentsSelectHint": "Select rounds from available tournaments. Maximum {max} rounds.",
-    "noRoundSelected": "— No round —",
-    "currentTournamentBadge": "current tournament",
-    "duplicateRound": "The same round cannot be selected more than once."
+    "bindingTitle": "Round Binding"
   },
   "standings": {
     "rank": "Rank",

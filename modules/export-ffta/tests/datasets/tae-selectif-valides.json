@@ -1,0 +1,31 @@
+{
+  "version": "TNR-DATASET-1",
+  "name": "TAE selective valid archers",
+  "level": "S",
+  "tournament": {
+    "code": "2026TAE1",
+    "name": "TNR TAE"
+  },
+  "results": [
+    {
+      "license": "123456A",
+      "lastName": "DUPONT",
+      "firstName": "JEAN",
+      "clubCode": "0891234",
+      "division": "CL",
+      "classCode": "S2H",
+      "score": 642,
+      "rank": 1
+    },
+    {
+      "license": "234567B",
+      "lastName": "MARTIN",
+      "firstName": "ALICE",
+      "clubCode": "0891234",
+      "division": "CO",
+      "classCode": "S1F",
+      "score": 681,
+      "rank": 1
+    }
+  ]
+}

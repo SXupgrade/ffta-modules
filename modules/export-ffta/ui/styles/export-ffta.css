@@ -1,0 +1,16 @@
+.export-ffta-page { display: grid; gap: 1rem; }
+.export-ffta-hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.25rem; border-radius: 1.25rem; background: var(--c-surface, #fff); box-shadow: var(--shadow-soft, 0 12px 30px rgba(15, 23, 42, .08)); }
+.export-ffta-hero h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.5rem); }
+.export-ffta-hero p { margin: .35rem 0 0; color: var(--c-muted, #64748b); }
+.export-ffta-eyebrow { text-transform: uppercase; letter-spacing: .18em; font-size: .75rem; font-weight: 700; }
+.export-ffta-badge { display: inline-grid; place-items: center; min-width: 3rem; height: 3rem; border-radius: 999px; background: var(--c-primary, #2563eb); color: white; font-weight: 800; }
+.export-ffta-tabs { display: flex; flex-wrap: wrap; gap: .5rem; }
+.export-ffta-tab { border: 0; border-radius: 999px; padding: .65rem 1rem; background: var(--c-surface-muted, #f1f5f9); color: var(--c-text, #0f172a); cursor: pointer; }
+.export-ffta-tab.is-active { background: var(--c-primary, #2563eb); color: white; }
+.export-ffta-card, .export-ffta-report { display: grid; gap: .85rem; }
+.export-ffta-form { display: flex; flex-wrap: wrap; gap: .75rem; align-items: end; }
+.export-ffta-field { display: grid; gap: .35rem; min-width: min(100%, 16rem); font-weight: 600; }
+.export-ffta-field input, .export-ffta-field select { border: 1px solid var(--c-border, #cbd5e1); border-radius: .8rem; padding: .7rem .8rem; background: var(--c-surface, #fff); color: var(--c-text, #0f172a); }
+.export-ffta-report.is-success { border-left: .35rem solid #22c55e; }
+.export-ffta-report.is-failure { border-left: .35rem solid #ef4444; }
+.export-ffta-diff code { display: block; white-space: pre-wrap; padding: .65rem; border-radius: .65rem; background: var(--c-surface-muted, #f8fafc); }

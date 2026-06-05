@@ -1,0 +1,5 @@
+{
+  "title": "Mon outil score",
+  "description": "Un module simple lecture/écriture. Les actions write sont désactivées en lecture seule.",
+  "actions": { "readScores": "Lire les scores", "saveScore": "Enregistrer un score mock" }
+}

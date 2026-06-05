@@ -2,45 +2,35 @@ import { CpButton } from '../../../../core/ui/components/CpButton.js';
 import { MAX_LEAGUE_ROUNDS } from '../../domain/constants/league.constants.js';
 
 /**
- * Opens the league round binding settings modal.
- * The master tournament is always the tournament currently opened in Ianseo.
- * This modal therefore only edits the linked round tournaments.
+ * Opens the league binding settings modal.
+ * This modal intentionally edits only the master/round binding.
+ * Points rules are configured per category from each standings card action menu.
  *
  * @param {{ app: Object, vm: Object }} props
  * @returns {{ close: Function }}
  */
 export function LeagueSettingsModal({ app, vm } = {}) {
   const settings = vm.state.settings ?? {};
-  const masterTournament = vm.state.masterTournament ?? null;
-  const availableTournaments = vm.state.availableTournaments ?? [];
-  const currentMasterCode = settings.masterTournamentCode ?? masterTournament?.code ?? '';
-  const selectedRoundCodes = Array.isArray(settings.roundTournamentCodes)
-    ? settings.roundTournamentCodes
-    : [];
+
+  const roundCodesText = Array.isArray(settings.roundTournamentCodes)
+    ? settings.roundTournamentCodes.join('\n')
+    : (settings.roundTournamentCodes ?? '');
 
   const body = `
     <form id="league-settings-form" class="league-settings-form">
-      <div class="ffta-form-group league-current-master">
-        <label>${app.t('league.settings.currentMasterTournament')}</label>
-        <div class="league-current-master__value">
-          <strong>${escapeHtml(currentMasterCode || app.t('league.settings.noCurrentTournament'))}</strong>
-          ${masterTournament?.name ? `<span class="ffta-muted">${escapeHtml(masterTournament.name)}</span>` : ''}
-        </div>
-        <span class="ffta-form-hint">${app.t('league.settings.currentMasterTournamentHint')}</span>
+      <div class="ffta-form-group">
+        <label for="ls-master">${app.t('league.settings.masterTournament')}</label>
+        <input id="ls-master" name="masterTournamentCode" type="text"
+               value="${escapeAttr(settings.masterTournamentCode ?? '')}"
+               placeholder="e.g. 2026-DR">
+        <span class="ffta-form-hint">${app.t('league.settings.masterTournamentHint')}</span>
       </div>
 
       <div class="ffta-form-group">
-        <label>${app.t('league.settings.roundTournaments')}</label>
-        <div class="league-round-select-list">
-          ${Array.from({ length: MAX_LEAGUE_ROUNDS }, (_, index) => renderRoundSelect({
-            app,
-            index,
-            selectedCode: selectedRoundCodes[index] ?? '',
-            tournaments: availableTournaments,
-            currentMasterCode
-          })).join('')}
-        </div>
-        <span class="ffta-form-hint">${app.t('league.settings.roundTournamentsSelectHint', { max: MAX_LEAGUE_ROUNDS })}</span>
+        <label for="ls-rounds">${app.t('league.settings.roundTournaments')}</label>
+        <textarea id="ls-rounds" name="roundTournamentCodes" rows="6"
+                  placeholder="2026-DRA&#10;2026-DRB&#10;2026-DRC">${escapeHtml(roundCodesText)}</textarea>
+        <span class="ffta-form-hint">${app.t('league.settings.roundTournamentsHint', { max: MAX_LEAGUE_ROUNDS })}</span>
         <span class="ffta-form-error" id="ls-rounds-error"></span>
       </div>
     </form>
@@ -80,44 +70,16 @@ export function LeagueSettingsModal({ app, vm } = {}) {
   return modal;
 }
 
-function renderRoundSelect({ app, index, selectedCode, tournaments, currentMasterCode }) {
-  const label = app.t('league.rounds.round', { index: index + 1 });
-  const options = [
-    `<option value="">${escapeHtml(app.t('league.settings.noRoundSelected'))}</option>`,
-    ...tournaments.map((tournament) => {
-      const code = tournament.code ?? '';
-      const isCurrentMaster = currentMasterCode && code === currentMasterCode;
-      const selected = code === selectedCode ? ' selected' : '';
-      const disabled = isCurrentMaster ? ' disabled' : '';
-      const labelText = `${code} — ${tournament.name || code}${isCurrentMaster ? ` (${app.t('league.settings.currentTournamentBadge')})` : ''}`;
-      return `<option value="${escapeAttr(code)}"${selected}${disabled}>${escapeHtml(labelText)}</option>`;
-    })
-  ].join('');
-
-  return `
-    <label class="league-round-select-row">
-      <span>${escapeHtml(label)}</span>
-      <select name="roundTournamentCodes" data-round-index="${index + 1}">${options}</select>
-    </label>
-  `;
-}
-
 function parseForm(form, app, currentSettings) {
   let valid = true;
 
-  const selects = Array.from(form.querySelectorAll('[name="roundTournamentCodes"]'));
-  const roundCodes = selects
-    .map((select) => select.value.trim())
-    .filter(Boolean);
+  const master = form.querySelector('[name="masterTournamentCode"]').value.trim();
 
-  const uniqueCodes = Array.from(new Set(roundCodes));
+  const roundsText = form.querySelector('[name="roundTournamentCodes"]').value;
+  const roundCodes = roundsText.split('\n').map((s) => s.trim()).filter(Boolean);
   const roundsError = form.querySelector('#ls-rounds-error');
-
-  if (uniqueCodes.length > MAX_LEAGUE_ROUNDS) {
+  if (roundCodes.length > MAX_LEAGUE_ROUNDS) {
     roundsError.textContent = app.t('league.warnings.tooManyRounds', { max: MAX_LEAGUE_ROUNDS });
-    valid = false;
-  } else if (uniqueCodes.length !== roundCodes.length) {
-    roundsError.textContent = app.t('league.settings.duplicateRound');
     valid = false;
   } else {
     roundsError.textContent = '';
@@ -127,7 +89,8 @@ function parseForm(form, app, currentSettings) {
     valid,
     settings: {
       ...currentSettings,
-      roundTournamentCodes: uniqueCodes,
+      masterTournamentCode: master,
+      roundTournamentCodes: roundCodes,
       groupBy: 'division-class'
     }
   };

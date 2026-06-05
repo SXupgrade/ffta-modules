@@ -64,3 +64,13 @@ Expected release asset URL:
 ```txt
 https://github.com/FFTA/ffta-modules/releases/latest/download/ffta-modules.zip
 ```
+
+
+## SDK 1.1 highlights
+
+- Module manifests can declare ACL requirements with `access`. The shell resolves `none`, `read` and `write` access and hides unauthorized modules.
+- Server APIs can use `ffta_acl_require()` to enforce read/write permissions.
+- Manifest-only `type: 'simple'` modules are supported for small utility screens.
+- Common data services are available through `app.data` for tournament context, entries, qualification scores and targets.
+
+See `docs/acl-and-simple-modules.md` and `examples/simple-scores-module`.

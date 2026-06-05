@@ -5,22 +5,39 @@ import { createRouterService } from './services/router.service.js';
 import { createModalService } from './services/modal.service.js';
 import { createExportService } from './services/export.service.js';
 import { createTournamentService } from './services/tournament.service.js';
+import { createAclService } from './services/acl.service.js';
+import { createDataService } from './services/data.service.js';
+import { createUiService } from './services/ui.service.js';
+import { createFilesService } from './services/files.service.js';
+import { createValidationService } from './services/validation.service.js';
+import { createLoggerService } from './services/logger.service.js';
+import { createDevService } from './services/dev.service.js';
 
 export function createModuleContext(runtime) {
+  const dev = createDevService(runtime.dev || {});
   const settings = createSettingsService(runtime.adapters.settings);
   const i18n = createI18nService({ language: runtime.language });
+  const logger = createLoggerService(runtime.adapters.logger, dev);
+  const acl = createAclService(runtime.adapters.acl, dev, logger);
 
   const app = {
     runtime,
+    dev,
     settings,
     i18n,
     t: (key, params) => i18n.t(key, params),
     routes: createRouterService(),
     menu: createRouterService(),
     notify: createNotificationService(runtime.adapters.notifications),
+    logger,
     modal: createModalService(),
+    ui: createUiService(),
+    files: createFilesService(),
     exports: createExportService(),
+    acl,
+    data: createDataService(runtime.adapters.data, acl, dev, logger),
     context: createTournamentService(runtime.adapters.tournament),
+    validation: createValidationService(),
     services: createServiceRegistry()
   };
 

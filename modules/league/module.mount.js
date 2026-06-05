@@ -10,6 +10,7 @@ export async function mountModule(app) {
   app.i18n.registerNamespace('league', { en, fr });
 
   app.settings.registerSchema('league', {
+    masterTournamentCode: { type: 'string', defaultValue: '' },
     roundTournamentCodes: { type: 'array', defaultValue: [] },
     groupBy: { type: 'string', defaultValue: 'division-class' },
     qualificationPointsGrid: { type: 'array', defaultValue: [] },

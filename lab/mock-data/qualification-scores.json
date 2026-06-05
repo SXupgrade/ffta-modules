@@ -1,0 +1,6 @@
+[
+  { "quId": 101, "entryId": 101, "name": "MARTIN Alice", "club": "Arc Club Test", "session": 1, "target": "001A", "division": "CL", "class": "S1F", "distance": 1, "score": 312, "tens": 12, "nines": 8, "rank": 1 },
+  { "quId": 102, "entryId": 102, "name": "DURAND Bruno", "club": "Arc Club Test", "session": 1, "target": "001B", "division": "CL", "class": "S1H", "distance": 1, "score": 298, "tens": 9, "nines": 11, "rank": 2 },
+  { "quId": 103, "entryId": 103, "name": "BERNARD Chloé", "club": "Les Archers Mockés", "session": 1, "target": "002A", "division": "CO", "class": "S2F", "distance": 1, "score": 326, "tens": 18, "nines": 7, "rank": 1 },
+  { "quId": 104, "entryId": 104, "name": "PETIT David", "club": "Compagnie Sandbox", "session": 2, "target": "003C", "division": "BB", "class": "S2H", "distance": 1, "score": 271, "tens": 5, "nines": 10, "rank": 1 }
+]

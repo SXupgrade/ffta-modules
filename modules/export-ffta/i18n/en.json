@@ -1,0 +1,50 @@
+{
+  "navigation": {
+    "title": "FFTA Export"
+  },
+  "title": "FFTA results export",
+  "subtitle": "Official federation export plus reproducible non-regression checks.",
+  "tabs": {
+    "export": "Export",
+    "tnrActive": "Active tournament TNR",
+    "tnrDataset": "JSON dataset TNR"
+  },
+  "fields": {
+    "level": "Level",
+    "expected": "Expected file",
+    "dataset": "Dataset"
+  },
+  "levels": {
+    "S": "Selective",
+    "SP": "Selective Para",
+    "N": "French championship"
+  },
+  "actions": {
+    "download": "Download TXT",
+    "runTnr": "Run TNR",
+    "runDataset": "Test dataset",
+    "refresh": "Refresh"
+  },
+  "cards": {
+    "exportTitle": "Export from active tournament",
+    "exportText": "Uses the refactored PHP engine extracted from the FR set. The behavior remains compatible with the current Ianseo export.",
+    "tnrActiveTitle": "Active tournament non-regression",
+    "tnrActiveText": "Generates the TXT from the active tournament then compares it to a reference .txt file.",
+    "tnrDatasetTitle": "JSON dataset non-regression",
+    "tnrDatasetText": "Loads a type dataset, generates TXT using the portable JS engine, then compares it to the expected file."
+  },
+  "status": {
+    "idle": "Ready",
+    "success": "Success",
+    "failure": "Failure",
+    "missingExpected": "Expected file missing",
+    "running": "Running..."
+  },
+  "report": {
+    "summary": "Summary",
+    "firstDifference": "First difference",
+    "generated": "Generated",
+    "expected": "Expected",
+    "lines": "lines"
+  }
+}

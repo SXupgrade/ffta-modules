@@ -65,19 +65,17 @@ export function mountLeaguePage({ root, vm, app }) {
 
 function buildHtml(state, app, vm) {
   const settings    = state.settings ?? {};
-  const rounds      = Array.isArray(state.rounds) && state.rounds.length > 0
-    ? state.rounds
+  const rounds      = (state.standings.length > 0 || state.isLoading)
+    ? buildRoundsFromSettings(settings)
     : buildRoundsFromSettings(settings);
 
-  const hasMaster = Boolean(state.masterTournament || settings.masterTournamentCode);
-  const hasRounds = rounds.length > 0;
-  const isConfigured = hasMaster && hasRounds;
+  const isConfigured = Boolean(settings.masterTournamentCode);
   const hasResults   = state.standings.length > 0;
 
   let body;
   if (state.isLoading) {
     body = CpLoader({ label: app.t('league.messages.calculating') });
-  } else if (!hasMaster || !hasRounds) {
+  } else if (!isConfigured) {
     body = LeagueEmptyState({ app, reason: 'no-config' });
   } else if (!hasResults && state.warnings.some((w) => w.level !== 'info')) {
     body = `
@@ -91,9 +89,7 @@ function buildHtml(state, app, vm) {
     `;
   }
 
-  const masterName = state.masterTournament?.name
-    ? `${settings.masterTournamentCode ?? ''} — ${state.masterTournament.name}`
-    : (settings.masterTournamentCode ?? '');
+  const masterName = settings.masterTournamentCode ?? '';
 
   return `
     <section class="ffta-page league-page">

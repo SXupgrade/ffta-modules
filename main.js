@@ -71,15 +71,22 @@ async function bootstrap() {
   try {
     const runtime = await createIanseoRuntime({ baseUrl });
     const app = createModuleContext(runtime);
+    installDevHooks(app);
     const registry = createModuleRegistry();
     const pageMounts = new Map();
 
     app.i18n.registerNamespace('app', { en: coreEn, fr: coreFr });
 
+    app.logger.info('Runtime initialized', { runtime: runtime.type, baseUrl, devMode: app.dev.enabled }, 'runtime');
+
     const discoveredModules = getDiscoveredModules();
     const manifestsById = await loadDiscoveredManifests({ discoveredModules, baseUrl });
     const enabledModuleIds = await resolveEnabledModuleIds({ app, discoveredModules, manifestsById });
-    const enabledModules = discoveredModules.filter((moduleDefinition) => enabledModuleIds.includes(moduleDefinition.id));
+    const accessByModuleId = await resolveModuleAccess({ app, discoveredModules, manifestsById });
+    const enabledModules = discoveredModules.filter((moduleDefinition) => {
+      const access = accessByModuleId.get(moduleDefinition.id) || 'write';
+      return enabledModuleIds.includes(moduleDefinition.id) && access !== 'none';
+    });
 
     for (const moduleDefinition of enabledModules) {
       try {
@@ -101,11 +108,34 @@ async function bootstrap() {
       }
     }
 
-    mountShell({ root, app, pageMounts, manifestsById, discoveredModules, enabledModuleIds });
+    mountShell({ root, app, pageMounts, manifestsById, discoveredModules, enabledModuleIds, accessByModuleId });
   } catch (error) {
     console.error('[ffta] Bootstrap failed', error);
     root.innerHTML = `<div class="ffta-page"><p class="ffta-badge ffta-badge--error">${escapeHtml(String(error))}</p></div>`;
   }
+}
+
+
+function installDevHooks(app) {
+  if (!app?.dev?.enabled) return;
+  app.logger.info('Dev mode enabled', app.dev.config, 'runtime');
+  if (app.dev.shouldExposeGlobal()) {
+    window.__FFTA_APP__ = app;
+    window.__FFTA_DEV__ = app.dev.config;
+    app.logger.info('Global debug handles exposed: window.__FFTA_APP__, window.__FFTA_DEV__', null, 'runtime');
+  }
+}
+
+function buildDevBadge(app) {
+  const enabledLogs = Object.entries(app.dev.config.logs || {})
+    .filter(([, enabled]) => enabled)
+    .map(([key]) => key)
+    .join(', ') || 'none';
+  return `<aside class="ffta-dev-badge" title="Dev mode is enabled. Do not use this setting in production.">
+    <strong>DEV MODE</strong>
+    <span>level: ${escapeHtml(app.dev.config.logLevel)}</span>
+    <span>logs: ${escapeHtml(enabledLogs)}</span>
+  </aside>`;
 }
 
 function getDiscoveredModules() {
@@ -156,6 +186,18 @@ async function resolveEnabledModuleIds({ app, discoveredModules, manifestsById }
   return storedIds;
 }
 
+
+async function resolveModuleAccess({ app, discoveredModules, manifestsById }) {
+  const accessByModuleId = new Map();
+  for (const moduleDefinition of discoveredModules) {
+    const manifest = manifestsById.get(moduleDefinition.id);
+    if (!manifest) continue;
+    const access = await app.acl.getAccess(manifest);
+    accessByModuleId.set(moduleDefinition.id, access);
+  }
+  return accessByModuleId;
+}
+
 function normalizeEnabledModules(value, availableIds) {
   if (value === null || value === undefined || value === '') {
     return null;
@@ -185,6 +227,14 @@ async function loadDiscoveredModule({ moduleDefinition, manifest, app, registry,
   }
 
   const moduleBaseUrl = new URL(`./modules/${moduleDefinition.id}/`, baseUrl).href;
+
+  if ((manifest.type || 'mvvm') === 'simple') {
+    await loadManifestI18n({ app, manifest, moduleBaseUrl });
+    registerSimpleModule({ app, manifest });
+    const mountPage = await resolveSimplePageMount({ manifest, moduleBaseUrl }) || createSimpleModuleMountPage({ manifest });
+    return { manifest, mountPage };
+  }
+
   const entryPath = manifest.entry || './module.mount.js';
   const entryModule = await import(new URL(entryPath, moduleBaseUrl).href);
 
@@ -201,6 +251,132 @@ async function loadDiscoveredModule({ moduleDefinition, manifest, app, registry,
 
   const mountPage = await resolvePageMount({ manifest, moduleBaseUrl });
   return { manifest, mountPage };
+}
+
+
+async function loadManifestI18n({ app, manifest, moduleBaseUrl }) {
+  const files = Array.isArray(manifest.i18n) ? manifest.i18n : [];
+  if (!files.length) return;
+
+  const translations = {};
+  for (const file of files) {
+    try {
+      const response = await fetch(new URL(file, moduleBaseUrl).href);
+      if (!response.ok) continue;
+      const language = String(file).includes('/fr') || String(file).endsWith('fr.json') ? 'fr' : 'en';
+      translations[language] = await response.json();
+    } catch (error) {
+      console.warn(`[ffta] Unable to load i18n file for ${manifest.id}: ${file}`, error);
+    }
+  }
+  if (Object.keys(translations).length > 0) {
+    app.i18n.registerNamespace(manifest.id, translations);
+  }
+}
+
+function registerSimpleModule({ app, manifest }) {
+  const titleKey = manifest.page?.titleKey || `${manifest.id}.title`;
+  app.menu.register({
+    id: manifest.id,
+    label: app.t(titleKey),
+    route: `/${manifest.id}`
+  });
+}
+
+
+async function resolveSimplePageMount({ manifest, moduleBaseUrl }) {
+  const indexPath = manifest.page?.index;
+  if (!indexPath) return null;
+  const pageModule = await import(new URL(indexPath, moduleBaseUrl).href);
+  const mountPage = pageModule.mountSimpleModulePage || pageModule.default;
+  if (typeof mountPage !== 'function') {
+    throw new Error(`Simple page ${indexPath} must export mountSimpleModulePage() or default.`);
+  }
+  return function mountResolvedSimplePage({ root, app }) {
+    return mountPage({ root, app, manifest });
+  };
+}
+
+function createSimpleModuleMountPage({ manifest }) {
+  return function mountSimpleModulePage({ root, app }) {
+    let isMounted = true;
+
+    async function runAction(action) {
+      const permission = action.permission || 'read';
+      const moduleAccess = app.acl.getCachedAccess(manifest.id);
+      if (permission === 'write' && moduleAccess !== 'write') {
+        app.notify.error(app.t('app.acl.writeDenied'));
+        return;
+      }
+
+      try {
+        const handler = action.handler || {};
+        let result = null;
+        if (handler.service && handler.method) {
+          const service = app.data?.[handler.service];
+          if (!service || typeof service[handler.method] !== 'function') {
+            throw new Error(`Unknown simple action handler: ${handler.service}.${handler.method}`);
+          }
+          result = await service[handler.method](handler.payload || {});
+        }
+        if (action.successMessageKey) {
+          app.notify.success(app.t(action.successMessageKey));
+        }
+        if (isMounted) render(result);
+      } catch (error) {
+        console.error(`[ffta] Simple module action failed: ${action.id}`, error);
+        app.notify.error(error.message || app.t('app.simple.actionFailed'));
+      }
+    }
+
+    function render(lastResult = null) {
+      const title = app.t(manifest.page?.titleKey || `${manifest.id}.title`);
+      const description = app.t(manifest.page?.descriptionKey || `${manifest.id}.description`);
+      const access = app.acl.getCachedAccess(manifest.id);
+      const actions = Array.isArray(manifest.page?.actions) ? manifest.page.actions : [];
+
+      root.innerHTML = `
+        <section class="ffta-page ffta-simple-page">
+          <div class="ffta-page__header">
+            <div>
+              <h1>${escapeHtml(title)}</h1>
+              <p class="ffta-muted">${escapeHtml(description)}</p>
+            </div>
+            <span class="ffta-badge">${escapeHtml(access.toUpperCase())}</span>
+          </div>
+          ${access === 'read' ? `<p class="ffta-badge">${escapeHtml(app.t('app.acl.readOnly'))}</p>` : ''}
+          <article class="cp-card">
+            <div class="ffta-simple-actions">
+              ${actions.map((action) => buildSimpleActionButton({ action, app, access })).join('')}
+            </div>
+            ${lastResult ? `<pre class="ffta-simple-result">${escapeHtml(JSON.stringify(lastResult, null, 2))}</pre>` : ''}
+          </article>
+        </section>
+      `;
+    }
+
+    function handleClick(event) {
+      const actionId = event.target.closest('[data-simple-action]')?.dataset.simpleAction;
+      if (!actionId) return;
+      const action = (manifest.page?.actions || []).find((item) => item.id === actionId);
+      if (action) runAction(action);
+    }
+
+    root.addEventListener('click', handleClick);
+    render();
+
+    return function unmountSimpleModulePage() {
+      isMounted = false;
+      root.removeEventListener('click', handleClick);
+    };
+  };
+}
+
+function buildSimpleActionButton({ action, app, access }) {
+  const label = app.t(action.labelKey || action.id);
+  const requiresWrite = (action.permission || 'read') === 'write';
+  const disabled = requiresWrite && access !== 'write';
+  return `<button type="button" class="cp-button ${requiresWrite ? 'cp-button--primary' : ''}" data-simple-action="${escapeAttribute(action.id)}" ${disabled ? 'disabled' : ''}>${escapeHtml(label)}</button>`;
 }
 
 async function resolvePageMount({ manifest, moduleBaseUrl }) {
@@ -225,7 +401,7 @@ async function resolvePageMount({ manifest, moduleBaseUrl }) {
   return mountPage;
 }
 
-function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, enabledModuleIds }) {
+function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, enabledModuleIds, accessByModuleId }) {
   let unmountCurrent = null;
   let currentEnabledModuleIds = [...enabledModuleIds];
 
@@ -274,6 +450,7 @@ function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, e
             <button type="button" class="ffta-update-button" data-action="update-module">[${escapeHtml(app.t('app.actions.updateModule'))}]</button>
           </div>
         </header>
+        ${app.dev.shouldShowBadge() ? buildDevBadge(app) : ''}
         <div id="ffta-module-outlet" class="ffta-shell__outlet"></div>
       </section>
     `;
@@ -293,6 +470,7 @@ function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, e
         manifestsById,
         discoveredModules,
         enabledModuleIds: currentEnabledModuleIds,
+        accessByModuleId,
         onSaved: async (nextEnabledModuleIds) => {
           currentEnabledModuleIds = nextEnabledModuleIds;
           await app.settings.set('enabledModules', nextEnabledModuleIds);
@@ -325,7 +503,7 @@ function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, e
   };
 }
 
-function mountSettingsPage({ root, app, manifestsById, discoveredModules, enabledModuleIds, onSaved }) {
+function mountSettingsPage({ root, app, manifestsById, discoveredModules, enabledModuleIds, accessByModuleId, onSaved }) {
   const enabledSet = new Set(enabledModuleIds);
   const modules = discoveredModules
     .map((moduleDefinition) => manifestsById.get(moduleDefinition.id))
@@ -345,7 +523,7 @@ function mountSettingsPage({ root, app, manifestsById, discoveredModules, enable
           <p>${escapeHtml(app.t('app.settings.enabledModulesHelp'))}</p>
         </div>
         <div class="ffta-module-toggle-list">
-          ${modules.map((manifest) => buildModuleToggle({ manifest, enabled: enabledSet.has(manifest.id) })).join('')}
+          ${modules.map((manifest) => buildModuleToggle({ manifest, enabled: enabledSet.has(manifest.id), access: accessByModuleId?.get(manifest.id) || 'write' })).join('')}
         </div>
         <div class="ffta-settings-actions">
           <button type="button" class="cp-button cp-button--primary" data-action="save-settings">${escapeHtml(app.t('app.actions.save'))}</button>
@@ -365,7 +543,7 @@ function mountSettingsPage({ root, app, manifestsById, discoveredModules, enable
   return function unmountSettingsPage() {};
 }
 
-function buildModuleToggle({ manifest, enabled }) {
+function buildModuleToggle({ manifest, enabled, access = 'write' }) {
   const accentColor = manifest?.navigation?.accentColor || manifest?.accentColor || '#0254a8';
   return `
     <label class="ffta-module-toggle" style="--ffta-module-accent:${escapeAttribute(accentColor)}">
@@ -373,7 +551,7 @@ function buildModuleToggle({ manifest, enabled }) {
       <span class="ffta-module-toggle__indicator"></span>
       <span class="ffta-module-toggle__content">
         <span class="ffta-module-toggle__name">${escapeHtml(manifest.name || manifest.id)}</span>
-        <span class="ffta-module-toggle__description">${escapeHtml(manifest.description || '')}</span>
+        <span class="ffta-module-toggle__description">${escapeHtml(manifest.description || '')} · ${escapeHtml(access.toUpperCase())}</span>
       </span>
     </label>
   `;

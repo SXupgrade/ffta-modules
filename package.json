@@ -1,12 +1,14 @@
 {
   "name": "ffta-modules",
-  "version": "0.1.0",
+  "version": "0.2.3",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test modules/league/tests/league.points.test.js modules/league/tests/league.standings.test.js modules/league/tests/league.tiebreaks.test.js modules/league/tests/league.validation.test.js",
     "test:watch": "node --test --watch modules/league/tests/*.test.js",
-    "lint": "echo \"No linter configured yet — add eslint if needed\""
+    "lint": "echo \"No linter configured yet \u2014 add eslint if needed\"",
+    "lab": "npm --prefix lab run dev",
+    "lab:preview": "npm --prefix lab run preview"
   },
   "devDependencies": {}
 }

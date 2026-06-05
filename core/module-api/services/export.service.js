@@ -16,6 +16,24 @@ export function createExportService() {
       triggerDownload(filename, 'application/json', JSON.stringify(data, null, 2));
     },
 
+    text(filename, content) {
+      triggerDownload(filename, 'text/plain;charset=utf-8', String(content ?? ''));
+    },
+
+    createTextExport({ filename = 'export.txt', content = '' } = {}) {
+      triggerDownload(filename, 'text/plain;charset=utf-8', String(content ?? ''));
+    },
+
+    validateFftaTxt(content) {
+      const lines = String(content ?? '').split(/\r?\n/).filter(Boolean);
+      const errors = [];
+      if (!lines.length) errors.push('Export is empty.');
+      lines.forEach((line, index) => {
+        if (line.length < 5) errors.push(`Line ${index + 1} is suspiciously short.`);
+      });
+      return { ok: errors.length === 0, errors, lineCount: lines.length };
+    },
+
     pdf(filename, documentModel) {
       openPrintView(filename, documentModel);
     }

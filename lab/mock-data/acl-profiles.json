@@ -1,0 +1,27 @@
+{
+  "admin": {
+    "label": "Admin / write everywhere",
+    "defaultAccess": "write",
+    "modules": {}
+  },
+  "read-only": {
+    "label": "Read only",
+    "defaultAccess": "read",
+    "modules": {}
+  },
+  "mixed": {
+    "label": "Mixed realistic profile",
+    "defaultAccess": "read",
+    "modules": {
+      "league": "write",
+      "export-ffta": "read",
+      "simple-scores": "write",
+      "developer-wiki": "read"
+    }
+  },
+  "no-access": {
+    "label": "No access",
+    "defaultAccess": "none",
+    "modules": {}
+  }
+}

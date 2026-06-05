@@ -1,7 +1,0 @@
-{
-  "navigation": {
-    "title": "Print helper"
-  },
-  "title": "Print helper",
-  "description": "Legacy print helper module. This legacy module is mounted through the ffta-modules loader."
-}

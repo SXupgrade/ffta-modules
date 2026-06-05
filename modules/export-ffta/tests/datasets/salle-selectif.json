@@ -1,0 +1,20 @@
+{
+  "version": "TNR-DATASET-1",
+  "name": "Indoor selective",
+  "level": "S",
+  "tournament": {
+    "code": "2026SALL"
+  },
+  "results": [
+    {
+      "license": "456789D",
+      "lastName": "DURAND",
+      "firstName": "EMMA",
+      "clubCode": "0130001",
+      "division": "CL",
+      "classCode": "U18F",
+      "score": 558,
+      "rank": 1
+    }
+  ]
+}

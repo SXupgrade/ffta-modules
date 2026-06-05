@@ -19,6 +19,10 @@ function league_action_save_settings(IanseoLeagueRepository $repository, array $
 function league_normalize_settings_payload(array $payload) {
     $out = array();
 
+    if (isset($payload['masterTournamentCode'])) {
+        $out['masterTournamentCode'] = league_clean_tournament_code($payload['masterTournamentCode']);
+    }
+
     if (isset($payload['roundTournamentCodes'])) {
         $codes = $payload['roundTournamentCodes'];
         if (is_string($codes)) {

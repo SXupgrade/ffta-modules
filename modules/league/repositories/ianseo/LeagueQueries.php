@@ -11,40 +11,6 @@ require_once(__DIR__ . '/../../../../core/adapters/ianseo/database/query.php');
  */
 class LeagueQueries {
 
-    public static function getCurrentTournament() {
-        $tourId = self::resolveCurrentTournamentId();
-        if ($tourId <= 0) {
-            return null;
-        }
-        $sql = "SELECT ToId, ToCode, ToName, ToNameShort, ToWhere, ToVenue, ToWhenFrom, ToWhenTo"
-             . " FROM Tournament"
-             . " WHERE ToId=" . (int) $tourId
-             . " LIMIT 1";
-        return ffta_fetch_one(ffta_query($sql));
-    }
-
-    public static function getAvailableTournaments() {
-        $sql = "SELECT ToId, ToCode, ToName, ToNameShort, ToWhere, ToVenue, ToWhenFrom, ToWhenTo"
-             . " FROM Tournament"
-             . " WHERE TRIM(ToCode) <> ''"
-             . " ORDER BY ToWhenFrom DESC, ToCode ASC";
-        return ffta_fetch_all(ffta_query($sql));
-    }
-
-    private static function resolveCurrentTournamentId() {
-        if (isset($_SESSION['TourId']) && (int) $_SESSION['TourId'] > 0) {
-            return (int) $_SESSION['TourId'];
-        }
-        if (isset($_REQUEST['TourId']) && (int) $_REQUEST['TourId'] > 0) {
-            return (int) $_REQUEST['TourId'];
-        }
-        if (isset($GLOBALS['TourId']) && (int) $GLOBALS['TourId'] > 0) {
-            return (int) $GLOBALS['TourId'];
-        }
-        return 0;
-    }
-
-
     public static function getTournamentsByCodes(array $codes) {
         if (empty($codes)) {
             return array();

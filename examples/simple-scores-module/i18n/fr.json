@@ -1,0 +1,47 @@
+{
+  "simple-scores": {
+    "title": "Scores de qualification simples",
+    "description": "Un module simple d’exemple qui montre lecture, écriture, affichage en tableau, droits lecture seule et recalcul du classement.",
+    "actions": {
+      "reload": "Recharger les scores",
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "recalculateRanking": "Recalculer le classement"
+    },
+    "badges": {
+      "readOnly": "Lecture seule",
+      "readWrite": "Lecture / écriture"
+    },
+    "fields": {
+      "session": "Session"
+    },
+    "filters": {
+      "allSessions": "Toutes les sessions",
+      "session": "Session {session}"
+    },
+    "columns": {
+      "rank": "Rang",
+      "target": "Cible",
+      "archer": "Archer",
+      "category": "Division / classe",
+      "score": "Score",
+      "tens": "10",
+      "nines": "9",
+      "actions": "Actions"
+    },
+    "messages": {
+      "loading": "Chargement des scores de qualification...",
+      "readOnlyHelp": "Le profil ACL courant donne uniquement un accès en lecture. La modification et le recalcul sont désactivés.",
+      "loadFailed": "Impossible de charger les scores de qualification.",
+      "saveFailed": "Impossible d’enregistrer le score de qualification.",
+      "scoreSaved": "Score de qualification enregistré.",
+      "recalculateFailed": "Impossible de recalculer le classement.",
+      "rankingRecalculated": "Classement recalculé."
+    },
+    "empty": {
+      "title": "Aucun score de qualification",
+      "description": "Génère des données mock dans le Lab ou sélectionne un autre tournoi/session."
+    }
+  }
+}

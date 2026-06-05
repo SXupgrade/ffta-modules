@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FFTA Modules Lab</title>
+    <script>
+      window.__FFTA_MODULES__ = [
+        { id: 'league', manifestPath: '../modules/league/module.manifest.js', basePath: '../modules/league/' },
+        { id: 'export-ffta', manifestPath: '../modules/export-ffta/module.manifest.js', basePath: '../modules/export-ffta/' },
+        { id: 'developer-wiki', manifestPath: '../modules/developer-wiki/module.manifest.js', basePath: '../modules/developer-wiki/' },
+        { id: 'simple-scores', manifestPath: '../modules/simple-scores/module.manifest.js', basePath: '../modules/simple-scores/' }
+      ];
+      window.__FFTA_IANSEO_LANGUAGE__ = 'en';
+      window.FFTA_MODULES_LAB = true;
+    </script>
+  </head>
+  <body>
+    <div id="ffta-lab"></div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

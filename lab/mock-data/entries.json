@@ -1,0 +1,6 @@
+[
+  { "id": 101, "code": "LIC001", "firstName": "Alice", "lastName": "Martin", "name": "MARTIN Alice", "clubCode": "0899999", "clubName": "Arc Club Test", "country": "FRA", "division": "CL", "class": "S1F", "session": 1, "target": "001A" },
+  { "id": 102, "code": "LIC002", "firstName": "Bruno", "lastName": "Durand", "name": "DURAND Bruno", "clubCode": "0899999", "clubName": "Arc Club Test", "country": "FRA", "division": "CL", "class": "S1H", "session": 1, "target": "001B" },
+  { "id": 103, "code": "LIC003", "firstName": "Chloé", "lastName": "Bernard", "name": "BERNARD Chloé", "clubCode": "0877777", "clubName": "Les Archers Mockés", "country": "FRA", "division": "CO", "class": "S2F", "session": 1, "target": "002A" },
+  { "id": 104, "code": "LIC004", "firstName": "David", "lastName": "Petit", "name": "PETIT David", "clubCode": "0866666", "clubName": "Compagnie Sandbox", "country": "FRA", "division": "BB", "class": "S2H", "session": 2, "target": "003C" }
+]

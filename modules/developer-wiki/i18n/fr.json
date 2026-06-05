@@ -1,0 +1,23 @@
+{
+  "navigation": {
+    "title": "Wiki développeur"
+  },
+  "page": {
+    "title": "Wiki développeur FFTA Modules",
+    "description": "Un wiki guidé, débutant-friendly et IA-friendly pour créer, tester et certifier des modules.",
+    "searchPlaceholder": "Rechercher dans le wiki...",
+    "copy": "Copier",
+    "copied": "Copié",
+    "openCertification": "Checklist certification",
+    "labFirst": "D'abord le Lab, ensuite Ianseo. Ton futur toi dira merci."
+  },
+  "sections": {
+    "overview": "Vue d'ensemble",
+    "simple": "Module simple",
+    "mvvm": "Module MVVM",
+    "lab": "Tests Lab",
+    "certification": "Certification",
+    "ai": "Prompts IA",
+    "checklists": "Checklists"
+  }
+}

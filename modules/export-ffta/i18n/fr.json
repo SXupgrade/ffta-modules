@@ -1,0 +1,50 @@
+{
+  "navigation": {
+    "title": "Export FFTA"
+  },
+  "title": "Export résultats FFTA",
+  "subtitle": "Export fédéral officiel + TNR reproductibles.",
+  "tabs": {
+    "export": "Export",
+    "tnrActive": "TNR tournoi actif",
+    "tnrDataset": "TNR dataset JSON"
+  },
+  "fields": {
+    "level": "Niveau",
+    "expected": "Fichier attendu",
+    "dataset": "Dataset"
+  },
+  "levels": {
+    "S": "Sélectif",
+    "SP": "Sélectif Para",
+    "N": "Championnat de France"
+  },
+  "actions": {
+    "download": "Télécharger le TXT",
+    "runTnr": "Lancer le TNR",
+    "runDataset": "Tester le dataset",
+    "refresh": "Rafraîchir"
+  },
+  "cards": {
+    "exportTitle": "Export depuis le tournoi actif",
+    "exportText": "Utilise le moteur PHP refactoré issu du set FR. Le comportement reste compatible avec l’export Ianseo actuel.",
+    "tnrActiveTitle": "Non-régression sur tournoi actif",
+    "tnrActiveText": "Génère le TXT depuis le tournoi ouvert puis compare avec un fichier .txt de référence.",
+    "tnrDatasetTitle": "Non-régression sur dataset JSON",
+    "tnrDatasetText": "Charge un dataset type, génère un TXT via le moteur JS portable, puis compare avec le fichier attendu."
+  },
+  "status": {
+    "idle": "Prêt",
+    "success": "Succès",
+    "failure": "Échec",
+    "missingExpected": "Fichier attendu absent",
+    "running": "Exécution..."
+  },
+  "report": {
+    "summary": "Résumé",
+    "firstDifference": "Première différence",
+    "generated": "Généré",
+    "expected": "Attendu",
+    "lines": "lignes"
+  }
+}
