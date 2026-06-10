@@ -28,5 +28,15 @@
   },
   "simple": {
     "actionFailed": "Action impossible."
+  },
+  "credits": {
+    "openCredits": "Voir les crédits des modules",
+    "title": "Crédits",
+    "description": "Créateurs, contributeurs et remerciements déclarés par les modules installés.",
+    "backToSettings": "Retour aux paramètres",
+    "creator": "Créateur",
+    "contributors": "Contributeurs",
+    "acknowledgements": "Remerciements",
+    "notProvided": "Non renseigné."
   }
 }

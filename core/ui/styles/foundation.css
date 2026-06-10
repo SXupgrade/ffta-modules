@@ -15,7 +15,7 @@
   display: grid;
   gap: var(--ffta-space-lg);
   padding: var(--ffta-space-lg);
-  max-width: 1280px;
+  /*max-width: 1280px;*/
   margin: 0 auto;
 }
 
@@ -700,4 +700,107 @@ body > .ffta-toast-container {
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
+}
+
+
+/* Module credits */
+.ffta-modules-shell .ffta-settings-footer {
+  display: flex;
+  justify-content: center;
+  padding: 18px 0 0;
+}
+
+.ffta-modules-shell .ffta-settings-footer__link {
+  color: var(--cp-muted, #667085);
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ffta-modules-shell .ffta-credits-page {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.ffta-modules-shell .ffta-credits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.ffta-modules-shell .ffta-credits-card {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border-top: 4px solid var(--ffta-module-accent, #0254a8);
+}
+
+.ffta-modules-shell .ffta-credits-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.ffta-modules-shell .ffta-credits-card__header h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.ffta-modules-shell .ffta-credits-card__header p {
+  margin: 0;
+  color: var(--cp-muted, #667085);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.ffta-modules-shell .ffta-credits-card__version {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.06);
+  color: #344054;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 8px;
+}
+
+.ffta-modules-shell .ffta-credits-section {
+  display: grid;
+  gap: 8px;
+}
+
+.ffta-modules-shell .ffta-credits-section h3 {
+  margin: 0;
+  color: #101828;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ffta-modules-shell .ffta-credits-section ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ffta-modules-shell .ffta-credits-section li {
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.025);
+}
+
+.ffta-modules-shell .ffta-credits-section li span {
+  font-weight: 700;
+  color: #101828;
+}
+
+.ffta-modules-shell .ffta-credits-section li small {
+  color: var(--cp-muted, #667085);
+  line-height: 1.35;
 }

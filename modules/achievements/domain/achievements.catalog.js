@@ -1,39 +1,59 @@
-export const ACHIEVEMENT_CATALOG = [
+export const ACHIEVEMENT_CATALOG = expandCatalog([
   {
-    id: 'competition.loaded',
+    id: 'competitions.total',
     category: 'setup',
-    level: 'bronze',
-    titleKey: 'catalog.competitionLoaded.title',
-    descriptionKey: 'catalog.competitionLoaded.description',
+    titleKey: 'catalog.totalCompetitions.title',
+    descriptionKey: 'catalog.totalCompetitions.description',
     metric: 'tournamentCount',
-    target: 1
+    tiers: [
+      { id: 'competitions.total.1', level: 'bronze', tier: 1, target: 1 },
+      { id: 'competitions.total.10', level: 'silver', tier: 2, target: 10 },
+      { id: 'competitions.total.25', level: 'gold', tier: 3, target: 25 }
+    ]
   },
   {
-    id: 'entries.imported',
+    id: 'annual.competition.2026',
+    category: 'annual',
+    titleKey: 'catalog.annualCompetition2026.title',
+    descriptionKey: 'catalog.annualCompetition2026.description',
+    metric: 'tournamentCount2026',
+    tiers: [{ id: 'annual.competition.2026.1', level: 'bronze', tier: 1, target: 1 }]
+  },
+  {
+    id: 'entries.perCompetition',
     category: 'registration',
-    level: 'bronze',
-    titleKey: 'catalog.entriesImported.title',
-    descriptionKey: 'catalog.entriesImported.description',
-    metric: 'entryCount',
-    target: 1
+    titleKey: 'catalog.entriesPerCompetition.title',
+    descriptionKey: 'catalog.entriesPerCompetition.description',
+    metric: 'maxEntriesInTournament',
+    tiers: [
+      { id: 'entries.perCompetition.10', level: 'bronze', tier: 1, target: 10 },
+      { id: 'entries.perCompetition.50', level: 'silver', tier: 2, target: 50 },
+      { id: 'entries.perCompetition.100', level: 'gold', tier: 3, target: 100 }
+    ]
   },
   {
-    id: 'big.competition.100',
+    id: 'entries.total',
     category: 'registration',
-    level: 'silver',
-    titleKey: 'catalog.bigCompetition100.title',
-    descriptionKey: 'catalog.bigCompetition100.description',
-    metric: 'entryCount',
-    target: 100
+    titleKey: 'catalog.totalEntries.title',
+    descriptionKey: 'catalog.totalEntries.description',
+    metric: 'totalEntryCount',
+    tiers: [
+      { id: 'entries.total.100', level: 'bronze', tier: 1, target: 100 },
+      { id: 'entries.total.500', level: 'silver', tier: 2, target: 500 },
+      { id: 'entries.total.1000', level: 'gold', tier: 3, target: 1000 }
+    ]
   },
   {
-    id: 'targets.assigned',
+    id: 'assigned.total',
     category: 'field',
-    level: 'bronze',
-    titleKey: 'catalog.targetsAssigned.title',
-    descriptionKey: 'catalog.targetsAssigned.description',
+    titleKey: 'catalog.assignedTotal.title',
+    descriptionKey: 'catalog.assignedTotal.description',
     metric: 'assignedEntryCount',
-    target: 1
+    tiers: [
+      { id: 'assigned.total.1', level: 'bronze', tier: 1, target: 1 },
+      { id: 'assigned.total.100', level: 'silver', tier: 2, target: 100 },
+      { id: 'assigned.total.500', level: 'gold', tier: 3, target: 500 }
+    ]
   },
   {
     id: 'field.plan.complete',
@@ -41,26 +61,20 @@ export const ACHIEVEMENT_CATALOG = [
     level: 'silver',
     titleKey: 'catalog.fieldPlanComplete.title',
     descriptionKey: 'catalog.fieldPlanComplete.description',
-    metric: 'fieldCompletionPercent',
-    target: 100
+    metric: 'completedFieldPlanCount',
+    target: 1
   },
   {
-    id: 'scores.entered',
+    id: 'scores.total',
     category: 'results',
-    level: 'bronze',
-    titleKey: 'catalog.scoresEntered.title',
-    descriptionKey: 'catalog.scoresEntered.description',
+    titleKey: 'catalog.scoresTotal.title',
+    descriptionKey: 'catalog.scoresTotal.description',
     metric: 'scoredEntryCount',
-    target: 1
-  },
-  {
-    id: 'ranking.ready',
-    category: 'results',
-    level: 'silver',
-    titleKey: 'catalog.rankingReady.title',
-    descriptionKey: 'catalog.rankingReady.description',
-    metric: 'rankedEntryCount',
-    target: 1
+    tiers: [
+      { id: 'scores.total.1', level: 'bronze', tier: 1, target: 1 },
+      { id: 'scores.total.100', level: 'silver', tier: 2, target: 100 },
+      { id: 'scores.total.500', level: 'gold', tier: 3, target: 500 }
+    ]
   },
   {
     id: 'multi.session',
@@ -68,8 +82,8 @@ export const ACHIEVEMENT_CATALOG = [
     level: 'silver',
     titleKey: 'catalog.multiSession.title',
     descriptionKey: 'catalog.multiSession.description',
-    metric: 'sessionCount',
-    target: 2
+    metric: 'multiSessionTournamentCount',
+    target: 1
   },
   {
     id: 'all.divisions',
@@ -77,8 +91,20 @@ export const ACHIEVEMENT_CATALOG = [
     level: 'gold',
     titleKey: 'catalog.allDivisions.title',
     descriptionKey: 'catalog.allDivisions.description',
-    metric: 'divisionCount',
+    metric: 'maxDivisionCount',
     target: 3
+  },
+  {
+    id: 'different.club.count',
+    category: 'registration',
+    titleKey: 'catalog.clubCount.title',
+    descriptionKey: 'catalog.clubCount.description',
+    metric: 'maxClubCount',
+    tiers: [
+      { id: 'different.club.count.5', level: 'bronze', tier: 1, target: 5 },
+      { id: 'different.club.count.15', level: 'silver', tier: 2, target: 15 },
+      { id: 'different.club.count.30', level: 'gold', tier: 3, target: 30 }
+    ]
   },
   {
     id: 'export.federal',
@@ -142,9 +168,49 @@ export const ACHIEVEMENT_CATALOG = [
     descriptionKey: 'catalog.backupCreated.description',
     eventType: 'backup.created',
     target: 1
+  },
+  {
+    id: 'restore.completed',
+    category: 'safety',
+    level: 'silver',
+    titleKey: 'catalog.restoreCompleted.title',
+    descriptionKey: 'catalog.restoreCompleted.description',
+    eventType: 'backup.restored',
+    target: 1
+  },
+  {
+    id: 'mobile.scoring',
+    category: 'mobile',
+    level: 'gold',
+    titleKey: 'catalog.mobileScoring.title',
+    descriptionKey: 'catalog.mobileScoring.description',
+    eventType: 'mobile.scoring.enabled',
+    target: 1
+  },
+  {
+    id: 'sponsors.configured',
+    category: 'live',
+    level: 'silver',
+    titleKey: 'catalog.sponsorsConfigured.title',
+    descriptionKey: 'catalog.sponsorsConfigured.description',
+    eventType: 'sponsors.configured',
+    target: 1
   }
-];
+]);
 
 export function getCategories(catalog = ACHIEVEMENT_CATALOG) {
   return Array.from(new Set(catalog.map((item) => item.category)));
+}
+
+function expandCatalog(items) {
+  return items.flatMap((item) => {
+    if (!Array.isArray(item.tiers) || !item.tiers.length) return [item];
+    return item.tiers.map((tier) => ({
+      ...item,
+      ...tier,
+      groupId: item.id,
+      tiers: undefined,
+      isTiered: true
+    }));
+  });
 }

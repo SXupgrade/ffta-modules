@@ -1,140 +1,169 @@
 {
-  "achievements": {
-    "navigation": { "title": "Achievements" },
-    "kicker": "Organizer progression",
-    "title": "Achievements",
-    "description": "A proof of concept that turns Compet+ usage into a fun checklist for organizers.",
-    "badge": "PoC",
-    "toolbar": {
-      "title": "Two update modes",
-      "description": "Compet+ can feed this engine with domain events. FFTA Modules can resync by scanning the current Ianseo/Compet+ database. Same goal, two paths. Very organizer-friendly."
+  "navigation": { "title": "Achievements" },
+  "kicker": "Organizer progression",
+  "title": "Achievements",
+  "description": "A proof of concept that turns Compet+ usage into a fun checklist for organizers.",
+  "badge": "PoC",
+  "toolbar": {
+    "title": "Two update modes",
+    "description": "Compet+ can feed this engine with domain events. FFTA Modules can resync by scanning the whole Ianseo/Compet+ database to consolidate multi-tournament achievements."
+  },
+  "actions": {
+    "scan": "Scan all tournaments",
+    "scanning": "Scanning...",
+    "resetEvents": "Reset events"
+  },
+  "summary": {
+    "unlocked": "Unlocked",
+    "progress": "Progress",
+    "entries": "Total archers",
+    "tournaments": "Tournaments"
+  },
+  "sections": {
+    "checklist": "Organizer checklist",
+    "checklistHelp": "Milestones encourage using the full software instead of staying in the same three screens forever.",
+    "scan": "Database scan",
+    "scanHelp": "Fast read-only scan. It targets all tournaments when the API supports it, then falls back to the active tournament.",
+    "events": "Event-driven mode",
+    "eventsHelp": "Demo buttons emulate future Compet+ domain events. In Compet+, these would be emitted automatically."
+  },
+  "categories": {
+    "all": "All",
+    "setup": "Setup",
+    "annual": "Annual",
+    "registration": "Registrations",
+    "field": "Field",
+    "results": "Results",
+    "competition": "Competition",
+    "exports": "Exports",
+    "records": "Records",
+    "finals": "Finals",
+    "live": "Live",
+    "mobile": "Mobile",
+    "safety": "Safety"
+  },
+  "levels": {
+    "bronze": "Bronze",
+    "silver": "Silver",
+    "gold": "Gold",
+    "tier": "{level} · lvl {tier}"
+  },
+  "status": {
+    "unlocked": "Unlocked",
+    "locked": "Locked"
+  },
+  "scanScopes": {
+    "all": "All tournaments",
+    "current": "Active tournament"
+  },
+  "metrics": {
+    "scanScope": "Scope",
+    "tournament": "Tournament",
+    "tournaments": "Detected tournaments",
+    "annual2026": "Tournaments in 2026",
+    "entries": "Total entries",
+    "maxEntries": "Max archers / tournament",
+    "assigned": "Assigned entries",
+    "scored": "Scored entries",
+    "ranked": "Ranked entries",
+    "sessions": "Max sessions",
+    "divisions": "Max divisions",
+    "clubs": "Max clubs",
+    "noTournament": "No active tournament"
+  },
+  "events": {
+    "export.federal.generated": "Federal export",
+    "pdf.generated": "PDF generated",
+    "record.broken": "Record broken",
+    "finals.individual.started": "Individual finals",
+    "finals.team.started": "Team finals",
+    "live.enabled": "Live enabled",
+    "backup.created": "Backup created",
+    "backup.restored": "Backup restored",
+    "mobile.scoring.enabled": "Mobile scoring",
+    "sponsors.configured": "Sponsors configured",
+    "empty": "No event received yet. Click a demo event to unlock event-driven achievements."
+  },
+  "catalog": {
+    "totalCompetitions": {
+      "title": "Tournaments in Ianseo",
+      "description": "Accumulate detected tournaments in this installation. The software starts having a past."
     },
-    "actions": {
-      "scan": "Scan database",
-      "scanning": "Scanning...",
-      "resetEvents": "Reset events"
+    "annualCompetition2026": {
+      "title": "2026 season started",
+      "description": "Have at least one tournament dated in 2026. A vintage year deserves a badge."
     },
-    "summary": {
-      "unlocked": "Unlocked",
-      "progress": "Progress",
-      "entries": "Archers",
-      "field": "Field plan"
+    "entriesPerCompetition": {
+      "title": "Tournament scale",
+      "description": "Reach archer thresholds in a single tournament: 10, 50 then 100 archers."
     },
-    "sections": {
-      "checklist": "Organizer checklist",
-      "checklistHelp": "Milestones encourage using the full software instead of staying in the same three screens forever.",
-      "scan": "Database scan",
-      "scanHelp": "Fast read-only scan based on available SDK data services.",
-      "events": "Event-driven mode",
-      "eventsHelp": "Demo buttons emulate future Compet+ domain events. In Compet+, these would be emitted automatically."
+    "totalEntries": {
+      "title": "Archers managed overall",
+      "description": "Accumulate registrations across all detected tournaments. The registration desk is getting stronger."
     },
-    "categories": {
-      "all": "All",
-      "setup": "Setup",
-      "registration": "Registrations",
-      "field": "Field",
-      "results": "Results",
-      "competition": "Competition",
-      "exports": "Exports",
-      "records": "Records",
-      "finals": "Finals",
-      "live": "Live",
-      "safety": "Safety"
+    "assignedTotal": {
+      "title": "Target assignments",
+      "description": "Accumulate archers assigned to targets. Field planning becomes a habit."
     },
-    "levels": {
-      "bronze": "Bronze",
-      "silver": "Silver",
-      "gold": "Gold"
+    "fieldPlanComplete": {
+      "title": "Complete field plan",
+      "description": "Have at least one tournament where every archer is assigned. Clean work, no loose arrow in the spreadsheet."
     },
-    "status": {
-      "unlocked": "Unlocked",
-      "locked": "Locked"
+    "scoresTotal": {
+      "title": "Scores entered",
+      "description": "Accumulate scored archers. Results mode is no longer decorative."
     },
-    "metrics": {
-      "tournament": "Tournament",
-      "entries": "Entries",
-      "assigned": "Assigned entries",
-      "scored": "Scored entries",
-      "ranked": "Ranked entries",
-      "sessions": "Sessions",
-      "divisions": "Divisions",
-      "noTournament": "No active tournament"
+    "multiSession": {
+      "title": "Multi-session organizer",
+      "description": "Use at least two sessions in a tournament. Welcome to real-world scheduling."
     },
-    "events": {
-      "export.federal.generated": "Federal export",
-      "pdf.generated": "PDF generated",
-      "record.broken": "Record broken",
-      "finals.individual.started": "Individual finals",
-      "finals.team.started": "Team finals",
-      "live.enabled": "Live enabled",
-      "backup.created": "Backup created",
-      "empty": "No event received yet. Click a demo event to unlock event-driven achievements."
+    "allDivisions": {
+      "title": "Three bow styles",
+      "description": "Manage at least three divisions in the same tournament. Classic, compound, barebow: the family photo."
     },
-    "catalog": {
-      "competitionLoaded": {
-        "title": "Competition loaded",
-        "description": "Open or detect an active competition. The adventure starts here."
-      },
-      "entriesImported": {
-        "title": "First registrations",
-        "description": "Have at least one archer in the competition. Empty tournaments are philosophically elegant, but not very lively."
-      },
-      "bigCompetition100": {
-        "title": "100+ archers",
-        "description": "Run a competition with at least 100 archers. Now the coffee machine becomes infrastructure."
-      },
-      "targetsAssigned": {
-        "title": "First target assignment",
-        "description": "Assign at least one archer to a target. The field plan has officially met reality."
-      },
-      "fieldPlanComplete": {
-        "title": "Complete field plan",
-        "description": "Assign every registered archer to a target. Clean work, no loose arrow in the spreadsheet."
-      },
-      "scoresEntered": {
-        "title": "First scores entered",
-        "description": "Record at least one qualification score. Results mode is awake."
-      },
-      "rankingReady": {
-        "title": "Ranking ready",
-        "description": "Have at least one ranked archer after score processing."
-      },
-      "multiSession": {
-        "title": "Multi-session organizer",
-        "description": "Use at least two sessions in the competition. Welcome to real-world scheduling."
-      },
-      "allDivisions": {
-        "title": "Three bow styles",
-        "description": "Manage at least three divisions in the same competition. Classic, compound, barebow: the family photo."
-      },
-      "exportFederal": {
-        "title": "Federal export generated",
-        "description": "Generate a federation-compatible export. The paperwork dragon has been defeated."
-      },
-      "pdfGenerated": {
-        "title": "PDF generated",
-        "description": "Generate at least one PDF document from the software."
-      },
-      "recordWitnessed": {
-        "title": "Record witnessed",
-        "description": "Detect or validate a record broken during the competition. This deserves a tiny trumpet."
-      },
-      "individualFinals": {
-        "title": "Individual finals launched",
-        "description": "Use individual finals in a competition. The scoreboard starts to sweat."
-      },
-      "teamFinals": {
-        "title": "Team finals launched",
-        "description": "Use team finals or team group phases. Collective chaos, properly organized."
-      },
-      "liveEnabled": {
-        "title": "Live enabled",
-        "description": "Publish or enable live competition data. Spectators enter the chat."
-      },
-      "backupCreated": {
-        "title": "Safety first",
-        "description": "Create a backup. Not glamorous, absolutely heroic."
-      }
+    "clubCount": {
+      "title": "Interclub tournament",
+      "description": "Reach several clubs in a single tournament. This is no longer just Thursday night practice."
+    },
+    "exportFederal": {
+      "title": "Federal export generated",
+      "description": "Generate a federation-compatible export. The paperwork dragon has been defeated."
+    },
+    "pdfGenerated": {
+      "title": "PDF generated",
+      "description": "Generate at least one PDF document from the software."
+    },
+    "recordWitnessed": {
+      "title": "Record witnessed",
+      "description": "Detect or validate a record broken during the tournament. This deserves a tiny trumpet."
+    },
+    "individualFinals": {
+      "title": "Individual finals launched",
+      "description": "Use individual finals in a tournament. The scoreboard starts to sweat."
+    },
+    "teamFinals": {
+      "title": "Team finals launched",
+      "description": "Use team finals or team group phases. Collective chaos, properly organized."
+    },
+    "liveEnabled": {
+      "title": "Live enabled",
+      "description": "Publish or enable live tournament data. Spectators enter the chat."
+    },
+    "backupCreated": {
+      "title": "Safety first",
+      "description": "Create a backup. Not glamorous, absolutely heroic."
+    },
+    "restoreCompleted": {
+      "title": "Backup restored",
+      "description": "Restore a backup. The panic button has a real purpose, and that is comforting."
+    },
+    "mobileScoring": {
+      "title": "Mobile scoring enabled",
+      "description": "Use mobile or field scoring. Paper scorecards start feeling lonely."
+    },
+    "sponsorsConfigured": {
+      "title": "Sponsors configured",
+      "description": "Configure sponsor visibility. Clean, club-friendly, and useful for funding coffee."
     }
   }
 }

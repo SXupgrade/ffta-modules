@@ -1,0 +1,184 @@
+{
+  "navigation": {
+    "title": "Assistant"
+  },
+  "kicker": "Organizer co-pilot",
+  "title": "Tournament Assistant",
+  "description": "A practical timeline for preparing, running and closing a tournament. Manual checklist, N/A bypasses and automatic checks when data is available.",
+  "badge": "Checklist PoC",
+  "toolbar": {
+    "title": "Keep the tournament under control",
+    "description": "Scan the current tournament, then tick what is done or mark non-applicable items."
+  },
+  "actions": {
+    "scan": "Scan tournament",
+    "scanning": "Scanning…",
+    "reset": "Reset checklist",
+    "done": "Done",
+    "na": "N/A",
+    "todo": "To do",
+    "print": "Print"
+  },
+  "summary": {
+    "total": "Completed",
+    "progress": "Progress",
+    "mandatory": "Mandatory",
+    "remaining": "Mandatory left"
+  },
+  "sections": {
+    "timeline": "Organization timeline",
+    "timelineHelp": "Before, during and after the tournament. Mandatory items are the backbone; optional items add polish.",
+    "scan": "Automatic checks",
+    "scanHelp": "Uses the SDK when available. Otherwise the item remains manual.",
+    "events": "Simulate events",
+    "eventsHelp": "PoC buttons for actions that Compet+ will emit as domain events later."
+  },
+  "phases": {
+    "all": "All",
+    "before": "Before",
+    "during": "During",
+    "after": "After"
+  },
+  "priority": {
+    "mandatory": "Mandatory",
+    "optional": "Optional"
+  },
+  "status": {
+    "todo": "To do",
+    "done": "Done",
+    "na": "N/A",
+    "auto": "Auto OK"
+  },
+  "labels": {
+    "where": "Where do I find this?"
+  },
+  "metrics": {
+    "tournament": "Tournament",
+    "entries": "Archers",
+    "assigned": "Assigned",
+    "scores": "Scored",
+    "ranked": "Ranked",
+    "judge": "Responsible judge"
+  },
+  "events": {
+    "pdf.scorecards.printed": "Scorecards printed",
+    "backup.created": "Backup created",
+    "live.enabled": "Live enabled",
+    "export.federal.generated": "Federal export generated",
+    "record.checked": "Records checked"
+  },
+  "items": {
+    "tournament": {
+      "identity": {
+        "title": "Confirm tournament identity",
+        "description": "Check name, code, dates, place and competition type before publishing anything.",
+        "tooltip": "Tournament screen → identity block / main information."
+      }
+    },
+    "judge": {
+      "responsible": {
+        "title": "Declare the responsible judge",
+        "description": "The organizer must know who validates the competition on the day.",
+        "tooltip": "Tournament screen → Officials / Involved people → add the responsible judge."
+      }
+    },
+    "target": {
+      "faces": {
+        "title": "Order target faces",
+        "description": "Order or reserve the right target faces early enough. J-20 is a good safety margin.",
+        "tooltip": "Use the rule set / distance and target face configuration, then prepare the physical order."
+      }
+    },
+    "awards": {
+      "title": "Order awards",
+      "description": "Cups, medals, goodies or vouchers. Optional, but organizers forgetting them become legends for the wrong reason.",
+      "tooltip": "External logistics for now. Later: Tournament → Logistics."
+    },
+    "entries": {
+      "imported": {
+        "title": "Import or create entries",
+        "description": "The competition must contain archers before field assignment and scorecards make sense.",
+        "tooltip": "Registrations / Entries → import licenses or create archers manually."
+      }
+    },
+    "field": {
+      "assigned": {
+        "title": "Assign all archers",
+        "description": "Every registered archer should have a target and position before printing scorecards.",
+        "tooltip": "Field / Target assignment → drag archers to targets or run auto-assignment."
+      },
+      "installed": {
+        "title": "Install the field",
+        "description": "Targets, distances, safety layout and waiting line are physically ready.",
+        "tooltip": "Field plan / printed layout. This is a manual physical check."
+      }
+    },
+    "scorecards": {
+      "title": "Print scorecards",
+      "description": "Print sheets once target assignment is stable.",
+      "tooltip": "Print / Scorecards or Compet+ field/export actions."
+    },
+    "chronotir": {
+      "title": "Recharge timing devices",
+      "description": "Recharge Chronotir / timing devices and check batteries. Future-you will say thank you.",
+      "tooltip": "Manual equipment check before the event."
+    },
+    "backup": {
+      "title": "Create a backup",
+      "description": "Make a backup before competition day and before big result operations.",
+      "tooltip": "Settings → Backup / Restore."
+    },
+    "targets": {
+      "faced": {
+        "title": "Set target faces",
+        "description": "Install the correct target faces on the field before warm-up.",
+        "tooltip": "Use the field plan and target face configuration."
+      }
+    },
+    "greffe": {
+      "title": "Prepare the registration desk",
+      "description": "Check attendance flow, late entries, labels, payment list and who handles corrections.",
+      "tooltip": "Registrations / Greffe workflow. Mostly manual for the PoC."
+    },
+    "qualification": {
+      "scored": {
+        "title": "Check scoring flow",
+        "description": "At least one score is entered and visible. Better to find data flow issues early than during awards.",
+        "tooltip": "Results or mobile scoring screen → verify entered qualification scores."
+      }
+    },
+    "live": {
+      "title": "Enable live display",
+      "description": "Optional, but useful for spectators, TV screens and sponsors.",
+      "tooltip": "Compet+ Live / publisher settings."
+    },
+    "results": {
+      "checked": {
+        "title": "Validate rankings",
+        "description": "Check rankings, ties and obvious score mistakes before announcing results.",
+        "tooltip": "Results / Rankings → qualification ranking and tie checks."
+      }
+    },
+    "ffta": {
+      "export": {
+        "title": "Generate the FFTA file",
+        "description": "Generate the federal export after validating final results.",
+        "tooltip": "Export FFTA module → generate TXT export."
+      }
+    },
+    "records": {
+      "title": "Check records",
+      "description": "Look for broken or suspicious records and validate the record workflow if relevant.",
+      "tooltip": "Records module → scan / export records."
+    },
+    "archive": {
+      "title": "Archive the competition",
+      "description": "Final backup, result files, PDF outputs and internal notes are archived.",
+      "tooltip": "Settings → Backup / local archive folder."
+    }
+  },
+  "print": {
+    "title": "Tournament checklist",
+    "description": "Paper version: visible checkboxes, full timeline and useful information for tournament day."
+  }
+}

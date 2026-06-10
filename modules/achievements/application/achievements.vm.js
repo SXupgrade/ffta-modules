@@ -9,7 +9,10 @@ const DEMO_EVENTS = [
   'finals.individual.started',
   'finals.team.started',
   'live.enabled',
-  'backup.created'
+  'backup.created',
+  'backup.restored',
+  'mobile.scoring.enabled',
+  'sponsors.configured'
 ];
 
 export function createAchievementsViewModel({ app, store }) {

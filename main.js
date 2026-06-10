@@ -430,7 +430,7 @@ function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, e
     const menuItems = getMenuItems();
     const activeModuleId = getActiveModuleId();
     const activeItem = menuItems.find((item) => normalizeRoute(item.route) === activeModuleId) ?? menuItems[0];
-    const activeId = activeItem ? normalizeRoute(activeItem.route) : activeModuleId;
+    const activeId = activeModuleId === 'credits' ? 'credits' : (activeItem ? normalizeRoute(activeItem.route) : activeModuleId);
 
     if (unmountCurrent) {
       unmountCurrent();
@@ -477,6 +477,16 @@ function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, e
           app.notify.success(app.t('app.settings.saved'));
           window.location.reload();
         }
+      });
+      return;
+    }
+
+    if (activeId === 'credits') {
+      unmountCurrent = mountCreditsPage({
+        root: outlet,
+        app,
+        manifestsById,
+        discoveredModules
       });
       return;
     }
@@ -534,6 +544,9 @@ function mountSettingsPage({ root, app, manifestsById, discoveredModules, enable
           <button type="button" class="cp-button cp-button--primary" data-action="save-settings">${escapeHtml(app.t('app.actions.save'))}</button>
         </div>
       </div>
+      <footer class="ffta-settings-footer">
+        <a class="ffta-settings-footer__link" href="#/credits">${escapeHtml(app.t('app.credits.openCredits'))}</a>
+      </footer>
     </section>
   `;
 
@@ -546,6 +559,89 @@ function mountSettingsPage({ root, app, manifestsById, discoveredModules, enable
   });
 
   return function unmountSettingsPage() {};
+}
+
+
+function mountCreditsPage({ root, app, manifestsById, discoveredModules }) {
+  const manifests = discoveredModules
+    .map((moduleDefinition) => manifestsById.get(moduleDefinition.id))
+    .filter(Boolean)
+    .sort((left, right) => String(left.name || left.id).localeCompare(String(right.name || right.id)));
+
+  root.innerHTML = `
+    <section class="ffta-page ffta-credits-page">
+      <div class="ffta-page__header">
+        <div>
+          <h1>${escapeHtml(app.t('app.credits.title'))}</h1>
+          <p class="ffta-muted">${escapeHtml(app.t('app.credits.description'))}</p>
+        </div>
+        <a class="cp-button" href="#/settings">${escapeHtml(app.t('app.credits.backToSettings'))}</a>
+      </div>
+      <div class="ffta-credits-grid">
+        ${manifests.map((manifest) => buildCreditsCard({ manifest, app })).join('')}
+      </div>
+    </section>
+  `;
+
+  return function unmountCreditsPage() {};
+}
+
+function buildCreditsCard({ manifest, app }) {
+  const creator = normalizeCreditPeople(manifest.creator ? [manifest.creator] : manifest.creators || []);
+  const acknowledgements = normalizeCreditPeople(manifest.acknowledgements || manifest.thanks || []);
+  const contributors = normalizeCreditPeople(manifest.contributors || []);
+
+  return `
+    <article class="cp-card ffta-credits-card" style="--ffta-module-accent:${escapeAttribute(manifest?.navigation?.accentColor || manifest?.accentColor || '#0254a8')}">
+      <header class="ffta-credits-card__header">
+        <div>
+          <h2>${escapeHtml(manifest.name || manifest.id)}</h2>
+          <p>${escapeHtml(manifest.description || '')}</p>
+        </div>
+        <span class="ffta-credits-card__version">v${escapeHtml(manifest.version || '0.0.0')}</span>
+      </header>
+      ${buildCreditsSection({ title: app.t('app.credits.creator'), people: creator, emptyLabel: app.t('app.credits.notProvided') })}
+      ${buildCreditsSection({ title: app.t('app.credits.contributors'), people: contributors, emptyLabel: app.t('app.credits.notProvided') })}
+      ${buildCreditsSection({ title: app.t('app.credits.acknowledgements'), people: acknowledgements, emptyLabel: app.t('app.credits.notProvided') })}
+    </article>
+  `;
+}
+
+function buildCreditsSection({ title, people, emptyLabel }) {
+  return `
+    <section class="ffta-credits-section">
+      <h3>${escapeHtml(title)}</h3>
+      ${people.length ? `<ul>${people.map(buildCreditPerson).join('')}</ul>` : `<p class="ffta-muted">${escapeHtml(emptyLabel)}</p>`}
+    </section>
+  `;
+}
+
+function buildCreditPerson(person) {
+  const label = person.url
+    ? `<a href="${escapeAttribute(person.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(person.name)}</a>`
+    : escapeHtml(person.name);
+  const meta = [person.role, person.note, person.reason]
+    .filter(Boolean)
+    .map((value) => escapeHtml(value))
+    .join(' · ');
+  return `<li><span>${label}</span>${meta ? `<small>${meta}</small>` : ''}</li>`;
+}
+
+function normalizeCreditPeople(value) {
+  const items = Array.isArray(value) ? value : [value];
+  return items
+    .map((item) => {
+      if (!item) return null;
+      if (typeof item === 'string') return { name: item };
+      return {
+        name: item.name || item.label || '',
+        role: item.role || '',
+        note: item.note || '',
+        reason: item.reason || '',
+        url: item.url || ''
+      };
+    })
+    .filter((item) => item?.name);
 }
 
 function buildModuleToggle({ manifest, enabled, access = 'write' }) {

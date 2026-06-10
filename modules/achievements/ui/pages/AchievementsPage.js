@@ -60,8 +60,8 @@ function buildHtml(vm, app) {
       <div class="achievements-summary">
         ${summaryCard(app.t('achievements.summary.unlocked'), `${state.summary.unlocked}/${state.summary.total}`)}
         ${summaryCard(app.t('achievements.summary.progress'), `${state.summary.percent}%`)}
-        ${summaryCard(app.t('achievements.summary.entries'), state.metrics.entryCount ?? '—')}
-        ${summaryCard(app.t('achievements.summary.field'), `${state.metrics.fieldCompletionPercent ?? 0}%`)}
+        ${summaryCard(app.t('achievements.summary.tournaments'), state.metrics.tournamentCount ?? '—')}
+        ${summaryCard(app.t('achievements.summary.entries'), state.metrics.totalEntryCount ?? state.metrics.entryCount ?? '—')}
       </div>
 
       <div class="achievements-layout">
@@ -106,7 +106,7 @@ function buildAchievementCard(achievement, app) {
       <div class="achievements-card-icon">${achievement.unlocked ? '🏆' : '🔒'}</div>
       <div class="achievements-card-body">
         <div class="achievements-card-head">
-          <span class="achievements-level achievements-level--${escapeAttribute(achievement.level)}">${escapeHtml(app.t(`achievements.levels.${achievement.level}`))}</span>
+          <span class="achievements-level achievements-level--${escapeAttribute(achievement.level)}">${escapeHtml(buildLevelLabel(achievement, app))}</span>
           <span class="achievements-status">${escapeHtml(app.t(statusKey))}</span>
         </div>
         <h3>${escapeHtml(app.t(`achievements.${achievement.titleKey}`))}</h3>
@@ -123,13 +123,17 @@ function buildAchievementCard(achievement, app) {
 function buildMetricsCard(state, app) {
   const metrics = state.metrics || {};
   const rows = [
-    ['tournament', metrics.tournamentName || app.t('achievements.metrics.noTournament')],
-    ['entries', metrics.entryCount ?? 0],
+    ['scanScope', app.t(`achievements.scanScopes.${metrics.scanScope || 'current'}`)],
+    ['tournaments', metrics.tournamentCount ?? 0],
+    ['annual2026', metrics.tournamentCount2026 ?? 0],
+    ['entries', metrics.totalEntryCount ?? metrics.entryCount ?? 0],
+    ['maxEntries', metrics.maxEntriesInTournament ?? 0],
     ['assigned', metrics.assignedEntryCount ?? 0],
     ['scored', metrics.scoredEntryCount ?? 0],
     ['ranked', metrics.rankedEntryCount ?? 0],
-    ['sessions', metrics.sessionCount ?? 0],
-    ['divisions', metrics.divisionCount ?? 0]
+    ['sessions', metrics.maxSessionCount ?? metrics.sessionCount ?? 0],
+    ['divisions', metrics.maxDivisionCount ?? metrics.divisionCount ?? 0],
+    ['clubs', metrics.maxClubCount ?? 0]
   ];
   return `
     <article class="cp-card achievements-metrics-card">
@@ -160,6 +164,11 @@ function buildEventsCard(vm, app) {
       </div>
     </article>
   `;
+}
+
+function buildLevelLabel(achievement, app) {
+  const level = app.t(`achievements.levels.${achievement.level}`);
+  return achievement.isTiered ? app.t('achievements.levels.tier', { level, tier: achievement.tier }) : level;
 }
 
 function formatDate(value) {

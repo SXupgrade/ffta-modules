@@ -1,0 +1,47 @@
+{
+  "navigation": { "title": "Rule Book" },
+  "kicker": "FFTA rules",
+  "title": "Rule Book",
+  "description": "Lightweight companion for the sports and judging rules: table of contents, frequent rules, quick search and official PDF link.",
+  "actions": {
+    "openPdf": "Open official PDF",
+    "favorites": "Favorites",
+    "addFavorite": "Add favorite",
+    "removeFavorite": "Remove favorite"
+  },
+  "summary": {
+    "version": "Version",
+    "pages": "PDF pages",
+    "sections": "Sections",
+    "quickRules": "Quick cards"
+  },
+  "search": {
+    "label": "Search",
+    "placeholder": "Example: judge, score sheets, targets, Run Archery…"
+  },
+  "sections": {
+    "title": "Table of contents",
+    "general": "General rules",
+    "outdoor": "Outdoor target archery",
+    "indoor18m": "18m indoor archery",
+    "field": "Field archery",
+    "para": "Para archery",
+    "nature": "Nature course",
+    "threeD": "3D target archery",
+    "runArchery": "Run Archery"
+  },
+  "disciplines": { "all": "All sections" },
+  "results": {
+    "title": "Quick cards",
+    "count": "{count} result(s)"
+  },
+  "labels": {
+    "page": "Page {page}",
+    "source": "Source"
+  },
+  "sourceNote": "This card is intentionally concise. For official judging or any rule doubt, open the indicated page in the official FFTA PDF.",
+  "empty": {
+    "title": "No result",
+    "description": "Try a broader keyword or disable the favorites filter. Even rule books sometimes enjoy hiding."
+  }
+}

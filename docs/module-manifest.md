@@ -52,3 +52,26 @@ export default {
 The module loader validates required fields on load. Modules with invalid manifests are rejected with a readable error and do not block other modules from loading.
 
 The `id` field must match the pattern `^[a-z0-9][a-z0-9-]*$` (kebab-case lowercase).
+
+
+## Credits metadata
+
+Modules may declare ownership and recognition metadata in their manifest. The shell compiles these fields into the Settings → Credits page.
+
+```js
+export default {
+  // ...
+  creator: {
+    name: 'Creator name',
+    role: 'Creator',
+    url: 'https://example.org',
+    note: 'Module ownership or intellectual property note'
+  },
+  contributors: [
+    { name: 'Contributor name', role: 'Developer', note: 'What they worked on' }
+  ],
+  acknowledgements: [
+    { name: 'Person or group', reason: 'Why they are thanked' }
+  ]
+};
+```

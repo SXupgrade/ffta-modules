@@ -1,0 +1,47 @@
+{
+  "navigation": { "title": "Rule Book" },
+  "kicker": "Règlement FFTA",
+  "title": "Rule Book",
+  "description": "Consultation légère du règlement sportif et arbitrage : sommaire, règles fréquentes, recherche rapide et lien vers le PDF officiel.",
+  "actions": {
+    "openPdf": "Ouvrir le PDF officiel",
+    "favorites": "Favoris",
+    "addFavorite": "Ajouter aux favoris",
+    "removeFavorite": "Retirer des favoris"
+  },
+  "summary": {
+    "version": "Version",
+    "pages": "Pages PDF",
+    "sections": "Sections",
+    "quickRules": "Fiches rapides"
+  },
+  "search": {
+    "label": "Recherche",
+    "placeholder": "Ex : arbitre, feuilles de marque, cibles, Run Archery…"
+  },
+  "sections": {
+    "title": "Sommaire",
+    "general": "Règlements généraux",
+    "outdoor": "Tir à l’Arc Extérieur",
+    "indoor18m": "Tir à 18 m",
+    "field": "Tir en Campagne",
+    "para": "Para-tir à l’arc",
+    "nature": "Parcours Nature",
+    "threeD": "Tir sur cibles 3D",
+    "runArchery": "Run Archery"
+  },
+  "disciplines": { "all": "Toutes les sections" },
+  "results": {
+    "title": "Fiches rapides",
+    "count": "{count} résultat(s)"
+  },
+  "labels": {
+    "page": "Page {page}",
+    "source": "Source"
+  },
+  "sourceNote": "Cette fiche est volontairement synthétique. Pour arbitrage officiel ou doute réglementaire, ouvrir la page indiquée dans le PDF FFTA officiel.",
+  "empty": {
+    "title": "Aucun résultat",
+    "description": "Essaie un mot-clé plus large ou désactive le filtre favoris. Même les règlements aiment parfois se cacher."
+  }
+}

@@ -16,7 +16,18 @@ export default {
     read: 'AclReadOnly',
     write: 'AclReadWrite'
   },
-  navigation: { accentColor: '#ffffff' },
+  creator: {
+    name: 'Xavier / Compet+',
+    role: 'Creator',
+    note: 'Concept, product direction and module ownership'
+  },
+  contributors: [
+    { name: 'OpenAI / ChatGPT', role: 'Implementation assistant', note: 'Team league module implementation' }
+  ],
+  acknowledgements: [
+    { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
+  ],
+  navigation: { accentColor: '#4338ca' },
   settings: [
     { key: 'league.masterTournamentCode', type: 'string', defaultValue: '' },
     { key: 'league.roundTournamentCodes', type: 'array', defaultValue: [] },

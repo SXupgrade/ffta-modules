@@ -16,7 +16,7 @@ export default {
     read: 'AclReadOnly',
     write: 'AclReadWrite'
   },
-  navigation: { accentColor: '#ffffff' },
+  navigation: { accentColor: '#b45309' },
   settings: [
     { key: 'records.defaultAreaCode', type: 'string', defaultValue: 'FFTA' },
     { key: 'records.defaultAreaName', type: 'string', defaultValue: 'FFTA Records' }

@@ -231,6 +231,57 @@ function ffta_data_unassign_target($tourId, array $payload) {
     return array('entryId' => $entryId, 'targetNo' => '');
 }
 
+
+function ffta_data_scan_organizer_achievements() {
+    $tournamentRows = ffta_fetch_all(ffta_query("SELECT ToId, ToCode, ToName, ToWhenFrom, ToNumSession FROM Tournament ORDER BY ToWhenFrom DESC, ToId DESC"));
+    $tournamentCount = count($tournamentRows);
+    $tournamentCount2026 = 0;
+    $tournamentName = '';
+    foreach ($tournamentRows as $index => $row) {
+        if ($index === 0) {
+            $tournamentName = $row->ToName ?? $row->ToCode ?? '';
+        }
+        if (strpos((string) ($row->ToWhenFrom ?? ''), '2026') === 0) {
+            $tournamentCount2026++;
+        }
+    }
+
+    $entryStats = ffta_fetch_one(ffta_query("SELECT COUNT(*) AS TotalEntryCount, COALESCE(MAX(EntryCount), 0) AS MaxEntriesInTournament FROM (SELECT EnTournament, COUNT(*) AS EntryCount FROM Entries GROUP BY EnTournament) x"));
+    $assignedStats = ffta_fetch_one(ffta_query("SELECT COUNT(*) AS AssignedEntryCount FROM Entries e INNER JOIN Qualifications q ON q.QuId=e.EnId WHERE q.QuTargetNo<>'' AND q.QuTargetNo<>'0' AND q.QuTargetNo<>'000'"));
+    $scoreStats = ffta_fetch_one(ffta_query("SELECT COUNT(*) AS ScoredEntryCount, SUM(CASE WHEN q.QuClRank>0 THEN 1 ELSE 0 END) AS RankedEntryCount FROM Entries e INNER JOIN Qualifications q ON q.QuId=e.EnId WHERE q.QuScore>0"));
+    $fieldStats = ffta_fetch_one(ffta_query("SELECT COUNT(*) AS CompletedFieldPlanCount FROM (SELECT e.EnTournament, COUNT(*) AS EntryCount, SUM(CASE WHEN q.QuTargetNo<>'' AND q.QuTargetNo<>'0' AND q.QuTargetNo<>'000' THEN 1 ELSE 0 END) AS AssignedCount FROM Entries e LEFT JOIN Qualifications q ON q.QuId=e.EnId GROUP BY e.EnTournament HAVING EntryCount>0 AND EntryCount=AssignedCount) x"));
+    $sessionStats = ffta_fetch_one(ffta_query("SELECT COALESCE(MAX(SessionCount), 0) AS MaxSessionCount, SUM(CASE WHEN SessionCount>=2 THEN 1 ELSE 0 END) AS MultiSessionTournamentCount FROM (SELECT e.EnTournament, COUNT(DISTINCT q.QuSession) AS SessionCount FROM Entries e LEFT JOIN Qualifications q ON q.QuId=e.EnId GROUP BY e.EnTournament) x"));
+    $divisionStats = ffta_fetch_one(ffta_query("SELECT COALESCE(MAX(DivisionCount), 0) AS MaxDivisionCount FROM (SELECT EnTournament, COUNT(DISTINCT EnDivision) AS DivisionCount FROM Entries WHERE EnDivision<>'' GROUP BY EnTournament) x"));
+    $clubStats = ffta_fetch_one(ffta_query("SELECT COALESCE(MAX(ClubCount), 0) AS MaxClubCount FROM (SELECT EnTournament, COUNT(DISTINCT EnCountry) AS ClubCount FROM Entries WHERE EnCountry<>'' GROUP BY EnTournament) x"));
+    $targetStats = ffta_fetch_one(ffta_query("SELECT COUNT(*) AS TargetCount FROM (SELECT e.EnTournament, q.QuSession, q.QuTargetNo FROM Entries e INNER JOIN Qualifications q ON q.QuId=e.EnId WHERE q.QuTargetNo<>'' GROUP BY e.EnTournament, q.QuSession, q.QuTargetNo) x"));
+
+    $totalEntryCount = isset($entryStats->TotalEntryCount) ? (int) $entryStats->TotalEntryCount : 0;
+    $assignedEntryCount = isset($assignedStats->AssignedEntryCount) ? (int) $assignedStats->AssignedEntryCount : 0;
+
+    return array(
+        'scannedAt' => date('c'),
+        'scanScope' => 'all',
+        'tournamentCount' => $tournamentCount,
+        'tournamentCount2026' => $tournamentCount2026,
+        'tournamentName' => $tournamentName,
+        'totalEntryCount' => $totalEntryCount,
+        'entryCount' => $totalEntryCount,
+        'maxEntriesInTournament' => isset($entryStats->MaxEntriesInTournament) ? (int) $entryStats->MaxEntriesInTournament : 0,
+        'assignedEntryCount' => $assignedEntryCount,
+        'scoredEntryCount' => isset($scoreStats->ScoredEntryCount) ? (int) $scoreStats->ScoredEntryCount : 0,
+        'rankedEntryCount' => isset($scoreStats->RankedEntryCount) ? (int) $scoreStats->RankedEntryCount : 0,
+        'targetCount' => isset($targetStats->TargetCount) ? (int) $targetStats->TargetCount : 0,
+        'sessionCount' => isset($sessionStats->MaxSessionCount) ? (int) $sessionStats->MaxSessionCount : 0,
+        'maxSessionCount' => isset($sessionStats->MaxSessionCount) ? (int) $sessionStats->MaxSessionCount : 0,
+        'multiSessionTournamentCount' => isset($sessionStats->MultiSessionTournamentCount) ? (int) $sessionStats->MultiSessionTournamentCount : 0,
+        'divisionCount' => isset($divisionStats->MaxDivisionCount) ? (int) $divisionStats->MaxDivisionCount : 0,
+        'maxDivisionCount' => isset($divisionStats->MaxDivisionCount) ? (int) $divisionStats->MaxDivisionCount : 0,
+        'maxClubCount' => isset($clubStats->MaxClubCount) ? (int) $clubStats->MaxClubCount : 0,
+        'completedFieldPlanCount' => isset($fieldStats->CompletedFieldPlanCount) ? (int) $fieldStats->CompletedFieldPlanCount : 0,
+        'fieldCompletionPercent' => $totalEntryCount > 0 ? round(($assignedEntryCount / $totalEntryCount) * 100) : 0
+    );
+}
+
 function ffta_data_list_targets($tourId, array $payload) {
     $sessionFilter = isset($payload['session']) && $payload['session'] !== '' ? ' AND q.QuSession=' . (int) $payload['session'] : '';
     $sql = "SELECT q.QuSession, q.QuTargetNo, COUNT(*) AS ArcherCount
@@ -257,11 +308,15 @@ try {
     $action = isset($_GET['action']) ? trim($_GET['action']) : '';
     $payload = ffta_data_payload();
     $tourId = ffta_data_current_tour_id();
-    if ($tourId <= 0) {
+    if ($tourId <= 0 && $action !== 'scanOrganizerAchievements') {
         throw new RuntimeException('No active Ianseo tournament found in session.');
     }
 
     switch ($action) {
+        case 'scanOrganizerAchievements':
+            ffta_acl_require($DATA_ACCESS, 'read');
+            ffta_data_response(ffta_data_scan_organizer_achievements());
+            break;
         case 'getCurrentTournament':
             ffta_acl_require($DATA_ACCESS, 'read');
             ffta_data_response(ffta_data_get_tournament($tourId));

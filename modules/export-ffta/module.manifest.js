@@ -16,6 +16,17 @@ export default {
     read: 'AclReadOnly',
     write: 'AclReadWrite'
   },
+  creator: {
+    name: 'Xavier / Compet+',
+    role: 'Creator',
+    note: 'FFTA export workflow and module ownership'
+  },
+  contributors: [
+    { name: 'OpenAI / ChatGPT', role: 'Implementation assistant', note: 'Export module implementation' }
+  ],
+  acknowledgements: [
+    { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
+  ],
   navigation: { accentColor: '#2563eb' },
   settings: [
     { key: 'export-ffta.defaultLevel', type: 'string', defaultValue: 'S' }

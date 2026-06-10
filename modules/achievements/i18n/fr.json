@@ -1,140 +1,169 @@
 {
-  
-    "navigation": { "title": "Hauts Faits" },
-    "kicker": "Progression organisateur",
-    "title": "Hauts Faits",
-    "description": "Un PoC qui transforme l'utilisation de Compet+ en checklist ludique pour les organisateurs.",
-    "badge": "PoC",
-    "toolbar": {
-      "title": "Deux modes de mise à jour",
-      "description": "Compet+ pourra alimenter le moteur avec des événements métier. FFTA Modules peut resynchroniser en scannant rapidement la base Ianseo/Compet+ courante. Même objectif, deux chemins. Très organisateur-compatible."
+  "navigation": { "title": "Hauts Faits" },
+  "kicker": "Progression organisateur",
+  "title": "Hauts Faits",
+  "description": "Un PoC qui transforme l'utilisation de Compet+ en checklist ludique pour les organisateurs.",
+  "badge": "PoC",
+  "toolbar": {
+    "title": "Deux modes de mise à jour",
+    "description": "Compet+ pourra alimenter le moteur avec des événements métier. FFTA Modules peut resynchroniser en scannant rapidement toute la base Ianseo/Compet+ pour consolider les hauts faits multi-concours."
+  },
+  "actions": {
+    "scan": "Scanner tous les concours",
+    "scanning": "Scan en cours...",
+    "resetEvents": "Réinitialiser les événements"
+  },
+  "summary": {
+    "unlocked": "Débloqués",
+    "progress": "Progression",
+    "entries": "Archers total",
+    "tournaments": "Concours"
+  },
+  "sections": {
+    "checklist": "Checklist organisateur",
+    "checklistHelp": "Les jalons encouragent à utiliser tout le logiciel au lieu de rester éternellement dans les trois mêmes écrans.",
+    "scan": "Scan base de données",
+    "scanHelp": "Scan rapide en lecture seule. Il cible tous les concours quand l'API le permet, puis retombe sur le concours actif sinon.",
+    "events": "Mode événementiel",
+    "eventsHelp": "Ces boutons simulent de futurs événements métier Compet+. Dans Compet+, ils seraient émis automatiquement."
+  },
+  "categories": {
+    "all": "Tous",
+    "setup": "Configuration",
+    "annual": "Annuel",
+    "registration": "Inscriptions",
+    "field": "Terrain",
+    "results": "Résultats",
+    "competition": "Concours",
+    "exports": "Exports",
+    "records": "Records",
+    "finals": "Finales",
+    "live": "Live",
+    "mobile": "Mobile",
+    "safety": "Sécurité"
+  },
+  "levels": {
+    "bronze": "Bronze",
+    "silver": "Argent",
+    "gold": "Or",
+    "tier": "{level} · niv. {tier}"
+  },
+  "status": {
+    "unlocked": "Débloqué",
+    "locked": "Verrouillé"
+  },
+  "scanScopes": {
+    "all": "Tous les concours",
+    "current": "Concours actif"
+  },
+  "metrics": {
+    "scanScope": "Périmètre",
+    "tournament": "Concours",
+    "tournaments": "Concours détectés",
+    "annual2026": "Concours en 2026",
+    "entries": "Inscriptions totales",
+    "maxEntries": "Max archers / concours",
+    "assigned": "Archers affectés",
+    "scored": "Archers scorés",
+    "ranked": "Archers classés",
+    "sessions": "Max sessions",
+    "divisions": "Max divisions",
+    "clubs": "Max clubs",
+    "noTournament": "Aucun concours actif"
+  },
+  "events": {
+    "export.federal.generated": "Export fédéral",
+    "pdf.generated": "PDF généré",
+    "record.broken": "Record battu",
+    "finals.individual.started": "Finales individuelles",
+    "finals.team.started": "Finales par équipe",
+    "live.enabled": "Live activé",
+    "backup.created": "Sauvegarde créée",
+    "backup.restored": "Restauration effectuée",
+    "mobile.scoring.enabled": "Scoring mobile",
+    "sponsors.configured": "Sponsors configurés",
+    "empty": "Aucun événement reçu pour le moment. Clique sur un événement de démo pour débloquer les hauts faits événementiels."
+  },
+  "catalog": {
+    "totalCompetitions": {
+      "title": "Concours dans Ianseo",
+      "description": "Cumuler les concours détectés dans l'installation. Le logiciel commence à avoir du vécu."
     },
-    "actions": {
-      "scan": "Scanner la base",
-      "scanning": "Scan en cours...",
-      "resetEvents": "Réinitialiser les événements"
+    "annualCompetition2026": {
+      "title": "Saison 2026 lancée",
+      "description": "Avoir au moins un concours daté en 2026. Un millésime, ça se mérite."
     },
-    "summary": {
-      "unlocked": "Débloqués",
-      "progress": "Progression",
-      "entries": "Archers",
-      "field": "Plan de cible"
+    "entriesPerCompetition": {
+      "title": "Concours dimensionné",
+      "description": "Atteindre un palier d'archers sur un même concours : 10, 50 puis 100 archers."
     },
-    "sections": {
-      "checklist": "Checklist organisateur",
-      "checklistHelp": "Les jalons encouragent à utiliser tout le logiciel au lieu de rester éternellement dans les trois mêmes écrans.",
-      "scan": "Scan base de données",
-      "scanHelp": "Scan rapide en lecture seule basé sur les services de données disponibles dans le SDK.",
-      "events": "Mode événementiel",
-      "eventsHelp": "Ces boutons simulent de futurs événements métier Compet+. Dans Compet+, ils seraient émis automatiquement."
+    "totalEntries": {
+      "title": "Archers gérés au total",
+      "description": "Cumuler les inscriptions dans tous les concours détectés. Le greffe prend des épaules."
     },
-    "categories": {
-      "all": "Tous",
-      "setup": "Configuration",
-      "registration": "Inscriptions",
-      "field": "Terrain",
-      "results": "Résultats",
-      "competition": "Concours",
-      "exports": "Exports",
-      "records": "Records",
-      "finals": "Finales",
-      "live": "Live",
-      "safety": "Sécurité"
+    "assignedTotal": {
+      "title": "Affectations de cibles",
+      "description": "Cumuler les archers affectés à une cible. Le plan de terrain devient une habitude."
     },
-    "levels": {
-      "bronze": "Bronze",
-      "silver": "Argent",
-      "gold": "Or"
+    "fieldPlanComplete": {
+      "title": "Plan de cible complet",
+      "description": "Avoir au moins un concours où tous les archers sont affectés. Travail propre, aucune flèche perdue dans le tableur."
     },
-    "status": {
-      "unlocked": "Débloqué",
-      "locked": "Verrouillé"
+    "scoresTotal": {
+      "title": "Scores saisis",
+      "description": "Cumuler les archers scorés. Le mode résultats n'est plus décoratif."
     },
-    "metrics": {
-      "tournament": "Concours",
-      "entries": "Inscriptions",
-      "assigned": "Archers affectés",
-      "scored": "Archers scorés",
-      "ranked": "Archers classés",
-      "sessions": "Sessions",
-      "divisions": "Divisions",
-      "noTournament": "Aucun concours actif"
+    "multiSession": {
+      "title": "Organisateur multi-session",
+      "description": "Utiliser au moins deux sessions dans un concours. Bienvenue dans le planning réel."
     },
-    "events": {
-      "export.federal.generated": "Export fédéral",
-      "pdf.generated": "PDF généré",
-      "record.broken": "Record battu",
-      "finals.individual.started": "Finales individuelles",
-      "finals.team.started": "Finales par équipe",
-      "live.enabled": "Live activé",
-      "backup.created": "Sauvegarde créée",
-      "empty": "Aucun événement reçu pour le moment. Clique sur un événement de démo pour débloquer les hauts faits événementiels."
+    "allDivisions": {
+      "title": "Trois familles d'arcs",
+      "description": "Gérer au moins trois divisions dans le même concours. Classique, poulies, barebow : la photo de famille."
     },
-    "catalog": {
-      "competitionLoaded": {
-        "title": "Concours chargé",
-        "description": "Ouvrir ou détecter un concours actif. L'aventure commence ici."
-      },
-      "entriesImported": {
-        "title": "Premières inscriptions",
-        "description": "Avoir au moins un archer dans le concours. Les concours vides sont philosophiquement élégants, mais peu animés."
-      },
-      "bigCompetition100": {
-        "title": "100+ archers",
-        "description": "Organiser un concours avec au moins 100 archers. Là, la machine à café devient une infrastructure."
-      },
-      "targetsAssigned": {
-        "title": "Première affectation cible",
-        "description": "Affecter au moins un archer à une cible. Le plan de terrain rencontre officiellement la réalité."
-      },
-      "fieldPlanComplete": {
-        "title": "Plan de cible complet",
-        "description": "Affecter tous les archers inscrits à une cible. Travail propre, aucune flèche perdue dans le tableur."
-      },
-      "scoresEntered": {
-        "title": "Premiers scores saisis",
-        "description": "Saisir au moins un score de qualification. Le mode résultats est réveillé."
-      },
-      "rankingReady": {
-        "title": "Classement prêt",
-        "description": "Avoir au moins un archer classé après traitement des scores."
-      },
-      "multiSession": {
-        "title": "Organisateur multi-session",
-        "description": "Utiliser au moins deux sessions dans le concours. Bienvenue dans le planning réel."
-      },
-      "allDivisions": {
-        "title": "Trois familles d'arcs",
-        "description": "Gérer au moins trois divisions dans le même concours. Classique, poulies, barebow : la photo de famille."
-      },
-      "exportFederal": {
-        "title": "Export fédéral généré",
-        "description": "Générer un export compatible fédération. Le dragon administratif est vaincu."
-      },
-      "pdfGenerated": {
-        "title": "PDF généré",
-        "description": "Générer au moins un document PDF depuis le logiciel."
-      },
-      "recordWitnessed": {
-        "title": "Record observé",
-        "description": "Détecter ou valider un record battu pendant le concours. Ça mérite une mini fanfare."
-      },
-      "individualFinals": {
-        "title": "Finales individuelles lancées",
-        "description": "Utiliser les finales individuelles dans un concours. Le tableau d'affichage commence à transpirer."
-      },
-      "teamFinals": {
-        "title": "Finales équipes lancées",
-        "description": "Utiliser les finales ou phases de groupe par équipe. Chaos collectif, mais organisé proprement."
-      },
-      "liveEnabled": {
-        "title": "Live activé",
-        "description": "Publier ou activer des données live du concours. Les spectateurs entrent dans le chat."
-      },
-      "backupCreated": {
-        "title": "La sécurité d'abord",
-        "description": "Créer une sauvegarde. Pas glamour, mais absolument héroïque."
-      }
+    "clubCount": {
+      "title": "Concours interclubs",
+      "description": "Atteindre plusieurs clubs sur un même concours. Là, ce n'est plus juste le pas de tir du jeudi soir."
+    },
+    "exportFederal": {
+      "title": "Export fédéral généré",
+      "description": "Générer un export compatible fédération. Le dragon administratif est vaincu."
+    },
+    "pdfGenerated": {
+      "title": "PDF généré",
+      "description": "Générer au moins un document PDF depuis le logiciel."
+    },
+    "recordWitnessed": {
+      "title": "Record observé",
+      "description": "Détecter ou valider un record battu pendant le concours. Ça mérite une mini fanfare."
+    },
+    "individualFinals": {
+      "title": "Finales individuelles lancées",
+      "description": "Utiliser les finales individuelles dans un concours. Le tableau d'affichage commence à transpirer."
+    },
+    "teamFinals": {
+      "title": "Finales équipes lancées",
+      "description": "Utiliser les finales ou phases de groupe par équipe. Chaos collectif, mais organisé proprement."
+    },
+    "liveEnabled": {
+      "title": "Live activé",
+      "description": "Publier ou activer des données live du concours. Les spectateurs entrent dans le chat."
+    },
+    "backupCreated": {
+      "title": "La sécurité d'abord",
+      "description": "Créer une sauvegarde. Pas glamour, mais absolument héroïque."
+    },
+    "restoreCompleted": {
+      "title": "Retour de sauvegarde",
+      "description": "Restaurer une sauvegarde. Le bouton panique a une vraie utilité, et c'est rassurant."
+    },
+    "mobileScoring": {
+      "title": "Scoring mobile activé",
+      "description": "Utiliser la saisie mobile ou terrain. Les feuilles papier commencent à se sentir seules."
+    },
+    "sponsorsConfigured": {
+      "title": "Sponsors configurés",
+      "description": "Configurer une présence sponsor. Propre, associatif, et utile pour financer les cafés."
     }
-  
+  }
 }

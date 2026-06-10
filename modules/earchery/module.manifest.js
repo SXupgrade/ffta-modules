@@ -16,6 +16,17 @@ export default {
     read: 'AclReadOnly',
     write: 'AclReadWrite'
   },
-  navigation: { accentColor: '#ffffff' },
+  creator: {
+    name: 'Xavier / Compet+',
+    role: 'Creator',
+    note: 'eArchery PoC concept and module ownership'
+  },
+  contributors: [
+    { name: 'OpenAI / ChatGPT', role: 'Implementation assistant', note: 'Arcade target PoC implementation' }
+  ],
+  acknowledgements: [
+    { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
+  ],
+  navigation: { accentColor: '#ea580c' },
   settings: []
 };

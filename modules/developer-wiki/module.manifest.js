@@ -16,6 +16,17 @@ export default {
     read: 'AclReadOnly',
     write: 'AclReadWrite'
   },
+  creator: {
+    name: 'Xavier / Compet+',
+    role: 'Creator',
+    note: 'Developer documentation and module ownership'
+  },
+  contributors: [
+    { name: 'OpenAI / ChatGPT', role: 'Implementation assistant', note: 'Documentation module implementation' }
+  ],
+  acknowledgements: [
+    { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
+  ],
   navigation: { accentColor: '#7c3aed' },
   metadata: {
     author: 'Compet+',

@@ -1,0 +1,184 @@
+{
+  "navigation": {
+    "title": "Assistant"
+  },
+  "kicker": "Copilote organisateur",
+  "title": "Assistant tournoi",
+  "description": "Une timeline pratique pour préparer, piloter et clôturer un concours. Checklist manuelle, contournement N/A et contrôles automatiques quand les données sont disponibles.",
+  "badge": "Checklist PoC",
+  "toolbar": {
+    "title": "Garder le concours sous contrôle",
+    "description": "Scanne le concours actif, puis coche ce qui est fait ou marque les éléments non applicables."
+  },
+  "actions": {
+    "scan": "Scanner le concours",
+    "scanning": "Scan…",
+    "reset": "Réinitialiser",
+    "done": "Fait",
+    "na": "N/A",
+    "todo": "À faire",
+    "print": "Imprimer"
+  },
+  "summary": {
+    "total": "Complétés",
+    "progress": "Progression",
+    "mandatory": "Obligatoires",
+    "remaining": "Obligatoires restants"
+  },
+  "sections": {
+    "timeline": "Timeline d'organisation",
+    "timelineHelp": "Avant, pendant et après le concours. Les éléments obligatoires font l'ossature ; les facultatifs ajoutent le vernis.",
+    "scan": "Contrôles automatiques",
+    "scanHelp": "Utilise le SDK si disponible. Sinon l'élément reste manuel.",
+    "events": "Simuler des événements",
+    "eventsHelp": "Boutons PoC pour les actions que Compet+ émettra plus tard comme événements métier."
+  },
+  "phases": {
+    "all": "Tout",
+    "before": "Avant",
+    "during": "Pendant",
+    "after": "Après"
+  },
+  "priority": {
+    "mandatory": "Obligatoire",
+    "optional": "Facultatif"
+  },
+  "status": {
+    "todo": "À faire",
+    "done": "Fait",
+    "na": "N/A",
+    "auto": "Auto OK"
+  },
+  "labels": {
+    "where": "Où trouver l'info ?"
+  },
+  "metrics": {
+    "tournament": "Concours",
+    "entries": "Archers",
+    "assigned": "Assignés",
+    "scores": "Scores",
+    "ranked": "Classés",
+    "judge": "Arbitre responsable"
+  },
+  "events": {
+    "pdf.scorecards.printed": "Feuilles imprimées",
+    "backup.created": "Sauvegarde créée",
+    "live.enabled": "Live activé",
+    "export.federal.generated": "Export fédéral généré",
+    "record.checked": "Records vérifiés"
+  },
+  "items": {
+    "tournament": {
+      "identity": {
+        "title": "Confirmer l'identité du concours",
+        "description": "Vérifier nom, code, dates, lieu et type de concours avant toute publication.",
+        "tooltip": "Écran Tournoi → bloc identité / informations principales."
+      }
+    },
+    "judge": {
+      "responsible": {
+        "title": "Déclarer l'arbitre responsable",
+        "description": "L'organisateur doit savoir qui valide le concours le jour J.",
+        "tooltip": "Écran Tournoi → Officiels / Personnes impliquées → ajouter l'arbitre responsable."
+      }
+    },
+    "target": {
+      "faces": {
+        "title": "Commander les blasons",
+        "description": "Commander ou réserver les bons blasons suffisamment tôt. J-20 est une bonne marge de sécurité.",
+        "tooltip": "Utiliser le règlement / distances et blasons configurés, puis préparer la commande physique."
+      }
+    },
+    "awards": {
+      "title": "Commander les récompenses",
+      "description": "Coupes, médailles, goodies ou bons cadeaux. Facultatif, mais les organisateurs qui oublient deviennent des légendes pour de mauvaises raisons.",
+      "tooltip": "Logistique externe pour le moment. Plus tard : Tournoi → Logistique."
+    },
+    "entries": {
+      "imported": {
+        "title": "Importer ou créer les inscriptions",
+        "description": "Le concours doit contenir des archers avant que l'assignation et les feuilles de marque aient un sens.",
+        "tooltip": "Inscriptions / Archers → importer les licences ou créer les archers manuellement."
+      }
+    },
+    "field": {
+      "assigned": {
+        "title": "Assigner tous les archers",
+        "description": "Chaque archer inscrit doit avoir une cible et une position avant impression des feuilles.",
+        "tooltip": "Terrain / Assignation des cibles → déplacer les archers ou lancer l'assignation automatique."
+      },
+      "installed": {
+        "title": "Installer le terrain",
+        "description": "Cibles, distances, sécurité et ligne d'attente sont physiquement prêts.",
+        "tooltip": "Plan terrain / plan imprimé. Contrôle physique manuel."
+      }
+    },
+    "scorecards": {
+      "title": "Imprimer les feuilles de marque",
+      "description": "Imprimer les feuilles une fois l'assignation stabilisée.",
+      "tooltip": "Impression / Feuilles de marque ou actions terrain/export Compet+."
+    },
+    "chronotir": {
+      "title": "Recharger les Chronotir",
+      "description": "Recharger les Chronotir / dispositifs de timing et vérifier les batteries. Ton toi-du-futur dira merci.",
+      "tooltip": "Contrôle manuel du matériel avant l'événement."
+    },
+    "backup": {
+      "title": "Créer une sauvegarde",
+      "description": "Faire une sauvegarde avant le jour J et avant les grosses opérations de résultats.",
+      "tooltip": "Paramètres → Sauvegarde / Restauration."
+    },
+    "targets": {
+      "faced": {
+        "title": "Blasonner",
+        "description": "Installer les bons blasons sur le terrain avant l'échauffement.",
+        "tooltip": "Utiliser le plan terrain et la configuration des blasons."
+      }
+    },
+    "greffe": {
+      "title": "Préparer le greffe",
+      "description": "Vérifier l'accueil, les retardataires, étiquettes, paiements et qui corrige les inscriptions.",
+      "tooltip": "Inscriptions / workflow greffe. Principalement manuel pour le PoC."
+    },
+    "qualification": {
+      "scored": {
+        "title": "Vérifier le flux de saisie",
+        "description": "Au moins un score est saisi et visible. Mieux vaut trouver les soucis avant la remise des prix.",
+        "tooltip": "Résultats ou scoring mobile → vérifier les scores de qualification saisis."
+      }
+    },
+    "live": {
+      "title": "Activer le live",
+      "description": "Facultatif, mais utile pour les spectateurs, écrans TV et sponsors.",
+      "tooltip": "Compet+ Live / paramètres publisher."
+    },
+    "results": {
+      "checked": {
+        "title": "Valider les classements",
+        "description": "Vérifier classements, égalités et erreurs évidentes avant annonce officielle.",
+        "tooltip": "Résultats / Classements → classement qualificatif et contrôles d'égalités."
+      }
+    },
+    "ffta": {
+      "export": {
+        "title": "Générer le fichier FFTA",
+        "description": "Générer l'export fédéral après validation des résultats finaux.",
+        "tooltip": "Module Export FFTA → générer l'export TXT."
+      }
+    },
+    "records": {
+      "title": "Vérifier les records",
+      "description": "Chercher les records battus ou suspects et valider le workflow records si nécessaire.",
+      "tooltip": "Module Records → scan / export des records."
+    },
+    "archive": {
+      "title": "Archiver le concours",
+      "description": "Sauvegarde finale, fichiers de résultats, PDF et notes internes sont archivés.",
+      "tooltip": "Paramètres → Sauvegarde / dossier d'archive local."
+    }
+  },
+  "print": {
+    "title": "Check-list tournoi",
+    "description": "Version papier : cases visibles, timeline complète et informations utiles pour le jour J."
+  }
+}

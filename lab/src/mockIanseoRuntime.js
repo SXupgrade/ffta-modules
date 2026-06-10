@@ -129,6 +129,8 @@ function createLabDataAdapter({ getDataStore, state }) {
       const dataStore = getDataStore();
 
       switch (action) {
+        case 'scanOrganizerAchievements':
+          return buildOrganizerAchievementMetrics(dataStore);
         case 'getCurrentTournament':
           return structuredCloneSafe(dataStore.tournament);
         case 'getCurrentUser':
@@ -244,6 +246,43 @@ function buildDataStore(scenarioId = 'standard') {
     currentUser: buildCurrentUser(),
     entries: structuredCloneSafe(entries),
     qualificationScores: structuredCloneSafe(qualificationScores)
+  };
+}
+
+
+function buildOrganizerAchievementMetrics(dataStore) {
+  const entries = Array.isArray(dataStore.entries) ? dataStore.entries : [];
+  const scores = Array.isArray(dataStore.qualificationScores) ? dataStore.qualificationScores : [];
+  const tournament = dataStore.tournament || {};
+  const tournamentCount = Number(tournament.generated ? 12 : 3);
+  const assignedEntryCount = entries.filter((entry) => String(entry.target || entry.targetNo || '').trim()).length;
+  const scoredEntryCount = scores.filter((score) => Number(score.score || score.total || 0) > 0).length;
+  const rankedEntryCount = scores.filter((score) => Number(score.rank || 0) > 0).length;
+  const sessions = new Set(entries.map((entry) => entry.session).filter(Boolean));
+  const divisions = new Set(entries.map((entry) => entry.division).filter(Boolean));
+  const clubs = new Set(entries.map((entry) => entry.clubCode || entry.clubName).filter(Boolean));
+  return {
+    scannedAt: new Date().toISOString(),
+    scanScope: 'all',
+    tournamentCount,
+    tournamentCount2026: 1,
+    tournamentName: tournament.name || tournament.code || '',
+    totalEntryCount: entries.length * tournamentCount,
+    entryCount: entries.length * tournamentCount,
+    maxEntriesInTournament: entries.length,
+    assignedEntryCount: assignedEntryCount * tournamentCount,
+    scoredEntryCount: scoredEntryCount * tournamentCount,
+    rankedEntryCount: rankedEntryCount * tournamentCount,
+    targetCount: new Set(entries.map((entry) => `${entry.session || ''}|${entry.target || ''}`).filter(Boolean)).size,
+    sessionCount: sessions.size || Number(tournament.sessions || 0),
+    maxSessionCount: sessions.size || Number(tournament.sessions || 0),
+    multiSessionTournamentCount: sessions.size >= 2 ? tournamentCount : 0,
+    divisionCount: divisions.size,
+    maxDivisionCount: divisions.size,
+    maxClubCount: clubs.size,
+    completedFieldPlanCount: entries.length > 0 && assignedEntryCount === entries.length ? tournamentCount : 0,
+    fieldCompletionPercent: entries.length ? Math.round((assignedEntryCount / entries.length) * 100) : 0,
+    scoredTournamentCount: scoredEntryCount > 0 ? tournamentCount : 0
   };
 }
 
