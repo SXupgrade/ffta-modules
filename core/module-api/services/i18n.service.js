@@ -7,18 +7,6 @@ function normalizeLanguage(language) {
 }
 
 
-function normalizeNamespaceTranslations(namespace, translations = {}) {
-  const normalized = {};
-  for (const [language, value] of Object.entries(translations || {})) {
-    if (value && typeof value === 'object' && !Array.isArray(value) && value[namespace]) {
-      normalized[language] = value[namespace];
-    } else {
-      normalized[language] = value;
-    }
-  }
-  return normalized;
-}
-
 export function createI18nService({ language = 'en' } = {}) {
   const namespaces = new Map();
   let currentLanguage = normalizeLanguage(language);
@@ -40,7 +28,7 @@ export function createI18nService({ language = 'en' } = {}) {
       currentLanguage = normalizeLanguage(language);
     },
     registerNamespace(namespace, translations) {
-      namespaces.set(namespace, normalizeNamespaceTranslations(namespace, translations));
+      namespaces.set(namespace, translations || {});
     },
     t(key, params = {}) {
       const [namespace, ...pathParts] = key.split('.');

@@ -1,0 +1,230 @@
+.earchery-page {
+  display: grid;
+  gap: var(--cp-space-5, 1.25rem);
+}
+
+.earchery-hero {
+  align-items: flex-start;
+}
+
+.earchery-kicker {
+  color: var(--cp-color-accent, #d64031);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  margin: 0 0 .35rem;
+  text-transform: uppercase;
+}
+
+.earchery-badge {
+  white-space: nowrap;
+}
+
+.earchery-layout {
+  display: grid;
+  gap: var(--cp-space-5, 1.25rem);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, .34fr);
+}
+
+.earchery-game-card,
+.earchery-side {
+  display: grid;
+  gap: 1rem;
+}
+
+.earchery-card-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.earchery-card-header h2,
+.earchery-shots-card h2 {
+  margin: 0 0 .25rem;
+}
+
+.earchery-card-header p {
+  color: var(--cp-color-muted, #687182);
+  margin: 0;
+}
+
+.earchery-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  justify-content: flex-end;
+}
+
+.earchery-message {
+  background: color-mix(in srgb, var(--cp-color-accent, #d64031) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cp-color-accent, #d64031) 16%, transparent);
+  border-radius: 16px;
+  font-weight: 700;
+  padding: .75rem .9rem;
+}
+
+.earchery-arena {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, .72), transparent 22%),
+    linear-gradient(135deg, color-mix(in srgb, var(--cp-color-accent, #d64031) 10%, #f8fafc), #eef3f8);
+  border: 1px solid var(--cp-color-border, #d8dee9);
+  border-radius: 28px;
+  cursor: crosshair;
+  height: clamp(320px, 52vh, 520px);
+  min-height: 320px;
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+}
+
+.earchery-arena::before {
+  background-image:
+    linear-gradient(rgba(15, 23, 42, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, .055) 1px, transparent 1px);
+  background-size: 32px 32px;
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.earchery-arena.is-locked {
+  cursor: default;
+}
+
+.earchery-target {
+  border-radius: 50%;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, .22);
+  position: absolute;
+  transform: translateZ(0);
+  transition: left .045s linear, top .045s linear;
+  z-index: 2;
+}
+
+.earchery-target .ring {
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+}
+
+.earchery-target .ring-5 { background: #f7f7f7; inset: 0; }
+.earchery-target .ring-6 { background: #111827; inset: 10%; }
+.earchery-target .ring-7 { background: #2563eb; inset: 21%; }
+.earchery-target .ring-8 { background: #ef4444; inset: 33%; }
+.earchery-target .ring-9 { background: #facc15; inset: 45%; }
+.earchery-target .ring-x { background: #fde68a; border: 2px solid rgba(17, 24, 39, .22); inset: 59%; }
+
+.earchery-impact {
+  align-items: center;
+  background: rgba(17, 24, 39, .88);
+  border: 2px solid rgba(255, 255, 255, .9);
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: .72rem;
+  font-weight: 900;
+  height: 26px;
+  justify-content: center;
+  margin-left: -13px;
+  margin-top: -13px;
+  pointer-events: none;
+  position: absolute;
+  width: 26px;
+  z-index: 3;
+}
+
+.earchery-impact.is-miss {
+  opacity: .72;
+}
+
+.earchery-overlay {
+  align-items: center;
+  background: rgba(248, 250, 252, .68);
+  backdrop-filter: blur(7px);
+  display: flex;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 900;
+  inset: 0;
+  justify-content: center;
+  padding: 2rem;
+  position: absolute;
+  text-align: center;
+  z-index: 4;
+}
+
+.earchery-stats-card {
+  display: grid;
+  gap: .75rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+.earchery-stat {
+  background: rgba(148, 163, 184, .12);
+  border: 1px solid rgba(148, 163, 184, .2);
+  border-radius: 18px;
+  display: grid;
+  gap: .25rem;
+  padding: .85rem;
+}
+
+.earchery-stat--wide {
+  grid-column: 1 / -1;
+}
+
+.earchery-stat span {
+  color: var(--cp-color-muted, #687182);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.earchery-stat strong {
+  font-size: 1.55rem;
+  letter-spacing: -.04em;
+}
+
+.earchery-shot-list {
+  display: grid;
+  gap: .55rem;
+  max-height: 360px;
+  overflow: auto;
+  padding-right: .15rem;
+}
+
+.earchery-shot-row {
+  align-items: center;
+  border-bottom: 1px solid var(--cp-color-border, #e5e7eb);
+  display: grid;
+  gap: .65rem;
+  grid-template-columns: 1fr auto auto;
+  padding: .55rem 0;
+}
+
+.earchery-shot-row:last-child {
+  border-bottom: 0;
+}
+
+.earchery-shot-row strong {
+  font-size: 1.2rem;
+}
+
+.earchery-shot-row em {
+  color: var(--cp-color-muted, #687182);
+  font-style: normal;
+  font-weight: 700;
+}
+
+@media (max-width: 920px) {
+  .earchery-layout,
+  .earchery-stats-card {
+    grid-template-columns: 1fr;
+  }
+
+  .earchery-card-header {
+    display: grid;
+  }
+
+  .earchery-actions {
+    justify-content: flex-start;
+  }
+}

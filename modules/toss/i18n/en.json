@@ -1,0 +1,58 @@
+{
+  "navigation": { "title": "Toss" },
+  "kicker": "Provably fair draw",
+  "title": "Toss",
+  "description": "Prepare a cryptographic commitment, reveal the result, then keep an auditable proof for competition decisions.",
+  "badge": "SHA-256 · CSPRNG",
+  "form": {
+    "title": "Decision setup",
+    "subtitle": "Choose a coin toss or a draw between named options.",
+    "mode": "Mode",
+    "label": "Decision label",
+    "labelPlaceholder": "Example: target 12 shooting order",
+    "options": "Draw options",
+    "optionsHelp": "One option per line. Duplicate and empty values are ignored."
+  },
+  "modes": { "coin": "Heads or tails", "draw": "Draw from a list" },
+  "coin": { "heads": "Heads", "tails": "Tails" },
+  "actions": {
+    "prepare": "Prepare commitment",
+    "reveal": "Reveal result",
+    "reset": "New toss",
+    "copyProof": "Copy proof",
+    "exportProof": "Export proof",
+    "verifyProof": "Verify",
+    "exportHistory": "Export history",
+    "clearHistory": "Clear"
+  },
+  "result": {
+    "title": "Result",
+    "subtitle": "The seed is hidden until reveal, then the proof can be verified independently.",
+    "empty": "Prepare a commitment first. No magic coin from a suspicious pocket here.",
+    "pending": "Ready to reveal",
+    "status": "Status",
+    "commitment": "Commitment",
+    "seed": "Seed",
+    "drawHash": "Draw hash",
+    "explanation": "The commitment is generated before the result. After reveal, the seed and hashes prove that the result was not changed."
+  },
+  "status": { "prepared": "Prepared", "revealed": "Revealed" },
+  "proof": {
+    "title": "Audit proof",
+    "subtitle": "JSON proof for export, copy, or independent verification.",
+    "placeholder": "The proof will appear here after preparation."
+  },
+  "history": {
+    "title": "History",
+    "subtitle": "Last local revealed tosses kept in the browser.",
+    "empty": "No revealed toss yet."
+  },
+  "messages": {
+    "proofCopied": "Proof copied.",
+    "proofValid": "Proof is valid."
+  },
+  "errors": {
+    "optionsRequired": "At least two distinct options are required.",
+    "cryptoUnavailable": "Secure Web Crypto APIs are not available in this browser."
+  }
+}

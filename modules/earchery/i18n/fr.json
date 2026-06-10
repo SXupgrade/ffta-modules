@@ -1,0 +1,39 @@
+{
+  "navigation": { "title": "eArchery" },
+  "kicker": "PoC arcade",
+  "title": "eArchery",
+  "description": "Un petit proof of concept arcade autour du tir à l’arc : la cible bouge, on clique le point d’impact, et le score est calculé.",
+  "badge": "PoC · HTML only",
+  "actions": {
+    "start": "Démarrer",
+    "restart": "Rejouer",
+    "reset": "Réinitialiser"
+  },
+  "stats": {
+    "score": "Score",
+    "bestScore": "Meilleur score",
+    "shots": "Flèches",
+    "accuracy": "Précision",
+    "bestShot": "Meilleure flèche"
+  },
+  "arena": {
+    "title": "Cible mobile",
+    "help": "Clique dans l’arène pour tirer. L’impact est scoré par rapport à la position de la cible au moment du clic.",
+    "idle": "Démarre la partie pour activer la cible.",
+    "finished": "Partie terminée. Rejoue pour tirer à nouveau."
+  },
+  "history": {
+    "title": "Flèches",
+    "empty": "Aucune flèche tirée. Même Robin des Bois a commencé quelque part.",
+    "shot": "Flèche"
+  },
+  "messages": {
+    "ready": "Prêt. On garde simple : cible mobile, un clic, un score.",
+    "running": "Partie en cours. Tire quand tu veux.",
+    "perfect": "Tir parfait. La cible envisage une réclamation.",
+    "good": "Joli tir.",
+    "hit": "Touché. Pas forcément beau, mais ça compte.",
+    "miss": "Manqué. L’herbe va bien, normalement.",
+    "finished": "Volée terminée. MVP validé, ego potentiellement froissé."
+  }
+}

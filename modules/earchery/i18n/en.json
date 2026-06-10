@@ -1,0 +1,39 @@
+{
+  "navigation": { "title": "eArchery" },
+  "kicker": "Arcade PoC",
+  "title": "eArchery",
+  "description": "A tiny archery arcade proof of concept: the target moves, click where the arrow lands, and score the impact.",
+  "badge": "PoC · HTML only",
+  "actions": {
+    "start": "Start game",
+    "restart": "Restart",
+    "reset": "Reset"
+  },
+  "stats": {
+    "score": "Score",
+    "bestScore": "Best score",
+    "shots": "Shots",
+    "accuracy": "Accuracy",
+    "bestShot": "Best shot"
+  },
+  "arena": {
+    "title": "Moving target",
+    "help": "Click in the arena to shoot. The impact is scored against the target position at click time.",
+    "idle": "Start the game to unlock the target.",
+    "finished": "Game finished. Restart to shoot again."
+  },
+  "history": {
+    "title": "Shots",
+    "empty": "No arrow shot yet. Even Robin Hood started somewhere.",
+    "shot": "Shot"
+  },
+  "messages": {
+    "ready": "Ready. Keep it simple: moving target, one click, one score.",
+    "running": "Game running. Shoot when ready.",
+    "perfect": "Perfect shot. The target is filing a complaint.",
+    "good": "Nice shot.",
+    "hit": "Hit. Not pretty, but it counts.",
+    "miss": "Miss. The grass is safe, probably.",
+    "finished": "Round finished. MVP validated, ego optionally damaged."
+  }
+}

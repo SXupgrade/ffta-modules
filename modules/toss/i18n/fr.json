@@ -1,0 +1,58 @@
+{
+  "navigation": { "title": "Toss" },
+  "kicker": "Tirage vérifiable",
+  "title": "Toss",
+  "description": "Prépare un engagement cryptographique, révèle le résultat, puis conserve une preuve auditée pour les décisions de compétition.",
+  "badge": "SHA-256 · CSPRNG",
+  "form": {
+    "title": "Décision à tirer",
+    "subtitle": "Choisis un pile ou face ou un tirage parmi une liste.",
+    "mode": "Mode",
+    "label": "Libellé de la décision",
+    "labelPlaceholder": "Exemple : ordre de tir cible 12",
+    "options": "Options du tirage",
+    "optionsHelp": "Une option par ligne. Les doublons et valeurs vides sont ignorés."
+  },
+  "modes": { "coin": "Pile ou face", "draw": "Tirage parmi une liste" },
+  "coin": { "heads": "Pile", "tails": "Face" },
+  "actions": {
+    "prepare": "Préparer l'engagement",
+    "reveal": "Révéler le résultat",
+    "reset": "Nouveau tirage",
+    "copyProof": "Copier la preuve",
+    "exportProof": "Exporter la preuve",
+    "verifyProof": "Vérifier",
+    "exportHistory": "Exporter l'historique",
+    "clearHistory": "Vider"
+  },
+  "result": {
+    "title": "Résultat",
+    "subtitle": "La seed reste cachée jusqu'à la révélation, puis la preuve peut être vérifiée indépendamment.",
+    "empty": "Prépare d'abord un engagement. Pas de pièce magique sortie d'une poche louche ici.",
+    "pending": "Prêt à révéler",
+    "status": "Statut",
+    "commitment": "Engagement",
+    "seed": "Seed",
+    "drawHash": "Hash du tirage",
+    "explanation": "L'engagement est généré avant le résultat. Après révélation, la seed et les hash prouvent que le résultat n'a pas été modifié."
+  },
+  "status": { "prepared": "Préparé", "revealed": "Révélé" },
+  "proof": {
+    "title": "Preuve d'audit",
+    "subtitle": "Preuve JSON à exporter, copier ou vérifier indépendamment.",
+    "placeholder": "La preuve apparaîtra ici après préparation."
+  },
+  "history": {
+    "title": "Historique",
+    "subtitle": "Derniers tirages révélés conservés localement dans le navigateur.",
+    "empty": "Aucun tirage révélé pour le moment."
+  },
+  "messages": {
+    "proofCopied": "Preuve copiée.",
+    "proofValid": "La preuve est valide."
+  },
+  "errors": {
+    "optionsRequired": "Il faut au moins deux options distinctes.",
+    "cryptoUnavailable": "Les APIs Web Crypto sécurisées ne sont pas disponibles dans ce navigateur."
+  }
+}

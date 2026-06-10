@@ -483,7 +483,12 @@ function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, e
 
     const mountPage = pageMounts.get(activeId) ?? pageMounts.values().next().value;
     if (outlet && mountPage) {
-      const vm = activeId === 'league' ? app.services.get('league.vm') : null;
+      let vm = null;
+      try {
+        vm = app.services.get(`${activeId}.vm`);
+      } catch (error) {
+        vm = null;
+      }
       unmountCurrent = mountPage({ root: outlet, vm, app });
     } else {
       outlet.innerHTML = `<div class="ffta-page"><p>${escapeHtml(app.t('app.settings.noEnabledModule'))}</p></div>`;

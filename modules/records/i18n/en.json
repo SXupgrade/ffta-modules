@@ -1,0 +1,136 @@
+{
+  "title": "Records Manager",
+  "navigation": {
+    "title": "Records"
+  },
+  "header": {
+    "noTournament": "No tournament selected",
+    "ianseoCompatible": "Ianseo-compatible tables"
+  },
+  "actions": {
+    "reload": "Reload",
+    "import": "Import records",
+    "exportCsv": "Export global CSV",
+    "exportJson": "Export global JSON",
+    "checkBrokenRecords": "Check broken records",
+    "delete": "Delete",
+    "updateGlobalRecords": "Update global records",
+    "edit": "Edit"
+  },
+  "messages": {
+    "loading": "Loading records..."
+  },
+  "config": {
+    "title": "Manual monitored area",
+    "help": "Advanced fallback: create or update a TourRecords entry manually. The preferred workflow is now to import global records, then activate selected codes for the current tournament.",
+    "areaCode": "Area code",
+    "areaName": "Area name",
+    "team": "Team records",
+    "para": "Para records",
+    "headerCode": "Header code",
+    "header": "Header label",
+    "save": "Save monitoring"
+  },
+  "stats": {
+    "title": "Overview",
+    "areas": "Available areas",
+    "monitored": "Monitored areas",
+    "records": "Imported records",
+    "broken": "Broken records",
+    "globalRecords": "Global catalog records"
+  },
+  "records": {
+    "title": "Tournament records",
+    "empty": "No records imported yet.",
+    "globalTitle": "Global records catalog",
+    "globalEmpty": "No global records imported yet.",
+    "tournamentTitle": "Tournament snapshot records",
+    "tournamentEmpty": "No record snapshot activated for this tournament yet."
+  },
+  "broken": {
+    "title": "Broken records",
+    "empty": "No broken record detected yet.",
+    "actionsTitle": "Broken records for this tournament",
+    "actionsHelp": "First check broken records, then update tournament 0 if you want to promote detected records into the global catalog."
+  },
+  "columns": {
+    "area": "Area",
+    "category": "Category",
+    "division": "Division",
+    "distance": "Distance",
+    "total": "Total",
+    "xNine": "X/9",
+    "date": "Date",
+    "phase": "Phase",
+    "athlete": "Athlete / Team",
+    "event": "Event",
+    "previous": "Previous record",
+    "name": "Name",
+    "actions": "Actions"
+  },
+  "import": {
+    "title": "Import records",
+    "content": "CSV or JSON content",
+    "help": "Canonical CSV fields: recordCode, recordLabel, category, categoryName, total, maxScore, tieBreaker, holderName, holderClubOrCountry, place, date, isTeam, isMixed, isPara. Imports are stored in the global catalog with RtTournament = 0. recordCode maps to RtRecCode; recordLabel maps to RtRecDistance; holder data is serialized into RtRecExtra.",
+    "preview": "Preview",
+    "confirm": "Import valid rows",
+    "validRows": "valid rows",
+    "errors": "errors",
+    "file": "CSV file"
+  },
+  "activation": {
+    "title": "Activate records for this tournament",
+    "help": "Copy selected global catalog records (RtTournament = 0) into the current tournament as a date-fixed snapshot. Ianseo ORIS printouts read the tournament snapshot.",
+    "codes": "Record codes to activate",
+    "activate": "Activate snapshot",
+    "empty": "No global record code available yet. Import records first."
+  },
+  "labels": {
+    "yes": "Yes",
+    "no": "No",
+    "recordsShort": "records"
+  },
+  "tabs": {
+    "current": "Current tournament",
+    "standings": "Standings catalog"
+  },
+  "current": {
+    "areasTitle": "Record areas for this tournament",
+    "areasHelp": "Select the record areas to monitor. Selecting an area copies matching global records from tournament 0 to the current tournament. Deselecting removes the current tournament snapshot for that area.",
+    "applySelection": "Apply selection",
+    "noAreas": "No record area available yet. Create one in the standings catalog view first."
+  },
+  "standings": {
+    "areasTitle": "Record areas",
+    "areasHelp": "Create or remove global record areas. Deleting an area removes its global records, current tournament snapshots and monitoring rows.",
+    "saveArea": "Save area",
+    "noAreas": "No record area created yet.",
+    "globalCount": "Global records",
+    "tournamentCount": "Tournament records",
+    "importExportTitle": "Import / Export global standings",
+    "importExportHelp": "Imports are stored in RecTournament with RtTournament = 0. Exports use the global catalog.",
+    "confirmDelete": "Delete record area {code} and every related record?"
+  },
+  "canonical": {
+    "recordCode": "Record code",
+    "recordLabel": "Record label",
+    "category": "Category",
+    "categoryName": "Category label",
+    "total": "Score",
+    "maxScore": "Max score",
+    "tieBreaker": "Tie-breaker",
+    "holderName": "Holder",
+    "holderClubOrCountry": "Club / country",
+    "place": "Place",
+    "date": "Date",
+    "isTeam": "Team",
+    "isMixed": "Mixed",
+    "isPara": "Para",
+    "source": "Source"
+  },
+  "edit": {
+    "title": "Edit record",
+    "save": "Save record",
+    "help": "The form uses the same canonical fields as CSV/JSON import and export. Holder, club/country and place are saved back into RtRecExtra."
+  }
+}
