@@ -9,10 +9,16 @@
     "cancel": "Annuler",
     "close": "Fermer",
     "open": "Ouvrir",
-    "updateModule": "update module",
-    "updatingModule": "updating module",
-    "updateInstalled": "update installed",
-    "updateFailed": "La mise à jour a échoué."
+    "updateModule": "mettre à jour",
+    "updatingModule": "mise à jour en cours",
+    "updateInstalled": "mise à jour installée",
+    "updateFailed": "La mise à jour a échoué.",
+    "checkingUpdates": "recherche de mise à jour…",
+    "updateAvailable": "Mise à jour disponible",
+    "moduleUpToDate": "module à jour",
+    "currentVersion": "Version actuelle",
+    "updateUnavailable": "mise à jour indisponible",
+    "updateCheckFailed": "Impossible de vérifier les mises à jour."
   },
   "settings": {
     "title": "Paramètres",

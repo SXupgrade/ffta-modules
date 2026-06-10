@@ -486,7 +486,8 @@ function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, e
             <nav class="ffta-shell__nav" aria-label="FFTA modules">
               ${menuItems.map((item) => buildMenuItem(item, activeId, manifestsById)).join('')}
             </nav>
-            <button type="button" class="ffta-update-button" data-action="update-module">[${escapeHtml(app.t('app.actions.updateModule'))}]</button>
+            <span class="ffta-update-status" data-role="update-status" aria-live="polite">${escapeHtml(app.t('app.actions.checkingUpdates'))}</span>
+            <button type="button" class="ffta-update-button ffta-update-button--checking" data-action="update-module" aria-label="${escapeAttribute(app.t('app.actions.checkingUpdates'))}" title="${escapeAttribute(app.t('app.actions.checkingUpdates'))}" data-has-update="false" disabled>…</button>
           </div>
         </header>
         ${app.dev.shouldShowBadge() ? buildDevBadge(app) : ''}
@@ -495,8 +496,13 @@ function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, e
     `;
 
     const updateButton = root.querySelector('[data-action="update-module"]');
+    const updateStatus = root.querySelector('[data-role="update-status"]');
     if (updateButton) {
-      updateButton.addEventListener('click', () => installUpdate({ app, button: updateButton }));
+      updateButton.addEventListener('click', () => {
+        if (updateButton.dataset.hasUpdate !== 'true') return;
+        installUpdate({ app, button: updateButton, status: updateStatus });
+      });
+      refreshUpdateStatus({ app, button: updateButton, status: updateStatus });
     }
 
     const outlet = root.querySelector('#ffta-module-outlet');
@@ -697,10 +703,90 @@ function buildModuleToggle({ manifest, enabled, access = 'write' }) {
   `;
 }
 
-async function installUpdate({ app, button }) {
-  const previousLabel = button.textContent;
-  button.disabled = true;
-  button.textContent = `[${app.t('app.actions.updatingModule')}]`;
+async function refreshUpdateStatus({ app, button, status }) {
+  setUpdateButtonState(button, {
+    state: 'checking',
+    icon: '…',
+    label: app.t('app.actions.checkingUpdates'),
+    hasUpdate: false,
+    disabled: true
+  });
+  if (status) status.textContent = app.t('app.actions.checkingUpdates');
+
+  try {
+    const response = await fetch(app.runtime.baseUrl + 'core/update/update.php?action=check', {
+      method: 'GET'
+    });
+    const payload = await response.json().catch(() => ({}));
+
+    if (!response.ok || !payload.ok) {
+      throw new Error(payload.error || 'Update check failed.');
+    }
+
+    const currentVersion = payload.currentVersion || '-';
+    const latestVersion = payload.latestVersion || '-';
+
+    if (payload.hasUpdate) {
+      const label = `${app.t('app.actions.updateAvailable')}: ${currentVersion} → ${latestVersion}`;
+      setUpdateButtonState(button, {
+        state: 'available',
+        icon: '↻',
+        label,
+        hasUpdate: true,
+        disabled: false
+      });
+      if (status) status.textContent = label;
+      return;
+    }
+
+    const label = `${app.t('app.actions.moduleUpToDate')} · ${app.t('app.actions.currentVersion')}: ${currentVersion}`;
+    setUpdateButtonState(button, {
+      state: 'up-to-date',
+      icon: '✓',
+      label,
+      hasUpdate: false,
+      disabled: false
+    });
+    if (status) status.textContent = label;
+  } catch (error) {
+    console.error('[ffta] Update check failed', error);
+    setUpdateButtonState(button, {
+      state: 'unavailable',
+      icon: '!',
+      label: app.t('app.actions.updateCheckFailed'),
+      hasUpdate: false,
+      disabled: false
+    });
+    if (status) status.textContent = app.t('app.actions.updateCheckFailed');
+  }
+}
+
+function setUpdateButtonState(button, { state, icon, label, hasUpdate, disabled }) {
+  button.className = `ffta-update-button ffta-update-button--${state}`;
+  button.textContent = icon;
+  button.title = label;
+  button.setAttribute('aria-label', label);
+  button.dataset.hasUpdate = hasUpdate ? 'true' : 'false';
+  button.disabled = Boolean(disabled);
+}
+
+async function installUpdate({ app, button, status }) {
+  const previousState = {
+    className: button.className,
+    textContent: button.textContent,
+    title: button.title,
+    ariaLabel: button.getAttribute('aria-label') || '',
+    hasUpdate: button.dataset.hasUpdate || 'false',
+    disabled: button.disabled
+  };
+  setUpdateButtonState(button, {
+    state: 'installing',
+    icon: '↻',
+    label: app.t('app.actions.updatingModule'),
+    hasUpdate: false,
+    disabled: true
+  });
+  if (status) status.textContent = app.t('app.actions.updatingModule');
 
   try {
     const response = await fetch(app.runtime.baseUrl + 'core/update/update.php?action=install', {
@@ -712,13 +798,27 @@ async function installUpdate({ app, button }) {
       throw new Error(payload.error || 'Update failed.');
     }
 
-    button.textContent = `[${app.t('app.actions.updateInstalled')}]`;
+    setUpdateButtonState(button, {
+      state: 'installed',
+      icon: '✓',
+      label: app.t('app.actions.updateInstalled'),
+      hasUpdate: false,
+      disabled: true
+    });
+    if (status) status.textContent = payload.installedVersion
+      ? `${app.t('app.actions.updateInstalled')} ${payload.installedVersion}`
+      : app.t('app.actions.updateInstalled');
     window.location.reload();
   } catch (error) {
     console.error('[ffta] Update failed', error);
     app.notify.error(error.message || app.t('app.actions.updateFailed'));
-    button.disabled = false;
-    button.textContent = previousLabel;
+    button.className = previousState.className;
+    button.textContent = previousState.textContent;
+    button.title = previousState.title;
+    button.setAttribute('aria-label', previousState.ariaLabel);
+    button.dataset.hasUpdate = previousState.hasUpdate;
+    button.disabled = previousState.disabled;
+    if (status) status.textContent = app.t('app.actions.updateFailed');
   }
 }
 

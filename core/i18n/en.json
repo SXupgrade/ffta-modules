@@ -12,7 +12,13 @@
     "updateModule": "update module",
     "updatingModule": "updating module",
     "updateInstalled": "update installed",
-    "updateFailed": "Update failed."
+    "updateFailed": "Update failed.",
+    "checkingUpdates": "checking updates…",
+    "updateAvailable": "Update available",
+    "moduleUpToDate": "module up to date",
+    "currentVersion": "Current version",
+    "updateUnavailable": "update unavailable",
+    "updateCheckFailed": "Unable to check updates."
   },
   "settings": {
     "title": "Settings",

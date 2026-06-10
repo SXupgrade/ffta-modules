@@ -488,24 +488,52 @@
 .ffta-modules-shell .ffta-shell__actions {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
 
 .ffta-modules-shell .ffta-update-button {
-  min-height: 28px;
-  padding: 2px 8px 5px;
-  border: 1px solid rgb(255 255 255 / 0.45);
-  border-radius: 4px;
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 0.28);
+  border-radius: 999px;
   color: #fff;
   background: rgb(255 255 255 / 0.08);
   font: inherit;
-  font-size: 0.82rem;
-  font-weight: 600;
-  line-height: 1.1;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: default;
+}
+
+.ffta-modules-shell .ffta-update-button--up-to-date,
+.ffta-modules-shell .ffta-update-button--installed {
+  color: #22c55e;
+  border-color: rgb(34 197 94 / 0.5);
+  background: rgb(34 197 94 / 0.12);
+}
+
+.ffta-modules-shell .ffta-update-button--available {
+  color: #fde68a;
+  border-color: rgb(253 230 138 / 0.55);
+  background: rgb(253 230 138 / 0.14);
   cursor: pointer;
-  text-transform: lowercase;
+}
+
+.ffta-modules-shell .ffta-update-button--checking,
+.ffta-modules-shell .ffta-update-button--installing {
+  color: #dbeafe;
+  border-color: rgb(219 234 254 / 0.45);
+}
+
+.ffta-modules-shell .ffta-update-button--unavailable {
+  color: #fecaca;
+  border-color: rgb(254 202 202 / 0.5);
+  background: rgb(254 202 202 / 0.12);
 }
 
 .ffta-modules-shell .ffta-update-button:hover:not(:disabled) {
@@ -513,8 +541,8 @@
 }
 
 .ffta-modules-shell .ffta-update-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.65;
+  cursor: wait;
+  opacity: 0.75;
 }
 
 /* Portal fallback: modal/toast nodes are sometimes mounted directly under body
@@ -803,4 +831,16 @@ body > .ffta-toast-container {
 .ffta-modules-shell .ffta-credits-section li small {
   color: var(--cp-muted, #667085);
   line-height: 1.35;
+}
+
+.ffta-modules-shell .ffta-update-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
