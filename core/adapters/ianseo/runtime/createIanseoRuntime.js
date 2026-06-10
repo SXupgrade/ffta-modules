@@ -24,6 +24,7 @@ export async function createIanseoRuntime({ baseUrl = './' } = {}) {
     type: 'ianseo',
     language: languageAdapter.getLanguage(),
     baseUrl,
+    ianseo: { rootUrl: '../../../' },
     dev: devConfig,
     adapters: {
       settings: createIanseoSettingsAdapter({ baseUrl, devConfig }),

@@ -1,0 +1,21 @@
+{
+  "navigation": { "title": "Impressions" },
+  "title": "Impressions",
+  "description": "Impressions Ianseo exposées via la façade partagée AppIanseo.",
+  "adapterBadge": "Adaptateur AppIanseo impressions",
+  "loading": "Chargement des impressions...",
+  "actions": {
+    "open": "Ouvrir",
+    "scorecard": "Marque",
+    "blankScorecard": "Feuille vierge",
+    "filledScorecard": "Marque + scores"
+  },
+  "scorecards": {
+    "session": "Départ",
+    "allSessions": "Tous les départs",
+    "targetsFrom": "Cibles de",
+    "targetsTo": "à",
+    "distances": "Distances",
+    "noEmpty": "Sans cibles vides"
+  }
+}

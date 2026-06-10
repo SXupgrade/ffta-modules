@@ -12,6 +12,7 @@ import { createFilesService } from './services/files.service.js';
 import { createValidationService } from './services/validation.service.js';
 import { createLoggerService } from './services/logger.service.js';
 import { createDevService } from './services/dev.service.js';
+import { createIanseoServices } from './services/ianseo/createIanseoServices.js';
 
 export function createModuleContext(runtime) {
   const dev = createDevService(runtime.dev || {});
@@ -19,6 +20,8 @@ export function createModuleContext(runtime) {
   const i18n = createI18nService({ language: runtime.language });
   const logger = createLoggerService(runtime.adapters.logger, dev);
   const acl = createAclService(runtime.adapters.acl, dev, logger);
+
+  const data = createDataService(runtime.adapters.data, acl, dev, logger);
 
   const app = {
     runtime,
@@ -35,9 +38,10 @@ export function createModuleContext(runtime) {
     files: createFilesService(),
     exports: createExportService(),
     acl,
-    data: createDataService(runtime.adapters.data, acl, dev, logger),
+    data,
     context: createTournamentService(runtime.adapters.tournament),
     validation: createValidationService(),
+    ianseo: createIanseoServices({ data, runtime }),
     services: createServiceRegistry()
   };
 

@@ -1,0 +1,21 @@
+{
+  "navigation": { "title": "Prints" },
+  "title": "Prints",
+  "description": "Ianseo printouts exposed through the shared AppIanseo adapter facade.",
+  "adapterBadge": "AppIanseo prints adapter",
+  "loading": "Loading printouts...",
+  "actions": {
+    "open": "Open",
+    "scorecard": "Scorecard",
+    "blankScorecard": "Blank scorecard",
+    "filledScorecard": "Scorecard + scores"
+  },
+  "scorecards": {
+    "session": "Session",
+    "allSessions": "All sessions",
+    "targetsFrom": "Targets from",
+    "targetsTo": "to",
+    "distances": "Distances",
+    "noEmpty": "No empty targets"
+  }
+}

@@ -7,6 +7,10 @@ header('Content-Type: application/json; charset=utf-8');
 
 require_once(__DIR__ . '/../core/adapters/ianseo/database/query.php');
 require_once(__DIR__ . '/../core/adapters/ianseo/acl/acl.php');
+require_once(__DIR__ . '/ianseo/prints.service.php');
+if (file_exists(dirname(__DIR__, 4) . '/Common/Fun_Sessions.inc.php')) {
+    require_once(dirname(__DIR__, 4) . '/Common/Fun_Sessions.inc.php');
+}
 
 $DATA_ACCESS = array(
     'acl' => 'AclCompetition',
@@ -320,6 +324,10 @@ try {
         case 'getCurrentTournament':
             ffta_acl_require($DATA_ACCESS, 'read');
             ffta_data_response(ffta_data_get_tournament($tourId));
+            break;
+        case 'ianseo.prints.list':
+            ffta_acl_require($DATA_ACCESS, 'read');
+            ffta_data_response(ffta_ianseo_prints_list($tourId, $payload));
             break;
         case 'listEntries':
             ffta_acl_require($DATA_ACCESS, 'read');
