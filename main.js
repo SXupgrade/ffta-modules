@@ -81,11 +81,13 @@ async function bootstrap() {
 
     const discoveredModules = getDiscoveredModules();
     const manifestsById = await loadDiscoveredManifests({ discoveredModules, baseUrl });
+    const tournamentContext = await app.context.getTournament();
+    const eligibleModuleIds = resolveEligibleModuleIds({ discoveredModules, manifestsById, tournamentContext });
     const enabledModuleIds = await resolveEnabledModuleIds({ app, discoveredModules, manifestsById });
     const accessByModuleId = await resolveModuleAccess({ app, discoveredModules, manifestsById });
     const enabledModules = discoveredModules.filter((moduleDefinition) => {
       const access = accessByModuleId.get(moduleDefinition.id) || 'write';
-      return enabledModuleIds.includes(moduleDefinition.id) && access !== 'none';
+      return eligibleModuleIds.includes(moduleDefinition.id) && enabledModuleIds.includes(moduleDefinition.id) && access !== 'none';
     });
 
     for (const moduleDefinition of enabledModules) {
@@ -108,7 +110,7 @@ async function bootstrap() {
       }
     }
 
-    mountShell({ root, app, pageMounts, manifestsById, discoveredModules, enabledModuleIds, accessByModuleId });
+    mountShell({ root, app, pageMounts, manifestsById, discoveredModules, enabledModuleIds, accessByModuleId, eligibleModuleIds, tournamentContext });
   } catch (error) {
     console.error('[ffta] Bootstrap failed', error);
     root.innerHTML = `<div class="ffta-page"><p class="ffta-badge ffta-badge--error">${escapeHtml(String(error))}</p></div>`;
@@ -169,6 +171,43 @@ async function loadDiscoveredManifests({ discoveredModules, baseUrl }) {
   }
 
   return manifestsById;
+}
+
+
+function resolveEligibleModuleIds({ discoveredModules, manifestsById, tournamentContext }) {
+  return discoveredModules
+    .map((moduleDefinition) => moduleDefinition.id)
+    .filter((id) => {
+      const manifest = manifestsById.get(id);
+      if (!manifest) return false;
+      return isManifestEligibleForTournament({ manifest, tournamentContext });
+    });
+}
+
+function isManifestEligibleForTournament({ manifest, tournamentContext }) {
+  const tournament = manifest.tournament || manifest.tournamentCompatibility || manifest.context || null;
+  if (!tournament) return true;
+
+  const locSubRules = normalizeCompatibilityValues(tournament.locSubRules || tournament.tourLocSubRules || tournament.subRules);
+  const tourTypes = normalizeCompatibilityValues(tournament.tourTypes || tournament.types).map((value) => Number(value));
+
+  const acceptsAllSubRules = !locSubRules.length || locSubRules.includes('ALL') || locSubRules.includes('*');
+  const acceptsAllTourTypes = !tourTypes.length || tourTypes.includes(0);
+
+  if (!tournamentContext) {
+    return acceptsAllSubRules && acceptsAllTourTypes;
+  }
+
+  const locSubRule = String(tournamentContext.locSubRule || '');
+  const tourType = Number(tournamentContext.tourType || 0);
+
+  return (acceptsAllSubRules || locSubRules.includes(locSubRule))
+    && (acceptsAllTourTypes || tourTypes.includes(tourType));
+}
+
+function normalizeCompatibilityValues(value) {
+  if (value === undefined || value === null || value === '') return [];
+  return (Array.isArray(value) ? value : [value]).map((item) => String(item));
 }
 
 async function resolveEnabledModuleIds({ app, discoveredModules, manifestsById }) {
@@ -401,7 +440,7 @@ async function resolvePageMount({ manifest, moduleBaseUrl }) {
   return mountPage;
 }
 
-function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, enabledModuleIds, accessByModuleId }) {
+function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, enabledModuleIds, accessByModuleId, eligibleModuleIds = null, tournamentContext = null }) {
   let unmountCurrent = null;
   let currentEnabledModuleIds = [...enabledModuleIds];
 
