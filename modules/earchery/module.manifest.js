@@ -1,6 +1,7 @@
 export default {
   sdkVersion: '1.0.0',
   id: 'earchery',
+  audience: 'extra',
   name: 'eArchery',
   version: '0.1.0',
   description: 'Simple archery arcade proof of concept with a moving target and click-to-shoot scoring',
@@ -27,6 +28,6 @@ export default {
   acknowledgements: [
     { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
   ],
-  navigation: { accentColor: '#ea580c' },
+  navigation: { accentColor: '#ea580c', order: 95 },
   settings: []
 };

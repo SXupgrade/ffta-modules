@@ -1,0 +1,85 @@
+{
+  "navigation": {
+    "title": "Training"
+  },
+  "kicker": "Ianseo eLearning",
+  "title": "FFTA Ianseo Training — V1",
+  "description": "Guided course based on the 2024 simplified FFTA tutorial, with automatic checks on the active tournament.",
+  "course": {
+    "title": "2024 FFTA path",
+    "description": "From setup to the federation TXT export."
+  },
+  "context": {
+    "title": "Training tournament",
+    "noTournament": "Open or create an Ianseo tournament first. The module will then work on that tournament.",
+    "stats": "{entries} participant(s), {sessions} session(s), {assigned} target assignment(s), {scores} score(s).",
+    "liveExample": "Live example: if archer {archer} exists, the course can use this archer in the next instructions."
+  },
+  "dynamic": {
+    "defaultArcher": "your first archer"
+  },
+  "actions": {
+    "refresh": "Refresh",
+    "reset": "Reset",
+    "validate": "Validate this step"
+  },
+  "lessonNumber": "Step {number}/{total}",
+  "validation": {
+    "notChecked": "This step has not been checked yet.",
+    "ok": "Step completed",
+    "ko": "Needs fixing",
+    "completed": "Step completed.",
+    "checked": "Check done: some items still need fixing."
+  },
+  "lessons": {
+    "title": "Courses",
+    "equipment": {
+      "title": "Equipment and access",
+      "goal": "Check that the training environment is ready and a tournament is open."
+    },
+    "updateResources": {
+      "title": "Ianseo and FFTA resource updates",
+      "goal": "Review Ianseo updates and federation resource synchronization before creating the tournament."
+    },
+    "createCompetition": {
+      "title": "Create the tournament",
+      "goal": "Create a training tournament with a code, name, location and dates."
+    },
+    "configureFfta18m": {
+      "title": "Configure FFTA indoor 18m",
+      "goal": "Select French rules, Indoor 18m / 2 distances and the expected sub-rule."
+    },
+    "sessions": {
+      "title": "Configure sessions",
+      "goal": "Create sessions, target count, archers per target and timings."
+    },
+    "distancesClasses": {
+      "title": "Distances, divisions and classes",
+      "goal": "Check that divisions, classes and distances were generated from the FFTA rules."
+    },
+    "officials": {
+      "title": "Staff and judges",
+      "goal": "Introduce the staff management screen. In V1, validation is pedagogical and non-blocking."
+    },
+    "participants": {
+      "title": "Participants",
+      "goal": "Create or import at least two archers, for example {archer}, with license, club, division and class."
+    },
+    "targetAssignment": {
+      "title": "Target assignment",
+      "goal": "Assign at least one archer to a target using manual assignment or the advanced list."
+    },
+    "scoreSheets": {
+      "title": "Score sheets and QR codes",
+      "goal": "Prepare score sheet printing. Automatic validation checks that targets exist before printing."
+    },
+    "scoreEntry": {
+      "title": "Score entry and verification",
+      "goal": "Enter at least one score, then explain paper / Scorekeeper verification."
+    },
+    "rankingExport": {
+      "title": "Rankings and TXT export",
+      "goal": "Recalculate rankings and prepare the federation TXT export after the tournament."
+    }
+  }
+}

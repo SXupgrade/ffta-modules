@@ -52,3 +52,61 @@
   /* Transitions */
   --ffta-transition: 150ms ease;
 }
+
+/* -------------------------------------------------------------------------
+ * Harmonisation v0.2.13 — tokens manquants + alias de compatibilité.
+ * Les CSS de modules historiques référencent des familles de variables
+ * (--cp-*, --c-*, variantes --ffta-*) qui n'étaient définies nulle part :
+ * leurs fallbacks codés en dur divergeaient d'un module à l'autre.
+ * En définissant ces alias sur le référentiel officiel, les fallbacks
+ * deviennent inertes et toute la palette converge vers tokens.css.
+ * À terme : migrer les modules vers --ffta-* et supprimer ce bloc.
+ * ---------------------------------------------------------------------- */
+:root {
+  /* Tokens manquants */
+  --ffta-radius-lg: var(--ffta-radius-card);
+  --ffta-space-2: 12px;
+
+  /* Alias famille --cp-* (toss, achievements, assistant, earchery, rulebook) */
+  --cp-color-primary: var(--ffta-color-primary);
+  --cp-color-accent: var(--ffta-color-primary);
+  --cp-color-muted: var(--ffta-color-muted);
+  --cp-color-border: var(--ffta-color-border);
+  --cp-border-color: var(--ffta-color-border);
+  --cp-border: var(--ffta-color-border);
+  --cp-border-subtle: var(--ffta-color-border);
+  --cp-text-muted: var(--ffta-color-muted);
+  --cp-surface: var(--ffta-color-surface);
+  --cp-muted-surface: var(--ffta-color-surface-raised);
+  --cp-space-3: var(--ffta-space-2);
+  --cp-space-4: var(--ffta-space-md);
+  --cp-space-5: var(--ffta-space-lg);
+  --cp-radius-lg: var(--ffta-radius-card);
+
+  /* Alias famille --c-* (export-ffta) */
+  --c-primary: var(--ffta-color-primary);
+  --c-text: var(--ffta-color-text);
+  --c-muted: var(--ffta-color-muted);
+  --c-border: var(--ffta-color-border-strong);
+  --c-surface: var(--ffta-color-surface);
+  --c-surface-muted: var(--ffta-color-surface-raised);
+  --shadow-soft: var(--ffta-shadow-md);
+
+  /* Alias variantes --ffta-* fautives (developer-wiki, league) */
+  --ffta-border-color: var(--ffta-color-border);
+  --ffta-surface-color: var(--ffta-color-surface);
+  --ffta-muted-color: var(--ffta-color-muted);
+  --ffta-success-color: var(--ffta-color-success);
+  --ffta-border: var(--ffta-color-border);
+  --ffta-surface: var(--ffta-color-surface);
+  --ffta-muted-surface: var(--ffta-color-surface-raised);
+}
+
+/* Accent par module : --ffta-module-accent est posé sur l'outlet par main.js
+ * (depuis manifest.navigation.accentColor). Les couleurs « primaire/accent »
+ * des modules en dérivent → unicité de structure, identité par l'accent. */
+.ffta-modules-shell .ffta-shell__outlet {
+  --cp-color-accent: var(--ffta-module-accent, var(--ffta-color-primary));
+  --cp-color-primary: var(--ffta-module-accent, var(--ffta-color-primary));
+  --c-primary: var(--ffta-module-accent, var(--ffta-color-primary));
+}

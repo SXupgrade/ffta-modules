@@ -90,6 +90,16 @@ async function bootstrap() {
       return eligibleModuleIds.includes(moduleDefinition.id) && enabledModuleIds.includes(moduleDefinition.id) && access !== 'none';
     });
 
+    // UX v0.2.14 : la navigation suit la fréquence d'usage terrain
+    // (manifest.navigation.order). Le premier module devient la page
+    // d'accueil par défaut — l'Assistant, quand il est activé.
+    enabledModules.sort((left, right) => {
+      const leftOrder = manifestsById.get(left.id)?.navigation?.order ?? 100;
+      const rightOrder = manifestsById.get(right.id)?.navigation?.order ?? 100;
+      if (leftOrder !== rightOrder) return leftOrder - rightOrder;
+      return String(left.id).localeCompare(String(right.id));
+    });
+
     for (const moduleDefinition of enabledModules) {
       try {
         const loadedModule = await loadDiscoveredModule({
@@ -218,8 +228,15 @@ async function resolveEnabledModuleIds({ app, discoveredModules, manifestsById }
   const storedIds = normalizeEnabledModules(storedValue, availableIds);
 
   if (storedIds === null) {
-    await app.settings.set('enabledModules', availableIds);
-    return availableIds;
+    // UX v0.2.14 : au premier lancement, seuls les modules « terrain »
+    // (audience organizer, ou non déclarée) sont activés. Les modules
+    // développeur/extra restent disponibles dans Paramètres.
+    const defaultIds = availableIds.filter((id) => {
+      const audience = manifestsById.get(id)?.audience;
+      return !audience || audience === 'organizer';
+    });
+    await app.settings.set('enabledModules', defaultIds);
+    return defaultIds;
   }
 
   return storedIds;
@@ -491,6 +508,7 @@ function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, e
           </div>
         </header>
         ${app.dev.shouldShowBadge() ? buildDevBadge(app) : ''}
+        <div id="ffta-module-intro" class="ffta-shell__intro"></div>
         <div id="ffta-module-outlet" class="ffta-shell__outlet"></div>
       </section>
     `;
@@ -507,6 +525,23 @@ function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, e
 
     const outlet = root.querySelector('#ffta-module-outlet');
     if (!outlet) return;
+
+    // Harmonisation v0.2.13 : l'accent déclaré par le manifest du module actif
+    // (navigation.accentColor) est exposé sur l'outlet. Les couleurs primaires
+    // et d'accent des modules en dérivent (cf. tokens.css), ce qui donne une
+    // identité par module sans casser l'unicité de structure.
+    const activeManifest = manifestsById.get(activeId);
+    const moduleAccent = activeManifest?.navigation?.accentColor || activeManifest?.accentColor || '';
+    if (moduleAccent) {
+      outlet.style.setProperty('--ffta-module-accent', moduleAccent);
+    } else {
+      outlet.style.removeProperty('--ffta-module-accent');
+    }
+
+    // UX v0.2.14 : encart « première visite » par module. Deux lignes qui
+    // disent à quoi sert l'écran et par quoi commencer, repliées
+    // définitivement au clic (mémorisé dans les settings).
+    renderModuleIntro({ root, app, manifest: activeManifest, activeId }).catch(() => {});
 
     if (activeId === 'settings') {
       unmountCurrent = mountSettingsPage({
@@ -820,6 +855,38 @@ async function installUpdate({ app, button, status }) {
     button.disabled = previousState.disabled;
     if (status) status.textContent = app.t('app.actions.updateFailed');
   }
+}
+
+/**
+ * UX v0.2.14 — encart « première visite » d'un module.
+ * Affiche la cle i18n `<module>.intro` (sinon rien) avec un bouton de
+ * fermeture qui memorise le choix dans les settings (`introSeen.<module>`).
+ */
+async function renderModuleIntro({ root, app, manifest, activeId }) {
+  const host = root.querySelector('#ffta-module-intro');
+  if (!host) return;
+  host.innerHTML = '';
+
+  if (!manifest || activeId === 'settings' || activeId === 'credits') return;
+
+  const introKey = `${manifest.id}.intro`;
+  const introText = app.t(introKey);
+  if (!introText || introText === introKey) return;
+
+  const seen = await app.settings.get(`introSeen.${manifest.id}`, false);
+  if (seen === true || seen === 'true' || seen === 1 || seen === '1') return;
+
+  host.innerHTML = `
+    <div class="ffta-intro-card" role="note">
+      <p class="ffta-intro-card__text">${escapeHtml(introText)}</p>
+      <button type="button" class="cp-btn cp-btn--secondary" data-dismiss-intro>${escapeHtml(app.t('app.intro.dismiss'))}</button>
+    </div>
+  `;
+
+  host.querySelector('[data-dismiss-intro]')?.addEventListener('click', async () => {
+    host.innerHTML = '';
+    try { await app.settings.set(`introSeen.${manifest.id}`, true); } catch { /* best effort */ }
+  });
 }
 
 function buildMenuItem(item, activeId, manifestsById) {

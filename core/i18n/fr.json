@@ -44,5 +44,11 @@
     "contributors": "Contributeurs",
     "acknowledgements": "Remerciements",
     "notProvided": "Non renseigné."
+  },
+  "intro": {
+    "dismiss": "J'ai compris"
+  },
+  "confirm": {
+    "confirm": "Confirmer"
   }
 }

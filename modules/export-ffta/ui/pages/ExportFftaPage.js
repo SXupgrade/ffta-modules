@@ -33,7 +33,9 @@ export function mountExportFftaPage({ root, vm, app }) {
 }
 
 function buildHtml(state, app, vm) {
-  const active = state.activeTab || 'export';
+  // UX v0.2.14 : les onglets de non-regression sont des outils developpeur,
+  // masques hors mode dev. L'ecran par defaut = telecharger le fichier FFTA.
+  const active = app.dev?.enabled ? (state.activeTab || 'export') : 'export';
   return `
     <section class="ffta-page export-ffta-page">
       <div class="export-ffta-hero">
@@ -42,14 +44,13 @@ function buildHtml(state, app, vm) {
           <h1>${escapeHtml(app.t('exportFfta.title'))}</h1>
           <p>${escapeHtml(app.t('exportFfta.subtitle'))}</p>
         </div>
-        <span class="export-ffta-badge">TNR</span>
       </div>
 
-      <div class="export-ffta-tabs">
+      ${app.dev?.enabled ? `<div class="export-ffta-tabs">
         ${tabButton(app, active, 'export', app.t('exportFfta.tabs.export'))}
         ${tabButton(app, active, 'tnrActive', app.t('exportFfta.tabs.tnrActive'))}
         ${tabButton(app, active, 'tnrDataset', app.t('exportFfta.tabs.tnrDataset'))}
-      </div>
+      </div>` : ''}
 
       ${state.error ? `<div class="ffta-badge ffta-badge--error">${escapeHtml(state.error)}</div>` : ''}
       ${active === 'export' ? buildExportTab(state, app, vm) : ''}

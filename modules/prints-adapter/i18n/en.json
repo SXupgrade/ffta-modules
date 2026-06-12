@@ -1,8 +1,10 @@
 {
-  "navigation": { "title": "Prints" },
-  "title": "Prints",
-  "description": "Ianseo printouts exposed through the shared AppIanseo adapter facade.",
-  "adapterBadge": "AppIanseo prints adapter",
+  "navigation": {
+    "title": "Prints"
+  },
+  "title": "Tournament printouts",
+  "description": "Print the tournament documents: scorecards, lists, results…",
+  "adapterBadge": "",
   "loading": "Loading printouts...",
   "actions": {
     "open": "Open",
@@ -16,6 +18,8 @@
     "targetsFrom": "Targets from",
     "targetsTo": "to",
     "distances": "Distances",
-    "noEmpty": "No empty targets"
-  }
+    "noEmpty": "No empty targets",
+    "help": "Scorecards to hand out on each target before the start. Keep the default fields to print everything."
+  },
+  "intro": "Every document to print for your tournament lives here, grouped by purpose. Most common: scorecards, to hand out on each target before the start."
 }

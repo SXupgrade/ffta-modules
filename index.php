@@ -53,6 +53,7 @@ $JS_SCRIPT = array(
     '<link rel="stylesheet" href="' . $moduleBase . 'core/ui/styles/tokens.css">',
     '<link rel="stylesheet" href="' . $moduleBase . 'core/ui/styles/foundation.css">',
     '<link rel="stylesheet" href="' . $moduleBase . 'core/ui/styles/utilities.css">',
+    '<link rel="stylesheet" href="' . $moduleBase . 'core/ui/styles/print.css" media="print">',
     '<script>window.__FFTA_IANSEO_LANGUAGE__ = ' . json_encode($ianseoLanguage) . '; window.__FFTA_MODULES__ = ' . json_encode($discoveredModules, JSON_UNESCAPED_SLASHES) . ';</script>',
     '<script type="module" src="' . $moduleBase . 'main.js"></script>',
 );

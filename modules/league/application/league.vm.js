@@ -20,6 +20,14 @@ export function createLeagueViewModel({ app, store, repository, calculator }) {
       await saveLeagueSettings({ app, store, repository, settings });
       return loadLeagueStandings({ app, store, repository, calculator });
     },
+    async listTournaments() {
+      if (typeof repository.listTournaments !== 'function') return [];
+      try {
+        return await repository.listTournaments();
+      } catch {
+        return [];
+      }
+    },
     async exportPdf() {
       return exportLeagueResults({ app, store, format: 'pdf' });
     },

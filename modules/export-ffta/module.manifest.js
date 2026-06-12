@@ -1,6 +1,7 @@
 export default {
   sdkVersion: '1.0.0',
   id: 'export-ffta',
+  audience: 'organizer',
   name: 'Export FFTA',
   version: '0.1.0',
   description: 'Official French federation results export with non-regression checks.',
@@ -27,7 +28,7 @@ export default {
   acknowledgements: [
     { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
   ],
-  navigation: { accentColor: '#2563eb' },
+  navigation: { accentColor: '#2563eb', order: 60 },
   settings: [
     { key: 'export-ffta.defaultLevel', type: 'string', defaultValue: 'S' }
   ]

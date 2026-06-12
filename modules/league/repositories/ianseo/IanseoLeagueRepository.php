@@ -32,6 +32,24 @@ class IanseoLeagueRepository {
      *
      * @return array  associative settings map
      */
+    /**
+     * UX v0.2.14 — tournois disponibles pour le selecteur des parametres.
+     *
+     * @return array  liste { code, name, date }
+     */
+    public function listTournaments() {
+        $rows = LeagueQueries::listTournaments();
+        $out = array();
+        foreach ($rows as $row) {
+            $out[] = array(
+                'code' => (string) $row['ToCode'],
+                'name' => (string) ($row['ToName'] !== '' ? $row['ToName'] : $row['ToNameShort']),
+                'date' => (string) $row['ToWhenFrom'],
+            );
+        }
+        return $out;
+    }
+
     public function getSettings() {
         $defaults = $this->defaultSettings();
         $all      = $this->settingsAdapter->getAll();

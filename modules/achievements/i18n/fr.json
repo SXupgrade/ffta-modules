@@ -1,9 +1,11 @@
 {
-  "navigation": { "title": "Hauts Faits" },
+  "navigation": {
+    "title": "Hauts Faits"
+  },
   "kicker": "Progression organisateur",
   "title": "Hauts Faits",
   "description": "Un PoC qui transforme l'utilisation de Compet+ en checklist ludique pour les organisateurs.",
-  "badge": "PoC",
+  "badge": "Découverte",
   "toolbar": {
     "title": "Deux modes de mise à jour",
     "description": "Compet+ pourra alimenter le moteur avec des événements métier. FFTA Modules peut resynchroniser en scannant rapidement toute la base Ianseo/Compet+ pour consolider les hauts faits multi-concours."

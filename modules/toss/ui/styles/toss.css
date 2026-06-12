@@ -1,112 +1,112 @@
-.toss-page {
+.ffta-modules-shell .toss-page {
   display: grid;
   gap: var(--cp-space-5, 1.25rem);
 }
 
-.toss-hero {
+.ffta-modules-shell .toss-hero {
   align-items: flex-start;
 }
 
-.toss-kicker {
-  color: var(--cp-color-accent, #d64031);
+.ffta-modules-shell .toss-kicker {
+  color: var(--ffta-module-accent, var(--ffta-color-primary));
   font-size: .78rem;
-  font-weight: 800;
-  letter-spacing: .08em;
+  font-weight: var(--ffta-font-weight-bold);
+  letter-spacing: 0.08em;
   margin: 0 0 .35rem;
   text-transform: uppercase;
 }
 
-.toss-badge {
+.ffta-modules-shell .toss-badge {
   white-space: nowrap;
 }
 
-.toss-grid {
+.ffta-modules-shell .toss-grid {
   display: grid;
   gap: var(--cp-space-5, 1.25rem);
   grid-template-columns: minmax(0, 1fr) minmax(320px, .85fr);
 }
 
-.toss-grid--proof {
+.ffta-modules-shell .toss-grid--proof {
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
 }
 
-.toss-card {
+.ffta-modules-shell .toss-card {
   display: grid;
   gap: 1rem;
 }
 
-.toss-card__header h2 {
+.ffta-modules-shell .toss-card__header h2 {
   margin: 0 0 .25rem;
 }
 
-.toss-card__header p {
+.ffta-modules-shell .toss-card__header p {
   color: var(--cp-color-muted, #687182);
   margin: 0;
 }
 
-.toss-card__header--inline {
+.ffta-modules-shell .toss-card__header--inline {
   align-items: flex-start;
   display: flex;
   gap: 1rem;
   justify-content: space-between;
 }
 
-.toss-field {
+.ffta-modules-shell .toss-field {
   display: grid;
   gap: .45rem;
 }
 
-.toss-field label {
+.ffta-modules-shell .toss-field label {
   font-weight: 700;
 }
 
-.toss-field input,
-.toss-field select,
-.toss-field textarea,
-.toss-proof {
+.ffta-modules-shell .toss-field input,
+.ffta-modules-shell .toss-field select,
+.ffta-modules-shell .toss-field textarea,
+.ffta-modules-shell .toss-proof {
   border: 1px solid var(--cp-color-border, #d8dee9);
-  border-radius: 14px;
+  border-radius: var(--ffta-radius-card);
   font: inherit;
   padding: .75rem .85rem;
   width: 100%;
 }
 
-.toss-field textarea,
-.toss-proof {
+.ffta-modules-shell .toss-field textarea,
+.ffta-modules-shell .toss-proof {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   resize: vertical;
 }
 
-.toss-options-preview {
+.ffta-modules-shell .toss-options-preview {
   display: flex;
   flex-wrap: wrap;
   gap: .5rem;
 }
 
-.toss-options-preview span {
+.ffta-modules-shell .toss-options-preview span {
   background: color-mix(in srgb, var(--cp-color-accent, #d64031) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--cp-color-accent, #d64031) 22%, transparent);
-  border-radius: 999px;
+  border-radius: var(--ffta-radius-full);
   font-weight: 700;
   padding: .35rem .7rem;
 }
 
-.toss-actions {
+.ffta-modules-shell .toss-actions {
   display: flex;
   flex-wrap: wrap;
   gap: .65rem;
 }
 
-.toss-actions--compact {
+.ffta-modules-shell .toss-actions--compact {
   justify-content: flex-end;
 }
 
-.toss-result-card {
+.ffta-modules-shell .toss-result-card {
   overflow: hidden;
   position: relative;
 }
 
-.toss-result-card::after {
+.ffta-modules-shell .toss-result-card::after {
   background: radial-gradient(circle at top right, color-mix(in srgb, var(--cp-color-accent, #d64031) 18%, transparent), transparent 45%);
   content: '';
   inset: 0;
@@ -114,21 +114,21 @@
   position: absolute;
 }
 
-.toss-result,
-.toss-empty-result {
+.ffta-modules-shell .toss-result,
+.ffta-modules-shell .toss-empty-result {
   position: relative;
   z-index: 1;
 }
 
-.toss-result__value {
+.ffta-modules-shell .toss-result__value {
   font-size: clamp(2.4rem, 7vw, 5rem);
-  font-weight: 900;
+  font-weight: var(--ffta-font-weight-bold);
   letter-spacing: -.04em;
   line-height: 1;
   margin: .5rem 0 1rem;
 }
 
-.toss-empty-result {
+.ffta-modules-shell .toss-empty-result {
   align-items: center;
   color: var(--cp-color-muted, #687182);
   display: grid;
@@ -138,82 +138,82 @@
   text-align: center;
 }
 
-.toss-empty-result__icon {
+.ffta-modules-shell .toss-empty-result__icon {
   font-size: 4rem;
   filter: grayscale(.15);
 }
 
-.toss-proof-list {
+.ffta-modules-shell .toss-proof-list {
   display: grid;
   gap: .65rem;
   margin: 0;
 }
 
-.toss-proof-list div {
+.ffta-modules-shell .toss-proof-list div {
   display: grid;
   gap: .25rem;
 }
 
-.toss-proof-list dt {
+.ffta-modules-shell .toss-proof-list dt {
   color: var(--cp-color-muted, #687182);
   font-size: .75rem;
-  font-weight: 800;
+  font-weight: var(--ffta-font-weight-bold);
   text-transform: uppercase;
 }
 
-.toss-proof-list dd {
+.ffta-modules-shell .toss-proof-list dd {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   margin: 0;
   word-break: break-all;
 }
 
-.toss-proof {
+.ffta-modules-shell .toss-proof {
   min-height: 260px;
 }
 
-.toss-history-list {
+.ffta-modules-shell .toss-history-list {
   display: grid;
   gap: .65rem;
   max-height: 330px;
   overflow: auto;
 }
 
-.toss-history-item {
+.ffta-modules-shell .toss-history-item {
   align-items: center;
   border: 1px solid var(--cp-color-border, #d8dee9);
-  border-radius: 14px;
+  border-radius: var(--ffta-radius-card);
   display: flex;
   gap: 1rem;
   justify-content: space-between;
   padding: .75rem;
 }
 
-.toss-history-item div {
+.ffta-modules-shell .toss-history-item div {
   display: grid;
   gap: .15rem;
 }
 
-.toss-history-item span,
-.toss-history-item time {
+.ffta-modules-shell .toss-history-item span,
+.ffta-modules-shell .toss-history-item time {
   color: var(--cp-color-muted, #687182);
   font-size: .85rem;
 }
 
-.toss-error {
+.ffta-modules-shell .toss-error {
   justify-self: start;
 }
 
-@media (max-width: 900px) {
-  .toss-grid,
-  .toss-grid--proof {
+@media (max-width: 920px) {
+  .ffta-modules-shell .toss-grid,
+  .ffta-modules-shell .toss-grid--proof {
     grid-template-columns: 1fr;
   }
 
-  .toss-card__header--inline {
+  .ffta-modules-shell .toss-card__header--inline {
     display: grid;
   }
 
-  .toss-actions--compact {
+  .ffta-modules-shell .toss-actions--compact {
     justify-content: flex-start;
   }
 }

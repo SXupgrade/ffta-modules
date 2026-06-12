@@ -8,7 +8,7 @@ export function RecordsStandingsPanel({ app, state }) {
         <td>${escapeHtml(area.name ?? area.code)}</td>
         <td class="records-num">${escapeHtml(area.globalRecordsCount ?? 0)}</td>
         <td class="records-num">${escapeHtml(area.tournamentRecordsCount ?? 0)}</td>
-        <td><button type="button" class="ffta-button ffta-button--danger" data-action="deleteRecordArea" data-area-code="${escapeHtml(area.code)}">${escapeHtml(app.t('records.actions.delete'))}</button></td>
+        <td><button type="button" class="cp-btn ffta-button--danger" data-action="deleteRecordArea" data-area-code="${escapeHtml(area.code)}">${escapeHtml(app.t('records.actions.delete'))}</button></td>
       </tr>
     `).join('')
     : `<tr><td colspan="5" class="records-empty">${escapeHtml(app.t('records.standings.noAreas'))}</td></tr>`;
@@ -31,7 +31,7 @@ export function RecordsStandingsPanel({ app, state }) {
             <span>${escapeHtml(app.t('records.config.areaName'))}</span>
             <input name="areaName" maxlength="50" placeholder="Regional records" />
           </label>
-          <button type="button" class="ffta-button ffta-button--primary" data-action="saveRecordArea" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.standings.saveArea'))}</button>
+          <button type="button" class="cp-btn cp-btn--primary" data-action="saveRecordArea" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.standings.saveArea'))}</button>
         </form>
         <div class="records-table-wrap">
           <table class="cp-table records-table">
@@ -54,9 +54,9 @@ export function RecordsStandingsPanel({ app, state }) {
             <p class="ffta-muted">${escapeHtml(app.t('records.standings.importExportHelp'))}</p>
           </div>
           <div class="records-button-row">
-            <button type="button" class="ffta-button ffta-button--primary" data-action="openImport" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.actions.import'))}</button>
-            <button type="button" class="ffta-button" data-action="exportCsv">${escapeHtml(app.t('records.actions.exportCsv'))}</button>
-            <button type="button" class="ffta-button" data-action="exportJson">${escapeHtml(app.t('records.actions.exportJson'))}</button>
+            <button type="button" class="cp-btn cp-btn--primary" data-action="openImport" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.actions.import'))}</button>
+            <button type="button" class="cp-btn" data-action="exportCsv">${escapeHtml(app.t('records.actions.exportCsv'))}</button>
+            <button type="button" class="cp-btn" data-action="exportJson">${escapeHtml(app.t('records.actions.exportJson'))}</button>
           </div>
         </div>
       </section>

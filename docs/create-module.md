@@ -112,3 +112,11 @@ Drop the module folder under `modules/my-module/` and refresh the FFTA page.
 - UI components return HTML strings; actions are handled by the ViewModel.
 - Settings are declared in the manifest and accessed through `app.settings`.
 - All user-facing text goes through `app.t(key)`.
+
+## Checklist UI (harmonisation)
+
+Avant de livrer un module, vérifier la conformité avec `docs/ui-guidelines.md` :
+tokens `--ffta-*` uniquement, en-tête via `CpPageHeader`, composants canoniques
+(cp-btn, cp-card, cp-table, ffta-badge, CpLoader/CpEmptyState/cp-alert),
+CSS scopé sous `.ffta-modules-shell`, breakpoints 560/760/920/1100.
+Lancer `node scripts/lint-ui.cjs`.

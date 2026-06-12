@@ -28,6 +28,11 @@ export function RecordsImportModal({ app, vm }) {
     const action = event.target.closest('[data-action]')?.dataset.action;
     if (!action) return;
 
+    if (action === 'downloadTemplate') {
+      downloadCsvTemplate();
+      return;
+    }
+
     if (action === 'previewImport') {
       try {
         const result = vm.previewImport(textarea.value);
@@ -76,9 +81,27 @@ function buildBody(app) {
 
 function buildFooter(app) {
   return `
-    <button type="button" class="ffta-button" data-action="previewImport">${escapeHtml(app.t('records.import.preview'))}</button>
-    <button type="button" class="ffta-button ffta-button--primary" data-action="confirmImport">${escapeHtml(app.t('records.import.confirm'))}</button>
+    <button type="button" class="cp-btn cp-btn--ghost" data-action="downloadTemplate">${escapeHtml(app.t('records.import.downloadTemplate'))}</button>
+    <button type="button" class="cp-btn" data-action="previewImport">${escapeHtml(app.t('records.import.preview'))}</button>
+    <button type="button" class="cp-btn cp-btn--primary" data-action="confirmImport">${escapeHtml(app.t('records.import.confirm'))}</button>
   `;
+}
+
+const CSV_TEMPLATE = [
+  'recordCode;recordLabel;category;categoryName;distance;total;maxScore;tieBreaker;holderName;holderClubOrCountry;place;date;isTeam;isMixed;isPara',
+  'RECORD;TAE National;S1HCL;Senior 1 Homme Classique;70m;675;720;32;DUPONT Jean;1300000;Aix-en-Provence;2026-01-01;0;0;0'
+].join('\n');
+
+function downloadCsvTemplate() {
+  const blob = new Blob([CSV_TEMPLATE], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'modele-records.csv';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
 }
 
 function buildPreview(app, result) {

@@ -5,7 +5,7 @@
   },
   "header": {
     "noTournament": "Aucun tournoi sélectionné",
-    "ianseoCompatible": "Tables compatibles Ianseo"
+    "ianseoCompatible": "Records suivis en direct"
   },
   "actions": {
     "reload": "Recharger",
@@ -14,15 +14,15 @@
     "exportJson": "Exporter JSON global",
     "checkBrokenRecords": "Contrôler les records battus",
     "delete": "Supprimer",
-    "updateGlobalRecords": "Mettre à jour les records globaux",
+    "updateGlobalRecords": "Promouvoir dans le catalogue permanent",
     "edit": "Modifier"
   },
   "messages": {
     "loading": "Chargement des records..."
   },
   "config": {
-    "title": "Zone surveillée manuelle",
-    "help": "Repli avancé : crée ou met à jour une entrée TourRecords manuellement. Le flux recommandé est maintenant d’importer les records globaux, puis d’activer les codes voulus pour le tournoi courant.",
+    "title": "Zone suivie manuelle (avancé)",
+    "help": "Réservé aux cas particuliers : crée ou met à jour une zone à la main. Le parcours recommandé est d'importer le catalogue de records, puis d'activer les zones voulues pour le concours en cours.",
     "areaCode": "Code zone",
     "areaName": "Nom zone",
     "team": "Records équipes",
@@ -42,16 +42,17 @@
   "records": {
     "title": "Records du tournoi",
     "empty": "Aucun record importé pour le moment.",
-    "globalTitle": "Catalogue global des records",
-    "globalEmpty": "Aucun record global importé pour le moment.",
-    "tournamentTitle": "Snapshot records du tournoi",
-    "tournamentEmpty": "Aucun snapshot de records activé pour ce tournoi."
+    "globalTitle": "Catalogue permanent des records",
+    "globalEmpty": "Le catalogue est vide. Utilisez « Importer des records » pour le remplir.",
+    "tournamentTitle": "Étape 2 — Records suivis pour ce concours",
+    "tournamentEmpty": "Aucun record suivi pour l'instant. Activez des zones à l'étape 1."
   },
   "broken": {
     "title": "Records battus",
     "empty": "Aucun record battu détecté pour le moment.",
-    "actionsTitle": "Records battus du tournoi",
-    "actionsHelp": "Contrôle d’abord les records battus, puis mets à jour le tournoi 0 si tu veux promouvoir les records détectés dans le catalogue global."
+    "actionsTitle": "Étape 3 — Contrôler les records battus",
+    "actionsHelp": "Contrôlez d'abord les records battus pendant le concours. S'il y en a, vous pourrez ensuite les promouvoir dans le catalogue permanent.",
+    "celebration": "🎉 {count} record(s) battu(s) pendant ce concours !"
   },
   "columns": {
     "area": "Zone",
@@ -71,12 +72,13 @@
   "import": {
     "title": "Importer des records",
     "content": "Contenu CSV ou JSON",
-    "help": "Champs CSV canoniques : recordCode, recordLabel, category, categoryName, total, maxScore, tieBreaker, holderName, holderClubOrCountry, place, date, isTeam, isMixed, isPara. Les imports sont stockés dans le catalogue global avec RtTournament = 0. recordCode alimente RtRecCode ; recordLabel alimente RtRecDistance ; les infos du titulaire sont sérialisées dans RtRecExtra.",
+    "help": "Importez un fichier CSV ou JSON, ou collez son contenu. Le plus simple : téléchargez le modèle, remplissez-le, puis déposez-le ici. Un aperçu s'affiche avant l'import.",
     "preview": "Prévisualiser",
     "confirm": "Importer les lignes valides",
     "validRows": "lignes valides",
     "errors": "erreurs",
-    "file": "Fichier CSV"
+    "file": "Fichier CSV",
+    "downloadTemplate": "Télécharger le modèle CSV"
   },
   "activation": {
     "title": "Activer les records pour ce tournoi",
@@ -91,25 +93,27 @@
     "recordsShort": "records"
   },
   "tabs": {
-    "current": "Tournoi actuel",
-    "standings": "Catalogue standings"
+    "current": "Ce concours",
+    "standings": "Catalogue permanent"
   },
   "current": {
-    "areasTitle": "Zones de record pour ce tournoi",
-    "areasHelp": "Sélectionne les zones de record à surveiller. Cocher une zone copie les records globaux du tournoi 0 vers le tournoi courant. Décocher supprime le snapshot du tournoi courant pour cette zone.",
+    "areasTitle": "Étape 1 — Activer les zones de records pour ce concours",
+    "areasHelp": "Cochez les zones à suivre pendant le concours, puis appliquez la sélection.",
     "applySelection": "Appliquer la sélection",
     "noAreas": "Aucune zone de record disponible. Crée d’abord une zone dans la vue catalogue standings."
   },
   "standings": {
     "areasTitle": "Zones de record",
-    "areasHelp": "Crée ou supprime les zones de records globales. Supprimer une zone supprime ses records globaux, ses snapshots tournoi et ses lignes de surveillance.",
+    "areasHelp": "Créez ou supprimez les zones de records du catalogue permanent. La suppression d’une zone est définitive.",
     "saveArea": "Enregistrer la zone",
     "noAreas": "Aucune zone de record créée pour le moment.",
     "globalCount": "Records globaux",
     "tournamentCount": "Records tournoi",
-    "importExportTitle": "Import / Export des standings globaux",
-    "importExportHelp": "Les imports sont stockés dans RecTournament avec RtTournament = 0. Les exports utilisent le catalogue global.",
-    "confirmDelete": "Supprimer la zone de record {code} et tous les records associés ?"
+    "importExportTitle": "Import / Export du catalogue permanent",
+    "importExportHelp": "Le catalogue permanent est conservé d’un concours à l’autre. Les exports servent de sauvegarde.",
+    "confirmDelete": "Supprimer définitivement la zone « {code} » ?",
+    "confirmDeleteDetail": "La zone « {code} » et ses {count} record(s) du catalogue seront supprimés, ainsi que leur suivi pour les concours. Cette action est irréversible.",
+    "deleteTitle": "Supprimer une zone de records"
   },
   "canonical": {
     "recordCode": "Code record",
@@ -132,5 +136,6 @@
     "title": "Modifier le record",
     "save": "Enregistrer le record",
     "help": "Le formulaire utilise les mêmes champs canoniques que les imports/exports CSV et JSON. Le titulaire, le club/pays et le lieu sont réécrits dans RtRecExtra."
-  }
+  },
+  "intro": "Ce module suit les records et détecte ceux qui sont battus pendant votre concours. Commencez par activer les zones de records à suivre — si le catalogue est vide, importez-le d'abord depuis l'onglet Catalogue permanent."
 }

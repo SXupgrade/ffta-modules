@@ -26,7 +26,7 @@ export function RecordsActivationPanel({ app, state }) {
           <label><input type="checkbox" name="team" /> ${escapeHtml(app.t('records.config.team'))}</label>
           <label><input type="checkbox" name="para" /> ${escapeHtml(app.t('records.config.para'))}</label>
         </div>
-        <button type="button" class="ffta-button ffta-button--primary" data-action="activateTournamentRecords" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.activation.activate'))}</button>
+        <button type="button" class="cp-btn cp-btn--primary" data-action="activateTournamentRecords" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.activation.activate'))}</button>
       </form>
       <div class="records-table-wrap records-activation__codes">
         <table class="cp-table records-table">

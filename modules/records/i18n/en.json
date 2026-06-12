@@ -5,7 +5,7 @@
   },
   "header": {
     "noTournament": "No tournament selected",
-    "ianseoCompatible": "Ianseo-compatible tables"
+    "ianseoCompatible": "Records tracked live"
   },
   "actions": {
     "reload": "Reload",
@@ -14,15 +14,15 @@
     "exportJson": "Export global JSON",
     "checkBrokenRecords": "Check broken records",
     "delete": "Delete",
-    "updateGlobalRecords": "Update global records",
+    "updateGlobalRecords": "Promote to the permanent catalog",
     "edit": "Edit"
   },
   "messages": {
     "loading": "Loading records..."
   },
   "config": {
-    "title": "Manual monitored area",
-    "help": "Advanced fallback: create or update a TourRecords entry manually. The preferred workflow is now to import global records, then activate selected codes for the current tournament.",
+    "title": "Manual tracked area (advanced)",
+    "help": "For edge cases only: creates or updates an area by hand. The recommended path is to import the record catalog, then enable the areas you want for the current tournament.",
     "areaCode": "Area code",
     "areaName": "Area name",
     "team": "Team records",
@@ -42,16 +42,17 @@
   "records": {
     "title": "Tournament records",
     "empty": "No records imported yet.",
-    "globalTitle": "Global records catalog",
-    "globalEmpty": "No global records imported yet.",
-    "tournamentTitle": "Tournament snapshot records",
-    "tournamentEmpty": "No record snapshot activated for this tournament yet."
+    "globalTitle": "Permanent record catalog",
+    "globalEmpty": "The catalog is empty. Use “Import records” to fill it.",
+    "tournamentTitle": "Step 2 — Records tracked for this tournament",
+    "tournamentEmpty": "No record tracked yet. Enable areas in step 1."
   },
   "broken": {
     "title": "Broken records",
     "empty": "No broken record detected yet.",
-    "actionsTitle": "Broken records for this tournament",
-    "actionsHelp": "First check broken records, then update tournament 0 if you want to promote detected records into the global catalog."
+    "actionsTitle": "Step 3 — Check broken records",
+    "actionsHelp": "First check the records broken during the tournament. If there are any, you can then promote them to the permanent catalog.",
+    "celebration": "🎉 {count} record(s) broken during this tournament!"
   },
   "columns": {
     "area": "Area",
@@ -71,12 +72,13 @@
   "import": {
     "title": "Import records",
     "content": "CSV or JSON content",
-    "help": "Canonical CSV fields: recordCode, recordLabel, category, categoryName, total, maxScore, tieBreaker, holderName, holderClubOrCountry, place, date, isTeam, isMixed, isPara. Imports are stored in the global catalog with RtTournament = 0. recordCode maps to RtRecCode; recordLabel maps to RtRecDistance; holder data is serialized into RtRecExtra.",
+    "help": "Import a CSV or JSON file, or paste its content. Easiest path: download the template, fill it in, then drop it here. A preview is shown before importing.",
     "preview": "Preview",
     "confirm": "Import valid rows",
     "validRows": "valid rows",
     "errors": "errors",
-    "file": "CSV file"
+    "file": "CSV file",
+    "downloadTemplate": "Download CSV template"
   },
   "activation": {
     "title": "Activate records for this tournament",
@@ -91,12 +93,12 @@
     "recordsShort": "records"
   },
   "tabs": {
-    "current": "Current tournament",
-    "standings": "Standings catalog"
+    "current": "This tournament",
+    "standings": "Permanent catalog"
   },
   "current": {
-    "areasTitle": "Record areas for this tournament",
-    "areasHelp": "Select the record areas to monitor. Selecting an area copies matching global records from tournament 0 to the current tournament. Deselecting removes the current tournament snapshot for that area.",
+    "areasTitle": "Step 1 — Enable record areas for this tournament",
+    "areasHelp": "Tick the areas to track during the tournament, then apply the selection.",
     "applySelection": "Apply selection",
     "noAreas": "No record area available yet. Create one in the standings catalog view first."
   },
@@ -109,7 +111,9 @@
     "tournamentCount": "Tournament records",
     "importExportTitle": "Import / Export global standings",
     "importExportHelp": "Imports are stored in RecTournament with RtTournament = 0. Exports use the global catalog.",
-    "confirmDelete": "Delete record area {code} and every related record?"
+    "confirmDelete": "Permanently delete area “{code}”?",
+    "confirmDeleteDetail": "Area “{code}” and its {count} catalog record(s) will be deleted, along with their tournament tracking. This cannot be undone.",
+    "deleteTitle": "Delete a record area"
   },
   "canonical": {
     "recordCode": "Record code",
@@ -132,5 +136,6 @@
     "title": "Edit record",
     "save": "Save record",
     "help": "The form uses the same canonical fields as CSV/JSON import and export. Holder, club/country and place are saved back into RtRecExtra."
-  }
+  },
+  "intro": "This module tracks records and detects the ones broken during your tournament. Start by enabling the record areas to track — if the catalog is empty, import it first from the Permanent catalog tab."
 }

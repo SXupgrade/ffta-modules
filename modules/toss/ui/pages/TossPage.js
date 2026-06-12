@@ -112,9 +112,9 @@ function buildHtml(state, vm, app) {
           </div>
 
           <div class="toss-actions">
-            <button type="button" class="cp-button cp-button--primary" data-action="prepare" ${current || state.isBusy ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.prepare'))}</button>
-            <button type="button" class="cp-button cp-button--primary" data-action="reveal" ${!isPrepared || state.isBusy ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.reveal'))}</button>
-            <button type="button" class="cp-button" data-action="reset" ${!current || state.isBusy ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.reset'))}</button>
+            ${!current ? `<button type="button" class="cp-btn cp-btn--primary" data-action="prepare" ${state.isBusy ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.prepare'))}</button>` : ''}
+            ${isPrepared ? `<button type="button" class="cp-btn cp-btn--primary" data-action="reveal" ${state.isBusy ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.reveal'))}</button>` : ''}
+            ${current ? `<button type="button" class="cp-btn ${isRevealed ? 'cp-btn--primary' : 'cp-btn--ghost'}" data-action="reset" ${state.isBusy ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.reset'))}</button>` : ''}
           </div>
         </article>
 
@@ -129,18 +129,16 @@ function buildHtml(state, vm, app) {
 
       <div class="toss-grid toss-grid--proof">
         <article class="cp-card toss-card">
-          <div class="toss-card__header toss-card__header--inline">
-            <div>
-              <h2>${escapeHtml(app.t('toss.proof.title'))}</h2>
-              <p>${escapeHtml(app.t('toss.proof.subtitle'))}</p>
-            </div>
+          <details class="ffta-advanced">
+            <summary>${escapeHtml(app.t('toss.proof.title'))}</summary>
+            <p class="ffta-muted ffta-small">${escapeHtml(app.t('toss.proof.subtitle'))}</p>
             <div class="toss-actions toss-actions--compact">
-              <button type="button" class="cp-button" data-action="copyProof" ${!state.proofText ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.copyProof'))}</button>
-              <button type="button" class="cp-button" data-action="exportProof" ${!current ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.exportProof'))}</button>
-              <button type="button" class="cp-button" data-action="verifyProof" ${!state.proofText ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.verifyProof'))}</button>
+              <button type="button" class="cp-btn" data-action="copyProof" ${!state.proofText ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.copyProof'))}</button>
+              <button type="button" class="cp-btn" data-action="exportProof" ${!current ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.exportProof'))}</button>
+              <button type="button" class="cp-btn" data-action="verifyProof" ${!state.proofText ? 'disabled' : ''}>${escapeHtml(app.t('toss.actions.verifyProof'))}</button>
             </div>
-          </div>
-          <textarea class="toss-proof" data-field="proofText" rows="12" placeholder="${escapeAttribute(app.t('toss.proof.placeholder'))}">${escapeHtml(state.proofText || '')}</textarea>
+            <textarea class="toss-proof" data-field="proofText" rows="12" placeholder="${escapeAttribute(app.t('toss.proof.placeholder'))}">${escapeHtml(state.proofText || '')}</textarea>
+          </details>
         </article>
 
         <article class="cp-card toss-card">
@@ -166,13 +164,16 @@ function buildCurrentResult({ current, app }) {
   return `
     <div class="toss-result">
       <div class="toss-result__value">${escapeHtml(result)}</div>
-      <dl class="toss-proof-list">
-        <div><dt>${escapeHtml(app.t('toss.result.status'))}</dt><dd>${escapeHtml(app.t(`toss.status.${current.status}`))}</dd></div>
-        <div><dt>${escapeHtml(app.t('toss.result.commitment'))}</dt><dd title="${escapeAttribute(current.commitment)}">${escapeHtml(shortHash(current.commitment))}</dd></div>
-        <div><dt>${escapeHtml(app.t('toss.result.seed'))}</dt><dd title="${escapeAttribute(current.seed)}">${escapeHtml(shortHash(current.seed))}</dd></div>
-        ${current.drawHash ? `<div><dt>${escapeHtml(app.t('toss.result.drawHash'))}</dt><dd title="${escapeAttribute(current.drawHash)}">${escapeHtml(shortHash(current.drawHash))}</dd></div>` : ''}
-      </dl>
-      <p class="ffta-muted ffta-small">${escapeHtml(app.t('toss.result.explanation'))}</p>
+      <details class="ffta-advanced">
+        <summary>${escapeHtml(app.t('toss.advanced.technicalDetails'))}</summary>
+        <dl class="toss-proof-list">
+          <div><dt>${escapeHtml(app.t('toss.result.status'))}</dt><dd>${escapeHtml(app.t(`toss.status.${current.status}`))}</dd></div>
+          <div><dt>${escapeHtml(app.t('toss.result.commitment'))}</dt><dd title="${escapeAttribute(current.commitment)}">${escapeHtml(shortHash(current.commitment))}</dd></div>
+          <div><dt>${escapeHtml(app.t('toss.result.seed'))}</dt><dd title="${escapeAttribute(current.seed)}">${escapeHtml(shortHash(current.seed))}</dd></div>
+          ${current.drawHash ? `<div><dt>${escapeHtml(app.t('toss.result.drawHash'))}</dt><dd title="${escapeAttribute(current.drawHash)}">${escapeHtml(shortHash(current.drawHash))}</dd></div>` : ''}
+        </dl>
+        <p class="ffta-muted ffta-small">${escapeHtml(app.t('toss.result.explanation'))}</p>
+      </details>
     </div>
   `;
 }

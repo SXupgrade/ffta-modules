@@ -75,7 +75,6 @@ function buildHtml(state, app) {
           <h1>${escapeHtml(app.t('printsAdapter.title'))}</h1>
           <p class="ffta-muted">${escapeHtml(app.t('printsAdapter.description'))}</p>
         </div>
-        <span class="ffta-badge">${escapeHtml(app.t('printsAdapter.adapterBadge'))}</span>
       </div>
 
       ${state.isLoading ? `<div class="cp-card">${escapeHtml(app.t('printsAdapter.loading'))}</div>` : ''}
@@ -116,6 +115,7 @@ function buildScorecards(section, form, app) {
   const sessions = section.sessions || [];
   const distances = Array.from({ length: Math.max(1, Number(section.numDistances || 1)) }, (_, index) => String(index + 1));
   return `
+    <p class="ffta-muted ffta-small">${escapeHtml(app.t('printsAdapter.scorecards.help'))}</p>
     <div class="prints-adapter-scorecards">
       <label>${escapeHtml(app.t('printsAdapter.scorecards.session'))}
         <select data-scorecard-field="session">

@@ -7,7 +7,7 @@
     "recalculate": "Recalculate",
     "exportPdf": "Export PDF",
     "exportCsv": "Export CSV",
-    "openSettings": "Binding",
+    "openSettings": "Configure the championship",
     "save": "Save",
     "cancel": "Cancel",
     "close": "Close"
@@ -39,8 +39,8 @@
   },
   "settings": {
     "title": "League Settings",
-    "masterTournament": "Master Tournament Code",
-    "masterTournamentHint": "The code of the primary tournament (e.g. LEAGUE2026)",
+    "masterTournament": "Master tournament",
+    "masterTournamentHint": "Pick from the list or type the tournament code.",
     "roundTournaments": "Round Tournament Codes",
     "roundTournamentsHint": "One code per line. Maximum {max} rounds.",
     "pointsMode": "Points Mode",
@@ -57,7 +57,10 @@
     "bracketPointsGridHint": "JSON array: [{\"rank\":1,\"points\":8},{\"rank\":2,\"points\":6}]",
     "invalidJson": "Invalid JSON. Please check the format.",
     "invalidNumber": "Please enter a valid number.",
-    "bindingTitle": "Round Binding"
+    "bindingTitle": "Round Binding",
+    "addRound": "Add a round",
+    "addRoundAction": "Add",
+    "tournamentsLoading": "Loading available tournaments…"
   },
   "standings": {
     "rank": "Rank",
@@ -83,7 +86,7 @@
   },
   "categorySettings": {
     "title": "{category} point rules",
-    "open": "Configure category point rules",
+    "open": "Points scale for this category",
     "detail": "Configure how points are awarded for category {category}. Multiple modes can be enabled at the same time.",
     "enableQualificationPoints": "Award points from qualification ranking",
     "enableMatchWinPoints": "Award points per match win",
@@ -94,10 +97,12 @@
     "bracketGrid": "Final bracket ranking points grid",
     "rank": "Rank/place",
     "points": "Points",
-    "addRow": "Add row"
+    "addRow": "Add row",
+    "openShort": "Points scale"
   },
   "export": {
     "print": "Print / Save as PDF",
     "calculated": "Calculated"
-  }
+  },
+  "intro": "This module computes the standings of a championship held over several rounds. Start by configuring the championship: pick the master tournament and the rounds."
 }

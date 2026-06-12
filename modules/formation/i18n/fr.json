@@ -1,0 +1,85 @@
+{
+  "navigation": {
+    "title": "Formation"
+  },
+  "kicker": "eLearning Ianseo",
+  "title": "Formation Ianseo FFTA — V1",
+  "description": "Parcours guidé basé sur le tutoriel FFTA simplifié 2024, avec validations automatiques sur la compétition ouverte.",
+  "course": {
+    "title": "Parcours FFTA 2024",
+    "description": "De la préparation au fichier TXT fédéral."
+  },
+  "context": {
+    "title": "Compétition de formation",
+    "noTournament": "Ouvre ou crée d'abord une compétition Ianseo. Le module travaillera ensuite sur cette compétition.",
+    "stats": "{entries} participant(s), {sessions} session(s), {assigned} affectation(s), {scores} score(s).",
+    "liveExample": "Exemple vivant : si l'archer {archer} existe, le cours peut s'appuyer sur lui pour les consignes suivantes."
+  },
+  "dynamic": {
+    "defaultArcher": "votre premier archer"
+  },
+  "actions": {
+    "refresh": "Rafraîchir",
+    "reset": "Réinitialiser",
+    "validate": "Valider cette étape"
+  },
+  "lessonNumber": "Étape {number}/{total}",
+  "validation": {
+    "notChecked": "Cette étape n'a pas encore été contrôlée.",
+    "ok": "Étape validée",
+    "ko": "À corriger",
+    "completed": "Étape validée.",
+    "checked": "Contrôle effectué : il reste des points à corriger."
+  },
+  "lessons": {
+    "title": "Cours",
+    "equipment": {
+      "title": "Équipements et accès",
+      "goal": "Vérifier que l'environnement de formation est prêt et qu'une compétition est ouverte."
+    },
+    "updateResources": {
+      "title": "Mise à jour Ianseo et ressources FFTA",
+      "goal": "Faire le point pédagogique sur la mise à jour Ianseo et la synchronisation des ressources avant création du concours."
+    },
+    "createCompetition": {
+      "title": "Créer la compétition",
+      "goal": "Créer une compétition de formation avec un code, un nom, un lieu et des dates cohérentes."
+    },
+    "configureFfta18m": {
+      "title": "Configurer Salle 18m FFTA",
+      "goal": "Choisir les règles françaises, le type Salle 18m / 2 distances et la sous-règle adaptée."
+    },
+    "sessions": {
+      "title": "Configurer les départs",
+      "goal": "Créer les départs, renseigner le nombre de cibles, les archers par cible et les horaires."
+    },
+    "distancesClasses": {
+      "title": "Distances, divisions et classes",
+      "goal": "Contrôler que les divisions, classes et distances ont été générées par les règles FFTA."
+    },
+    "officials": {
+      "title": "Personnel et arbitres",
+      "goal": "Présenter l'écran de gestion du personnel. En V1, la validation reste pédagogique et non bloquante."
+    },
+    "participants": {
+      "title": "Participants",
+      "goal": "Créer ou importer au moins deux archers, par exemple {archer}, avec licence, club, division et classe."
+    },
+    "targetAssignment": {
+      "title": "Affectation des cibles",
+      "goal": "Affecter au moins un archer à une cible via l'affectation manuelle ou la liste avancée."
+    },
+    "scoreSheets": {
+      "title": "Feuilles de marque et QR codes",
+      "goal": "Préparer l'impression des feuilles de marque. Le contrôle automatique vérifie que les cibles existent avant impression."
+    },
+    "scoreEntry": {
+      "title": "Saisie et vérification des scores",
+      "goal": "Saisir au moins un score, puis expliquer la vérification papier / Scorekeeper."
+    },
+    "rankingExport": {
+      "title": "Classements et export TXT",
+      "goal": "Recalculer les classements et préparer l'export TXT fédéral de fin de concours."
+    }
+  }
+}

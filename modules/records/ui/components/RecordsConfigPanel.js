@@ -28,7 +28,7 @@ export function RecordsConfigPanel({ app, state }) {
           <input name="header" value="${escapeHtml(firstArea.header ?? areaName)}" maxlength="25" />
         </label>
       </div>
-      <button type="button" class="ffta-button ffta-button--primary" data-action="saveMonitor">${escapeHtml(app.t('records.config.save'))}</button>
+      <button type="button" class="cp-btn cp-btn--primary" data-action="saveMonitor">${escapeHtml(app.t('records.config.save'))}</button>
     </form>
   `;
 }

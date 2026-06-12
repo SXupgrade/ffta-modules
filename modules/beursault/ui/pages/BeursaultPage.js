@@ -5,10 +5,13 @@ export function mountBeursaultPage({ root, vm, app }) {
     render();
   });
 
-  vm.initialize();
+  // UX v0.2.14 : chargement automatique — l'utilisateur n'a plus a cliquer
+  // « Charger » : les lignes arrivent a l'ouverture et a chaque changement de filtre.
+  Promise.resolve(vm.initialize()).then(() => vm.loadRows()).catch(() => {});
 
   function render() {
     if (!state) return;
+    const focused = captureFocus();
     const isEligible = !state.context || state.context.locSubRule === 'SetFrBeursault';
     root.innerHTML = `
       <section class="ffta-page beursault-page">
@@ -32,13 +35,44 @@ export function mountBeursaultPage({ root, vm, app }) {
           <label>${escapeHtml(app.t('beursault.filters.toTarget'))}
             <input type="number" min="1" data-filter="toTarget" value="${escapeAttribute(state.filters.toTarget)}">
           </label>
-          <button type="button" class="cp-button cp-button--primary" data-action="load" ${state.loading || !isEligible ? 'disabled' : ''}>${escapeHtml(app.t('beursault.actions.load'))}</button>
+          <button type="button" class="cp-btn cp-btn--secondary" data-action="load" ${state.loading || !isEligible ? 'disabled' : ''}>${escapeHtml(app.t('beursault.actions.load'))}</button>
         </article>
         <article class="cp-card beursault-table-card">
           ${state.rows.length ? renderTable() : `<p class="ffta-muted">${escapeHtml(app.t('beursault.empty'))}</p>`}
         </article>
       </section>
     `;
+    restoreFocus(focused);
+  }
+
+  function captureFocus() {
+    const el = document.activeElement;
+    if (!el || !root.contains(el)) return null;
+    const rowId = el.dataset?.rowId;
+    const scoreField = el.dataset?.scoreField;
+    const filter = el.dataset?.filter;
+    if (!rowId && !filter) return null;
+    return {
+      rowId,
+      scoreField,
+      filter,
+      selectionStart: typeof el.selectionStart === 'number' ? el.selectionStart : null
+    };
+  }
+
+  function restoreFocus(focused) {
+    if (!focused) return;
+    let el = null;
+    if (focused.filter) {
+      el = root.querySelector(`[data-filter="${focused.filter}"]`);
+    } else if (focused.rowId && focused.scoreField) {
+      el = root.querySelector(`[data-row-id="${CSS.escape(String(focused.rowId))}"][data-score-field="${focused.scoreField}"]`);
+    }
+    if (!el) return;
+    el.focus();
+    if (focused.selectionStart !== null && typeof el.setSelectionRange === 'function') {
+      try { el.setSelectionRange(focused.selectionStart, focused.selectionStart); } catch { /* type number */ }
+    }
   }
 
   function renderTable() {
@@ -74,7 +108,7 @@ export function mountBeursaultPage({ root, vm, app }) {
     const score = row.score || {};
     return `
       <tr class="${score.valid ? '' : 'is-invalid'}">
-        <td><span class="ffta-badge ${score.valid ? '' : 'ffta-badge--error'}">${escapeHtml(app.t(score.valid ? 'beursault.status.valid' : 'beursault.status.invalid'))}</span></td>
+        <td><span class="ffta-badge ${score.valid ? 'ffta-badge--success' : 'ffta-badge--error'}" ${score.valid ? '' : `title="${escapeAttribute(app.t('beursault.status.invalidHelp'))}"`}>${escapeHtml(app.t(score.valid ? 'beursault.status.valid' : 'beursault.status.invalid'))}</span></td>
         <td>${escapeHtml(row.target)}</td>
         <td>${escapeHtml(row.license)}</td>
         <td>${escapeHtml(row.firstName)} ${escapeHtml(row.lastName)} <span class="ffta-muted">${escapeHtml(row.category)}</span></td>
@@ -98,12 +132,30 @@ export function mountBeursaultPage({ root, vm, app }) {
     const filter = event.target.closest('[data-filter]');
     if (filter) {
       vm.setFilter(filter.dataset.filter, filter.value);
+      // UX v0.2.14 : rechargement automatique au changement de filtre
+      // (uniquement sur l'evenement change, pour ne pas recharger a chaque touche).
+      if (event.type === 'change') vm.loadRows();
       return;
     }
 
     const scoreField = event.target.closest('[data-score-field]');
     if (scoreField) {
       vm.updateRow(scoreField.dataset.rowId, scoreField.dataset.scoreField, scoreField.value);
+    }
+  }
+
+  // UX v0.2.14 : Entree = case de score suivante, comme dans un tableur.
+  function handleKeydown(event) {
+    if (event.key !== 'Enter') return;
+    const current = event.target.closest('[data-score-field]');
+    if (!current) return;
+    event.preventDefault();
+    const inputs = [...root.querySelectorAll('input[data-score-field]')];
+    const index = inputs.indexOf(current);
+    const next = inputs[index + 1];
+    if (next) {
+      next.focus();
+      next.select?.();
     }
   }
 
@@ -114,12 +166,14 @@ export function mountBeursaultPage({ root, vm, app }) {
   }
 
   root.addEventListener('input', handleInput);
+  root.addEventListener('keydown', handleKeydown);
   root.addEventListener('change', handleInput);
   root.addEventListener('click', handleClick);
 
   return function unmountBeursaultPage() {
     unsubscribe();
     root.removeEventListener('input', handleInput);
+    root.removeEventListener('keydown', handleKeydown);
     root.removeEventListener('change', handleInput);
     root.removeEventListener('click', handleClick);
   };

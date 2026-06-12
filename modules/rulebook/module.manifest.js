@@ -1,8 +1,9 @@
 export default {
   sdkVersion: '1.0.0',
   id: 'rulebook',
+  audience: 'organizer',
   name: 'Rule Book',
-  version: '0.1.0',
+  version: '0.3.0',
   description: 'Lightweight searchable FFTA rule book companion with chapter index, quick rules and official PDF link',
   entry: './module.mount.js',
   routes: './module.routes.js',
@@ -27,6 +28,6 @@ export default {
   acknowledgements: [
     { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
   ],
-  navigation: { accentColor: '#475569' },
+  navigation: { accentColor: '#475569', order: 80 },
   settings: []
 };

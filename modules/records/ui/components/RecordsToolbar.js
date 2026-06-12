@@ -2,7 +2,7 @@ export function RecordsToolbar({ app, state }) {
   const disabled = state.isSaving ? 'disabled' : '';
   return `
     <div class="records-toolbar ffta-toolbar">
-      <button type="button" class="ffta-button" data-action="reload" ${disabled}>${escapeHtml(app.t('records.actions.reload'))}</button>
+      <button type="button" class="cp-btn" data-action="reload" ${disabled}>${escapeHtml(app.t('records.actions.reload'))}</button>
     </div>
   `;
 }

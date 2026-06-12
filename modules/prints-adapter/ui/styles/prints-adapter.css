@@ -1,18 +1,18 @@
-.prints-adapter-hero { align-items: flex-start; }
-.prints-adapter-grid { display: grid; gap: 1rem; }
-.prints-adapter-card { padding: 0; overflow: hidden; }
-.prints-adapter-card__header {
+.ffta-modules-shell .prints-adapter-hero { align-items: flex-start; }
+.ffta-modules-shell .prints-adapter-grid { display: grid; gap: 1rem; }
+.ffta-modules-shell .prints-adapter-card { padding: 0; overflow: hidden; }
+.ffta-modules-shell .prints-adapter-card__header {
   width: 100%; display: flex; justify-content: space-between; align-items: center;
   padding: 1rem 1.1rem; border: 0; background: transparent; cursor: pointer;
   font: inherit; font-weight: 700; text-align: left;
 }
-.prints-adapter-card__body { padding: 0 1.1rem 1.1rem; }
-.prints-adapter-actions { display: flex; flex-wrap: wrap; gap: .55rem; align-items: center; }
-.prints-adapter-print { justify-content: flex-start; }
-.prints-adapter-scorecards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .8rem; align-items: end; }
-.prints-adapter-scorecards label { display: grid; gap: .25rem; font-size: .92rem; }
-.prints-adapter-scorecards input, .prints-adapter-scorecards select { min-height: 2.25rem; }
-.prints-adapter-distances { display: flex; flex-wrap: wrap; gap: .55rem; align-items: center; }
-.prints-adapter-distances span { font-weight: 700; }
-.prints-adapter-distances label, .prints-adapter-check { display: inline-flex !important; grid-template-columns: none !important; align-items: center; gap: .3rem; }
-.prints-adapter-scorecards .prints-adapter-actions { grid-column: 1 / -1; }
+.ffta-modules-shell .prints-adapter-card__body { padding: 0 1.1rem 1.1rem; }
+.ffta-modules-shell .prints-adapter-actions { display: flex; flex-wrap: wrap; gap: .55rem; align-items: center; }
+.ffta-modules-shell .prints-adapter-print { justify-content: flex-start; }
+.ffta-modules-shell .prints-adapter-scorecards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .8rem; align-items: end; }
+.ffta-modules-shell .prints-adapter-scorecards label { display: grid; gap: .25rem; font-size: .92rem; }
+.ffta-modules-shell .prints-adapter-scorecards input, .ffta-modules-shell .prints-adapter-scorecards select { min-height: 2.25rem; }
+.ffta-modules-shell .prints-adapter-distances { display: flex; flex-wrap: wrap; gap: .55rem; align-items: center; }
+.ffta-modules-shell .prints-adapter-distances span { font-weight: 700; }
+.ffta-modules-shell .prints-adapter-distances label, .ffta-modules-shell .prints-adapter-check { display: inline-flex !important; grid-template-columns: none !important; align-items: center; gap: .3rem; }
+.ffta-modules-shell .prints-adapter-scorecards .prints-adapter-actions { grid-column: 1 / -1; }

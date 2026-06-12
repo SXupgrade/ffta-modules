@@ -1,6 +1,7 @@
 export default {
   sdkVersion: '1.0.0',
   id: 'assistant',
+  audience: 'organizer',
   name: 'Assistant',
   version: '0.1.0',
   description: 'Organizer checklist assistant for before, during and after archery tournaments',
@@ -27,6 +28,6 @@ export default {
   acknowledgements: [
     { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
   ],
-  navigation: { accentColor: '#7c3aed' },
+  navigation: { accentColor: '#7c3aed', order: 10 },
   settings: []
 };

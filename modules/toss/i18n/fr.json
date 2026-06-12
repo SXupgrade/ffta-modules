@@ -1,23 +1,31 @@
 {
-  "navigation": { "title": "Toss" },
-  "kicker": "Tirage vérifiable",
+  "navigation": {
+    "title": "Toss"
+  },
+  "kicker": "Tirage au sort",
   "title": "Toss",
-  "description": "Prépare un engagement cryptographique, révèle le résultat, puis conserve une preuve auditée pour les décisions de compétition.",
-  "badge": "SHA-256 · CSPRNG",
+  "description": "Départagez équitablement : le résultat est scellé avant d'être révélé, personne ne peut tricher, et une preuve est conservée.",
+  "badge": "Équitable et vérifiable",
   "form": {
     "title": "Décision à tirer",
-    "subtitle": "Choisis un pile ou face ou un tirage parmi une liste.",
+    "subtitle": "Choisissez un pile ou face, ou un tirage parmi une liste.",
     "mode": "Mode",
     "label": "Libellé de la décision",
     "labelPlaceholder": "Exemple : ordre de tir cible 12",
     "options": "Options du tirage",
-    "optionsHelp": "Une option par ligne. Les doublons et valeurs vides sont ignorés."
+    "optionsHelp": "Une option par ligne. Les doublons et lignes vides sont ignorés."
   },
-  "modes": { "coin": "Pile ou face", "draw": "Tirage parmi une liste" },
-  "coin": { "heads": "Pile", "tails": "Face" },
+  "modes": {
+    "coin": "Pile ou face",
+    "draw": "Tirage parmi une liste"
+  },
+  "coin": {
+    "heads": "Pile",
+    "tails": "Face"
+  },
   "actions": {
-    "prepare": "Préparer l'engagement",
-    "reveal": "Révéler le résultat",
+    "prepare": "1. Verrouiller le tirage",
+    "reveal": "2. Révéler le résultat",
     "reset": "Nouveau tirage",
     "copyProof": "Copier la preuve",
     "exportProof": "Exporter la preuve",
@@ -27,8 +35,8 @@
   },
   "result": {
     "title": "Résultat",
-    "subtitle": "La seed reste cachée jusqu'à la révélation, puis la preuve peut être vérifiée indépendamment.",
-    "empty": "Prépare d'abord un engagement. Pas de pièce magique sortie d'une poche louche ici.",
+    "subtitle": "Le résultat est scellé au verrouillage : il ne peut plus être modifié avant la révélation.",
+    "empty": "Verrouillez d'abord un tirage. Pas de pièce magique sortie d'une poche louche ici.",
     "pending": "Prêt à révéler",
     "status": "Statut",
     "commitment": "Engagement",
@@ -36,10 +44,13 @@
     "drawHash": "Hash du tirage",
     "explanation": "L'engagement est généré avant le résultat. Après révélation, la seed et les hash prouvent que le résultat n'a pas été modifié."
   },
-  "status": { "prepared": "Préparé", "revealed": "Révélé" },
+  "status": {
+    "prepared": "Préparé",
+    "revealed": "Révélé"
+  },
   "proof": {
-    "title": "Preuve d'audit",
-    "subtitle": "Preuve JSON à exporter, copier ou vérifier indépendamment.",
+    "title": "Preuve technique (avancé)",
+    "subtitle": "Pour vérifier le tirage de façon indépendante. Inutile pour un usage courant.",
     "placeholder": "La preuve apparaîtra ici après préparation."
   },
   "history": {
@@ -54,5 +65,9 @@
   "errors": {
     "optionsRequired": "Il faut au moins deux options distinctes.",
     "cryptoUnavailable": "Les APIs Web Crypto sécurisées ne sont pas disponibles dans ce navigateur."
+  },
+  "intro": "Ce module sert à départager équitablement (ordre de tir, attribution de cible…). Commencez par décrire la décision, puis verrouillez le tirage.",
+  "advanced": {
+    "technicalDetails": "Détails techniques du tirage (avancé)"
   }
 }

@@ -129,6 +129,7 @@ function buildItem(item, app) {
         <p>${escapeHtml(app.t(`assistant.${item.tooltipKey}`))}</p>
       </details>
       <div class="assistant-item__actions">
+        ${item.linkModuleId ? `<a class="cp-btn cp-btn--ghost" href="#/${escapeAttribute(item.linkModuleId)}">${escapeHtml(app.t('assistant.actions.goto'))}</a>` : ''}
         <button type="button" class="cp-button ${item.status === 'done' ? 'cp-button--primary' : ''}" data-action="status" data-item-id="${escapeAttribute(item.id)}" data-status="done">${escapeHtml(app.t('assistant.actions.done'))}</button>
         <button type="button" class="cp-button ${item.status === 'na' ? 'cp-button--primary' : ''}" data-action="status" data-item-id="${escapeAttribute(item.id)}" data-status="na">${escapeHtml(app.t('assistant.actions.na'))}</button>
         <button type="button" class="cp-button" data-action="status" data-item-id="${escapeAttribute(item.id)}" data-status="todo">${escapeHtml(app.t('assistant.actions.todo'))}</button>

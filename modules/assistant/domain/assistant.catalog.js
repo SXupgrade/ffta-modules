@@ -30,7 +30,7 @@ export const ASSISTANT_ITEMS = [
     titleKey: 'items.field.assigned.title', descriptionKey: 'items.field.assigned.description', tooltipKey: 'items.field.assigned.tooltip'
   },
   {
-    id: 'scorecards.printed', phase: 'before', timing: 'J-2', priority: 'mandatory', eventType: 'pdf.scorecards.printed',
+    linkModuleId: 'prints-adapter', id: 'scorecards.printed', phase: 'before', timing: 'J-2', priority: 'mandatory', eventType: 'pdf.scorecards.printed',
     titleKey: 'items.scorecards.title', descriptionKey: 'items.scorecards.description', tooltipKey: 'items.scorecards.tooltip'
   },
   {
@@ -66,11 +66,11 @@ export const ASSISTANT_ITEMS = [
     titleKey: 'items.results.checked.title', descriptionKey: 'items.results.checked.description', tooltipKey: 'items.results.checked.tooltip'
   },
   {
-    id: 'ffta.export.generated', phase: 'after', timing: 'J+0', priority: 'mandatory', eventType: 'export.federal.generated',
+    linkModuleId: 'export-ffta', id: 'ffta.export.generated', phase: 'after', timing: 'J+0', priority: 'mandatory', eventType: 'export.federal.generated',
     titleKey: 'items.ffta.export.title', descriptionKey: 'items.ffta.export.description', tooltipKey: 'items.ffta.export.tooltip'
   },
   {
-    id: 'records.checked', phase: 'after', timing: 'J+1', priority: 'optional', eventType: 'record.checked',
+    linkModuleId: 'records', id: 'records.checked', phase: 'after', timing: 'J+1', priority: 'optional', eventType: 'record.checked',
     titleKey: 'items.records.title', descriptionKey: 'items.records.description', tooltipKey: 'items.records.tooltip'
   },
   {

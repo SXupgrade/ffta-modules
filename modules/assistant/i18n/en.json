@@ -5,7 +5,7 @@
   "kicker": "Organizer co-pilot",
   "title": "Tournament Assistant",
   "description": "A practical timeline for preparing, running and closing a tournament. Manual checklist, N/A bypasses and automatic checks when data is available.",
-  "badge": "Checklist PoC",
+  "badge": "Your tournament checklist",
   "toolbar": {
     "title": "Keep the tournament under control",
     "description": "Scan the current tournament, then tick what is done or mark non-applicable items."
@@ -17,7 +17,8 @@
     "done": "Done",
     "na": "N/A",
     "todo": "To do",
-    "print": "Print"
+    "print": "Print",
+    "goto": "Do it now →"
   },
   "summary": {
     "total": "Completed",
@@ -180,5 +181,6 @@
   "print": {
     "title": "Tournament checklist",
     "description": "Paper version: visible checkboxes, full timeline and useful information for tournament day."
-  }
+  },
+  "intro": "This screen guides you from start to finish. Automatic checks run by themselves; tick the rest as you go, and print the checklist if needed."
 }

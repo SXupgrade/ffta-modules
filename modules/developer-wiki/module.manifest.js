@@ -1,6 +1,7 @@
 export default {
   sdkVersion: '1.1.0',
   id: 'developer-wiki',
+  audience: 'developer',
   name: 'Developer Wiki',
   version: '0.1.0',
   description: 'Embedded step-by-step wiki for simple and MVVM module development with Lab certification workflow.',
@@ -27,7 +28,7 @@ export default {
   acknowledgements: [
     { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
   ],
-  navigation: { accentColor: '#7c3aed' },
+  navigation: { accentColor: '#7c3aed', order: 99 },
   metadata: {
     author: 'Compet+',
     license: 'MIT',

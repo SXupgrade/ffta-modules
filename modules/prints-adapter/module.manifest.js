@@ -1,6 +1,7 @@
 export default {
   sdkVersion: '1.0.0',
   id: 'prints-adapter',
+  audience: 'organizer',
   name: 'Prints Adapter',
   version: '0.1.0',
   description: 'Ianseo print helpers exposed through the shared AppIanseo adapter facade.',
@@ -16,7 +17,7 @@ export default {
     read: 'AclReadOnly',
     write: 'AclReadWrite'
   },
-  navigation: { accentColor: '#2563eb' },
+  navigation: { accentColor: '#2563eb', order: 20 },
   creator: {
     name: 'FFTA Modules',
     url: 'https://github.com/SXupgrade'

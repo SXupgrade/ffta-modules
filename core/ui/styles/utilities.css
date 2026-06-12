@@ -28,13 +28,13 @@
 .ffta-modules-shell .ffta-badge--error { background: var(--ffta-color-error-bg);   color: var(--ffta-color-error);   }
 .ffta-modules-shell .ffta-badge--info { background: var(--ffta-color-info-bg);    color: var(--ffta-color-info);    }
 
-.ffta-simple-actions {
+.ffta-modules-shell .ffta-simple-actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--cp-space-3, 0.75rem);
 }
 
-.ffta-simple-result {
+.ffta-modules-shell .ffta-simple-result {
   margin-top: var(--cp-space-4, 1rem);
   max-height: 28rem;
   overflow: auto;
@@ -44,7 +44,7 @@
   font-size: 0.85rem;
 }
 
-.ffta-dev-badge {
+.ffta-modules-shell .ffta-dev-badge {
   position: fixed;
   right: 14px;
   bottom: 14px;
@@ -54,33 +54,51 @@
   max-width: min(280px, calc(100vw - 28px));
   padding: 10px 12px;
   border: 1px solid rgba(255, 178, 0, 0.45);
-  border-radius: 12px;
+  border-radius: var(--ffta-radius-card);
   background: rgba(22, 22, 24, 0.92);
   color: #fff;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+  box-shadow: var(--ffta-shadow-lg);
   font-size: 11px;
   line-height: 1.25;
 }
 
-.ffta-dev-badge strong {
+.ffta-modules-shell .ffta-dev-badge strong {
   color: #ffd166;
   letter-spacing: 0.06em;
 }
 
-.ffta-dev-badge span {
+.ffta-modules-shell .ffta-dev-badge span {
   color: rgba(255, 255, 255, 0.78);
 }
 
 
 /* Simple Scores example module */
-.simple-scores-card { display: grid; gap: var(--cp-space-4, 1rem); }
-.simple-scores-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: var(--cp-space-3, .75rem); }
-.simple-scores-field { display: grid; gap: .35rem; font-weight: 700; }
-.simple-scores-field select { min-width: 11rem; }
-.simple-scores-note { margin: 0; }
-.simple-scores-table-wrapper { overflow-x: auto; }
-.simple-scores-table { width: 100%; border-collapse: collapse; font-size: .92rem; }
-.simple-scores-table th, .simple-scores-table td { padding: .65rem .55rem; border-bottom: 1px solid var(--cp-border-subtle, #e5e7eb); text-align: left; vertical-align: middle; }
-.simple-scores-table th { font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--cp-text-muted, #64748b); }
-.simple-scores-actions { display: flex; flex-wrap: wrap; gap: .4rem; }
-.simple-scores-input { width: 5.5rem; padding: .45rem .5rem; border: 1px solid var(--cp-border, #d1d5db); border-radius: .65rem; }
+.ffta-modules-shell .simple-scores-card { display: grid; gap: var(--cp-space-4, 1rem); }
+.ffta-modules-shell .simple-scores-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: var(--cp-space-3, .75rem); }
+.ffta-modules-shell .simple-scores-field { display: grid; gap: .35rem; font-weight: 700; }
+.ffta-modules-shell .simple-scores-field select { min-width: 11rem; }
+.ffta-modules-shell .simple-scores-note { margin: 0; }
+.ffta-modules-shell .simple-scores-table-wrapper { overflow-x: auto; }
+.ffta-modules-shell .simple-scores-table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.ffta-modules-shell .simple-scores-table th, .ffta-modules-shell .simple-scores-table td { padding: .65rem .55rem; border-bottom: 1px solid var(--cp-border-subtle, #e5e7eb); text-align: left; vertical-align: middle; }
+.ffta-modules-shell .simple-scores-table th { font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--cp-text-muted, #64748b); }
+.ffta-modules-shell .simple-scores-actions { display: flex; flex-wrap: wrap; gap: .4rem; }
+.ffta-modules-shell .simple-scores-input { width: 5.5rem; padding: .45rem .5rem; border: 1px solid var(--cp-border, #d1d5db); border-radius: var(--ffta-radius-md); }
+
+/* Harmonisation v0.2.13 — variants de badge supplémentaires.
+ * Cible : remplacer les pastilles locales (achievements-level, assistant-timing,
+ * rulebook-article, records-header__badge…) par ffta-badge + variant. */
+.ffta-modules-shell .ffta-badge--accent {
+  background: color-mix(in srgb, var(--ffta-module-accent, var(--ffta-color-primary)) 12%, transparent);
+  color: var(--ffta-module-accent, var(--ffta-color-primary));
+}
+.ffta-modules-shell .ffta-badge--neutral {
+  background: var(--ffta-color-surface-raised);
+  color: var(--ffta-color-muted);
+  border: 1px solid var(--ffta-color-border);
+}
+.ffta-modules-shell .ffta-badge--outline {
+  background: transparent;
+  color: var(--ffta-color-text);
+  border: 1px solid var(--ffta-color-border-strong);
+}

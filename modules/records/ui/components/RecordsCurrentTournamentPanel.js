@@ -34,7 +34,7 @@ export function RecordsCurrentTournamentPanel({ app, state }) {
             <h2>${escapeHtml(app.t('records.current.areasTitle'))}</h2>
             <p class="ffta-muted">${escapeHtml(app.t('records.current.areasHelp'))}</p>
           </div>
-          <button type="button" class="ffta-button ffta-button--primary" data-action="syncTournamentRecordAreas" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.current.applySelection'))}</button>
+          <button type="button" class="cp-btn cp-btn--primary" data-action="syncTournamentRecordAreas" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.current.applySelection'))}</button>
         </div>
         <form class="records-area-selector" data-records-area-selector>
           ${areaRows}
@@ -50,12 +50,13 @@ export function RecordsCurrentTournamentPanel({ app, state }) {
             <p class="ffta-muted">${escapeHtml(app.t('records.broken.actionsHelp'))}</p>
           </div>
           <div class="records-button-row">
-            <button type="button" class="ffta-button" data-action="checkBrokenRecords" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.actions.checkBrokenRecords'))}</button>
-            <button type="button" class="ffta-button ffta-button--primary" data-action="updateGlobalRecordsFromBroken" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.actions.updateGlobalRecords'))}</button>
+            <button type="button" class="cp-btn" data-action="checkBrokenRecords" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.actions.checkBrokenRecords'))}</button>
+            <button type="button" class="cp-btn cp-btn--primary" data-action="updateGlobalRecordsFromBroken" ${state.isSaving ? 'disabled' : ''}>${escapeHtml(app.t('records.actions.updateGlobalRecords'))}</button>
           </div>
         </div>
       </section>
 
+      ${(state.brokenRecords ?? []).length ? `<div class="cp-alert cp-alert--success">${escapeHtml(app.t('records.broken.celebration').replace('{count}', String(state.brokenRecords.length)))}</div>` : ''}
       ${BrokenRecordsTable({ app, records: state.brokenRecords })}
     </div>
   `;

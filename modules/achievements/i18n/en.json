@@ -1,9 +1,11 @@
 {
-  "navigation": { "title": "Achievements" },
+  "navigation": {
+    "title": "Achievements"
+  },
   "kicker": "Organizer progression",
   "title": "Achievements",
   "description": "A proof of concept that turns Compet+ usage into a fun checklist for organizers.",
-  "badge": "PoC",
+  "badge": "Discovery",
   "toolbar": {
     "title": "Two update modes",
     "description": "Compet+ can feed this engine with domain events. FFTA Modules can resync by scanning the whole Ianseo/Compet+ database to consolidate multi-tournament achievements."

@@ -1,6 +1,7 @@
 export default {
   sdkVersion: '1.0.0',
   id: 'league',
+  audience: 'organizer',
   name: 'Championnat par équipe',
   version: '0.1.0',
   description: 'Team league standings and points aggregation module',
@@ -27,7 +28,7 @@ export default {
   acknowledgements: [
     { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
   ],
-  navigation: { accentColor: '#4338ca' },
+  navigation: { accentColor: '#4338ca', order: 50 },
   settings: [
     { key: 'league.masterTournamentCode', type: 'string', defaultValue: '' },
     { key: 'league.roundTournamentCodes', type: 'array', defaultValue: [] },

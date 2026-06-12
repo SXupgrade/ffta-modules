@@ -844,3 +844,261 @@ body > .ffta-toast-container {
   white-space: nowrap;
   border: 0;
 }
+
+/* -------------------------------------------------------------------------
+ * Harmonisation v0.2.13
+ * ---------------------------------------------------------------------- */
+
+/* Alias .cp-button → .cp-btn : le shell et 9 modules émettent `cp-button`,
+ * qui n'avait aucun style (boutons navigateur natifs). Nom canonique : cp-btn.
+ * À terme : migrer le markup vers cp-btn et supprimer cet alias. */
+.ffta-modules-shell .cp-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ffta-space-xs);
+  padding: var(--ffta-space-sm) var(--ffta-space-md);
+  border-radius: var(--ffta-radius-md);
+  border: 1px solid var(--ffta-color-border-strong);
+  background: var(--ffta-color-surface);
+  color: var(--ffta-color-text);
+  font-size: var(--ffta-font-size-sm);
+  font-weight: var(--ffta-font-weight-medium);
+  font-family: inherit;
+  line-height: var(--ffta-line-height);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--ffta-transition), border-color var(--ffta-transition);
+  white-space: nowrap;
+}
+
+.ffta-modules-shell .cp-button:hover:not(:disabled) {
+  background: var(--ffta-color-surface-raised);
+  text-decoration: none;
+}
+
+.ffta-modules-shell .cp-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ffta-modules-shell .cp-button--primary {
+  background: var(--ffta-color-primary);
+  color: var(--ffta-color-primary-text);
+  border-color: var(--ffta-color-primary);
+}
+
+.ffta-modules-shell .cp-button--primary:hover:not(:disabled) {
+  background: var(--ffta-color-primary-hover);
+  border-color: var(--ffta-color-primary-hover);
+}
+
+.ffta-modules-shell .cp-button--secondary {
+  background: var(--ffta-color-surface);
+  color: var(--ffta-color-text);
+  border-color: var(--ffta-color-border-strong);
+}
+
+.ffta-modules-shell .cp-button--ghost {
+  background: transparent;
+  color: var(--ffta-color-primary);
+  border-color: transparent;
+}
+
+.ffta-modules-shell .cp-button--ghost:hover:not(:disabled) {
+  background: var(--ffta-color-info-bg);
+}
+
+/* Bouton icône rond (remplace les implémentations locales type league-group__action) */
+.ffta-modules-shell .cp-btn--icon,
+.ffta-modules-shell .cp-button--icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  justify-content: center;
+  border-radius: var(--ffta-radius-full);
+}
+
+/* En-tête de page standard : utilisé par tous les modules (et la doc)
+ * mais jamais défini jusqu'ici — l'apparence dépendait des classes -hero
+ * locales. Structure canonique : kicker + h1 + description + badge/actions. */
+.ffta-modules-shell .ffta-page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ffta-space-md);
+  flex-wrap: wrap;
+}
+
+.ffta-modules-shell .ffta-page__header h1 {
+  margin: 0;
+  font-size: var(--ffta-font-size-2xl);
+  font-weight: var(--ffta-font-weight-bold);
+  line-height: 1.2;
+}
+
+.ffta-modules-shell .ffta-page__header p {
+  margin: var(--ffta-space-xs) 0 0;
+}
+
+/* Kicker standard. Les kickers de modules dérivent de l'accent du module. */
+.ffta-modules-shell .ffta-kicker {
+  margin: 0 0 var(--ffta-space-xs);
+  font-size: 0.78rem;
+  font-weight: var(--ffta-font-weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ffta-module-accent, var(--ffta-color-primary));
+}
+
+/* Alertes : `cp-alert cp-alert--danger` était émis par 7+ modules sans
+ * aucun style. Variantes alignées sur les couleurs sémantiques. */
+.ffta-modules-shell .cp-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ffta-space-sm);
+  padding: var(--ffta-space-sm) var(--ffta-space-md);
+  border: 1px solid var(--ffta-color-border);
+  border-radius: var(--ffta-radius-md);
+  background: var(--ffta-color-surface-raised);
+  color: var(--ffta-color-text);
+  font-size: var(--ffta-font-size-sm);
+}
+
+.ffta-modules-shell .cp-alert--danger,
+.ffta-modules-shell .cp-alert--error {
+  background: var(--ffta-color-error-bg);
+  border-color: color-mix(in srgb, var(--ffta-color-error) 30%, transparent);
+  color: var(--ffta-color-error);
+}
+
+.ffta-modules-shell .cp-alert--warning {
+  background: var(--ffta-color-warning-bg);
+  border-color: color-mix(in srgb, var(--ffta-color-warning) 30%, transparent);
+  color: var(--ffta-color-warning);
+}
+
+.ffta-modules-shell .cp-alert--info {
+  background: var(--ffta-color-info-bg);
+  border-color: color-mix(in srgb, var(--ffta-color-info) 30%, transparent);
+  color: var(--ffta-color-info);
+}
+
+.ffta-modules-shell .cp-alert--success {
+  background: var(--ffta-color-success-bg);
+  border-color: color-mix(in srgb, var(--ffta-color-success) 30%, transparent);
+  color: var(--ffta-color-success);
+}
+
+/* Table compacte (cellules éditables, grilles de points…) */
+.ffta-modules-shell .cp-table--compact .cp-table__th,
+.ffta-modules-shell .cp-table--compact .cp-table__td {
+  padding: var(--ffta-space-xs) var(--ffta-space-sm);
+}
+
+/* Barre de filtres standard : pattern répété dans 5 modules
+ * (beursault-filters, rulebook-toolbar, export-ffta-form, etc.) */
+.ffta-modules-shell .ffta-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--ffta-space-md);
+}
+
+.ffta-modules-shell .ffta-filter-bar .ffta-form-group {
+  min-width: 12rem;
+  flex: 0 1 auto;
+}
+
+@media (max-width: 760px) {
+  .ffta-modules-shell .ffta-page__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ffta-modules-shell .ffta-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* -------------------------------------------------------------------------
+ * UX v0.2.14
+ * ---------------------------------------------------------------------- */
+
+/* Encart « première visite » d'un module */
+.ffta-modules-shell .ffta-intro-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ffta-space-md);
+  margin-bottom: var(--ffta-space-md);
+  padding: var(--ffta-space-md) var(--ffta-space-lg);
+  border: 1px solid color-mix(in srgb, var(--ffta-module-accent, var(--ffta-color-primary)) 30%, transparent);
+  border-left: 4px solid var(--ffta-module-accent, var(--ffta-color-primary));
+  border-radius: var(--ffta-radius-card);
+  background: color-mix(in srgb, var(--ffta-module-accent, var(--ffta-color-primary)) 6%, var(--ffta-color-surface));
+}
+
+.ffta-modules-shell .ffta-intro-card__text {
+  margin: 0;
+  font-size: var(--ffta-font-size-sm);
+}
+
+@media (max-width: 760px) {
+  .ffta-modules-shell .ffta-intro-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Alias .ffta-button → .cp-btn : émis par les composants records, jamais
+ * stylé jusqu'ici. Même statut transitoire que l'alias .cp-button. */
+.ffta-modules-shell .ffta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ffta-space-xs);
+  padding: var(--ffta-space-sm) var(--ffta-space-md);
+  border-radius: var(--ffta-radius-md);
+  border: 1px solid var(--ffta-color-border-strong);
+  background: var(--ffta-color-surface);
+  color: var(--ffta-color-text);
+  font-size: var(--ffta-font-size-sm);
+  font-weight: var(--ffta-font-weight-medium);
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--ffta-transition), border-color var(--ffta-transition);
+  white-space: nowrap;
+}
+
+.ffta-modules-shell .ffta-button:hover:not(:disabled) { background: var(--ffta-color-surface-raised); }
+.ffta-modules-shell .ffta-button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.ffta-modules-shell .ffta-button--primary {
+  background: var(--ffta-color-primary);
+  color: var(--ffta-color-primary-text);
+  border-color: var(--ffta-color-primary);
+}
+
+.ffta-modules-shell .ffta-button--primary:hover:not(:disabled) {
+  background: var(--ffta-color-primary-hover);
+  border-color: var(--ffta-color-primary-hover);
+}
+
+.ffta-modules-shell .ffta-button--danger {
+  background: var(--ffta-color-error);
+  color: #fff;
+  border-color: var(--ffta-color-error);
+}
+
+/* Détails repliés « avancé » (preuve toss, options expertes) */
+.ffta-modules-shell .ffta-advanced > summary {
+  cursor: pointer;
+  font-weight: var(--ffta-font-weight-medium);
+  color: var(--ffta-color-muted);
+  font-size: var(--ffta-font-size-sm);
+  padding: var(--ffta-space-xs) 0;
+}
+
+.ffta-modules-shell .ffta-advanced[open] > summary {
+  margin-bottom: var(--ffta-space-sm);
+}

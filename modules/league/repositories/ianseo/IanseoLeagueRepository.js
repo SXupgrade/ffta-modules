@@ -18,6 +18,18 @@ export function createIanseoLeagueRepository({ app }) {
       return payload.data;
     },
 
+    async listTournaments() {
+      const response = await fetch(apiBase + '?action=listTournaments');
+      if (!response.ok) {
+        throw new Error(`League API error: HTTP ${response.status}`);
+      }
+      const payload = await response.json();
+      if (!payload.ok) {
+        throw new Error(payload.error || 'Unable to list tournaments.');
+      }
+      return payload.data || [];
+    },
+
     async saveSettings(settings) {
       const response = await fetch(apiBase + '?action=saveSettings', {
         method: 'POST',

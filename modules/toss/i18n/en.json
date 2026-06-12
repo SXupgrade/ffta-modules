@@ -1,9 +1,11 @@
 {
-  "navigation": { "title": "Toss" },
-  "kicker": "Provably fair draw",
+  "navigation": {
+    "title": "Toss"
+  },
+  "kicker": "Random draw",
   "title": "Toss",
-  "description": "Prepare a cryptographic commitment, reveal the result, then keep an auditable proof for competition decisions.",
-  "badge": "SHA-256 · CSPRNG",
+  "description": "Settle ties fairly: the result is sealed before being revealed, nobody can cheat, and a proof is kept.",
+  "badge": "Fair and verifiable",
   "form": {
     "title": "Decision setup",
     "subtitle": "Choose a coin toss or a draw between named options.",
@@ -13,11 +15,17 @@
     "options": "Draw options",
     "optionsHelp": "One option per line. Duplicate and empty values are ignored."
   },
-  "modes": { "coin": "Heads or tails", "draw": "Draw from a list" },
-  "coin": { "heads": "Heads", "tails": "Tails" },
+  "modes": {
+    "coin": "Heads or tails",
+    "draw": "Draw from a list"
+  },
+  "coin": {
+    "heads": "Heads",
+    "tails": "Tails"
+  },
   "actions": {
-    "prepare": "Prepare commitment",
-    "reveal": "Reveal result",
+    "prepare": "1. Lock the draw",
+    "reveal": "2. Reveal the result",
     "reset": "New toss",
     "copyProof": "Copy proof",
     "exportProof": "Export proof",
@@ -36,10 +44,13 @@
     "drawHash": "Draw hash",
     "explanation": "The commitment is generated before the result. After reveal, the seed and hashes prove that the result was not changed."
   },
-  "status": { "prepared": "Prepared", "revealed": "Revealed" },
+  "status": {
+    "prepared": "Prepared",
+    "revealed": "Revealed"
+  },
   "proof": {
-    "title": "Audit proof",
-    "subtitle": "JSON proof for export, copy, or independent verification.",
+    "title": "Technical proof (advanced)",
+    "subtitle": "To verify the draw independently. Not needed for everyday use.",
     "placeholder": "The proof will appear here after preparation."
   },
   "history": {
@@ -54,5 +65,9 @@
   "errors": {
     "optionsRequired": "At least two distinct options are required.",
     "cryptoUnavailable": "Secure Web Crypto APIs are not available in this browser."
+  },
+  "intro": "This module settles ties fairly (shooting order, target assignment…). Start by describing the decision, then lock the draw.",
+  "advanced": {
+    "technicalDetails": "Technical draw details (advanced)"
   }
 }

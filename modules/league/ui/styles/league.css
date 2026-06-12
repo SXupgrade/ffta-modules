@@ -159,7 +159,7 @@
 @media print {
   .ffta-modules-shell .league-toolbar,
   .ffta-modules-shell .cp-modal-backdrop,
-.ffta-modules-shell .ffta-toast-container {
+  .ffta-modules-shell .ffta-toast-container {
     display: none !important;
   }
 
@@ -177,22 +177,19 @@
     font-size: 11px;
   }
 
-  @page {
-    margin: 1.5cm;
-  }
 }
 
-.league-group__header {
+.ffta-modules-shell .league-group__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
 
-.league-group__action {
+.ffta-modules-shell .league-group__action {
   border: 1px solid var(--ffta-border, #d7dde8);
   background: var(--ffta-surface, #fff);
-  border-radius: 999px;
+  border-radius: var(--ffta-radius-full);
   width: 32px;
   height: 32px;
   line-height: 1;
@@ -200,54 +197,54 @@
   font-size: 20px;
 }
 
-.league-group__action:hover {
+.ffta-modules-shell .league-group__action:hover {
   background: var(--ffta-muted-surface, #f3f6fb);
 }
 
-.league-standings-wrap {
+.ffta-modules-shell .league-standings-wrap {
   overflow-x: auto;
 }
 
-.league-standings-table th,
-.league-standings-table td {
+.ffta-modules-shell .league-standings-table th,
+.ffta-modules-shell .league-standings-table td {
   white-space: nowrap;
 }
 
-.league-mode-checks {
+.ffta-modules-shell .league-mode-checks {
   display: grid;
   gap: 8px;
   margin: 8px 0 16px;
 }
 
-.league-check-row {
+.ffta-modules-shell .league-check-row {
   display: flex;
   align-items: center;
   gap: 8px;
   font-weight: 600;
 }
 
-.league-category-section {
+.ffta-modules-shell .league-category-section {
   margin-top: 16px;
   padding-top: 12px;
   border-top: 1px solid var(--ffta-border, #d7dde8);
 }
 
-.league-category-section.is-hidden {
+.ffta-modules-shell .league-category-section.is-hidden {
   display: none;
 }
 
-.league-points-grid {
+.ffta-modules-shell .league-points-grid {
   width: 100%;
   border-collapse: collapse;
 }
 
-.league-points-grid th,
-.league-points-grid td {
+.ffta-modules-shell .league-points-grid th,
+.ffta-modules-shell .league-points-grid td {
   padding: 6px;
   border-bottom: 1px solid var(--ffta-border, #d7dde8);
   text-align: left;
 }
 
-.league-points-grid input {
+.ffta-modules-shell .league-points-grid input {
   max-width: 120px;
 }

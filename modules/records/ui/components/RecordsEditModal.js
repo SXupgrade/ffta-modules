@@ -74,7 +74,7 @@ function checkbox(app, name, value) {
 }
 
 function buildFooter(app) {
-  return `<button type="button" class="ffta-button ffta-button--primary" data-action="saveRecord">${escapeHtml(app.t('records.edit.save'))}</button>`;
+  return `<button type="button" class="cp-btn cp-btn--primary" data-action="saveRecord">${escapeHtml(app.t('records.edit.save'))}</button>`;
 }
 
 function escapeHtml(value) {

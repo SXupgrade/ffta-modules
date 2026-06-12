@@ -1,6 +1,7 @@
 export default {
   sdkVersion: '1.0.0',
   id: 'records',
+  audience: 'organizer',
   name: 'Records Manager',
   version: '0.2.1',
   description: 'Global records catalog, tournament snapshot activation and broken records viewer for Ianseo-compatible tables',
@@ -16,7 +17,7 @@ export default {
     read: 'AclReadOnly',
     write: 'AclReadWrite'
   },
-  navigation: { accentColor: '#b45309' },
+  navigation: { accentColor: '#b45309', order: 40 },
   settings: [
     { key: 'records.defaultAreaCode', type: 'string', defaultValue: 'FFTA' },
     { key: 'records.defaultAreaName', type: 'string', defaultValue: 'FFTA Records' }

@@ -3,14 +3,14 @@
     "title": "Export FFTA"
   },
   "title": "Export résultats FFTA",
-  "subtitle": "Export fédéral officiel + TNR reproductibles.",
+  "subtitle": "Le fichier de résultats à déposer sur l’extranet FFTA.",
   "tabs": {
     "export": "Export",
-    "tnrActive": "TNR tournoi actif",
-    "tnrDataset": "TNR dataset JSON"
+    "tnrActive": "Tests (tournoi actif)",
+    "tnrDataset": "Tests (jeu de données)"
   },
   "fields": {
-    "level": "Niveau",
+    "level": "Niveau (indiqué sur votre mandat)",
     "expected": "Fichier attendu",
     "dataset": "Dataset"
   },
@@ -20,7 +20,7 @@
     "N": "Championnat de France"
   },
   "actions": {
-    "download": "Télécharger le TXT",
+    "download": "Télécharger le fichier FFTA",
     "runTnr": "Lancer le TNR",
     "runDataset": "Tester le dataset",
     "refresh": "Rafraîchir"
@@ -35,7 +35,7 @@
   },
   "status": {
     "idle": "Prêt",
-    "success": "Succès",
+    "success": "Fichier prêt. Déposez-le sur l’extranet FFTA.",
     "failure": "Échec",
     "missingExpected": "Fichier attendu absent",
     "running": "Exécution..."
@@ -46,5 +46,6 @@
     "generated": "Généré",
     "expected": "Attendu",
     "lines": "lignes"
-  }
+  },
+  "intro": "Ce module génère le fichier de résultats officiel à déposer sur l'extranet FFTA. Choisissez le niveau (indiqué sur votre mandat), puis téléchargez."
 }

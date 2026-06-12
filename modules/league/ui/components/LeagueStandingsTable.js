@@ -70,7 +70,7 @@ function renderGroup(app, group, rounds) {
     <div class="league-group" data-category-key="${escapeAttr(group.groupKey ?? '')}">
       <div class="league-group__header">
         <h2 class="league-group__title">${escapeHtml(title)}</h2>
-        <button type="button" class="league-group__action" data-action="openCategorySettings" data-category-key="${escapeAttr(group.groupKey ?? '')}" title="${escapeAttr(app.t('league.categorySettings.open'))}">⋮</button>
+        <button type="button" class="cp-btn cp-btn--ghost" data-action="openCategorySettings" data-category-key="${escapeAttr(group.groupKey ?? '')}" title="${escapeAttr(app.t('league.categorySettings.open'))}">${escapeHtml(app.t('league.categorySettings.openShort'))}</button>
       </div>
       <div class="cp-table-wrap league-standings-wrap">
         <table class="cp-table league-standings-table">

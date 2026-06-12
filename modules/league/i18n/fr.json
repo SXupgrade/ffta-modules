@@ -7,7 +7,7 @@
     "recalculate": "Recalculer",
     "exportPdf": "Exporter en PDF",
     "exportCsv": "Exporter en CSV",
-    "openSettings": "Manches",
+    "openSettings": "Configurer le championnat",
     "save": "Enregistrer",
     "cancel": "Annuler",
     "close": "Fermer"
@@ -21,28 +21,28 @@
     "loadFailed": "Impossible de charger le classement du championnat par équipe."
   },
   "warnings": {
-    "missingMaster": "Le tournoi primaire n'est pas configuré.",
-    "missingRounds": "Aucune manche de championnat n'est configurée.",
+    "missingMaster": "Le tournoi principal n'est pas encore choisi. Ouvrez « Configurer le championnat ».",
+    "missingRounds": "Aucune manche n'est encore associée. Ouvrez « Configurer le championnat » pour les ajouter.",
     "tooManyRounds": "Un maximum de {max} manches peut être associé.",
     "missingRoundData": "Aucune donnée disponible pour la manche {round}.",
     "unknownCategory": "Catégorie inconnue pour le participant {code}.",
     "noMasterTeams": "Aucune équipe officielle n'est déclarée dans le tournoi principal.",
-    "invalidMasterTeamCategory": "Catégorie invalide pour l'équipe {team} : classe={className}, division={division}.",
-    "unknownRoundCategory": "La manche {round} contient l'événement équipe {event}, absent des catégories du tournoi principal. Catégories attendues : {expected}.",
-    "unknownRoundTeam": "La manche {round} contient l'équipe {team} en {category}, mais elle n'est pas déclarée dans le tournoi principal."
+    "invalidMasterTeamCategory": "L'équipe {team} n'a pas de catégorie reconnue (classe {className}, division {division}). Vérifiez sa fiche dans Ianseo → Participants.",
+    "unknownRoundCategory": "La manche {round} contient la catégorie d'équipe {event}, absente du tournoi principal. Catégories attendues : {expected}.",
+    "unknownRoundTeam": "L'équipe {team} ({category}) participe à la manche {round} mais n'est pas déclarée dans le tournoi principal. Ajoutez-la dans Ianseo, ou ignorez si c'est volontaire."
   },
   "emptyState": {
     "noConfig": "Aucun tournoi configuré",
-    "noConfigDetail": "Ouvrez les paramètres pour associer un tournoi principal et au moins une manche.",
+    "noConfigDetail": "Choisissez le tournoi principal et au moins une manche pour calculer le classement.",
     "noResults": "Aucun résultat",
     "noResultsDetail": "Aucune donnée de qualification trouvée pour les manches configurées."
   },
   "settings": {
     "title": "Paramètres du championnat",
-    "masterTournament": "Code du tournoi principal",
-    "masterTournamentHint": "Le code du tournoi principal (ex : LIGUE2026)",
-    "roundTournaments": "Codes des manches",
-    "roundTournamentsHint": "Un code par ligne. Maximum {max} manches.",
+    "masterTournament": "Tournoi principal",
+    "masterTournamentHint": "Choisissez dans la liste ou saisissez le code du tournoi.",
+    "roundTournaments": "Manches du championnat",
+    "roundTournamentsHint": "Un code par ligne (maximum {max} manches). Utilisez le sélecteur ci-dessous pour les ajouter sans erreur de saisie.",
     "pointsMode": "Mode de points",
     "qualificationRanking": "Classement qualification",
     "matchWins": "Victoires en match",
@@ -51,13 +51,16 @@
     "groupBy": "Regrouper par",
     "divisionClass": "Division + Classe",
     "qualificationPointsGrid": "Barème qualification",
-    "qualificationPointsGridHint": "Tableau JSON : [{\"rank\":1,\"points\":8},{\"rank\":2,\"points\":6}]",
+    "qualificationPointsGridHint": "Points attribués selon le rang. Modifiez les valeurs directement dans la grille.",
     "matchWinPoints": "Points par victoire en match",
     "bracketPointsGrid": "Barème tableau final",
-    "bracketPointsGridHint": "Tableau JSON : [{\"rank\":1,\"points\":8},{\"rank\":2,\"points\":6}]",
+    "bracketPointsGridHint": "Points attribués selon le rang du tableau final.",
     "invalidJson": "JSON invalide. Veuillez vérifier le format.",
     "invalidNumber": "Veuillez entrer un nombre valide.",
-    "bindingTitle": "Paramétrage des manches"
+    "bindingTitle": "Paramétrage des manches",
+    "addRound": "Ajouter une manche",
+    "addRoundAction": "Ajouter",
+    "tournamentsLoading": "Chargement des tournois disponibles…"
   },
   "standings": {
     "rank": "Rang",
@@ -83,7 +86,7 @@
   },
   "categorySettings": {
     "title": "Règles de points {category}",
-    "open": "Configurer les points de cette catégorie",
+    "open": "Barème de points de cette catégorie",
     "detail": "Configurez la façon dont les points sont attribués pour la catégorie {category}. Plusieurs modes peuvent être actifs en même temps.",
     "enableQualificationPoints": "Attribuer des points sur les qualifications",
     "enableMatchWinPoints": "Attribuer des points par match gagné",
@@ -94,10 +97,12 @@
     "bracketGrid": "Barème de points du tableau final",
     "rank": "Rang/place",
     "points": "Points",
-    "addRow": "Ajouter une ligne"
+    "addRow": "Ajouter une ligne",
+    "openShort": "Barème"
   },
   "export": {
     "print": "Imprimer / enregistrer en PDF",
     "calculated": "Calculé le"
-  }
+  },
+  "intro": "Ce module calcule le classement d'un championnat disputé en plusieurs manches. Commencez par configurer le championnat : choisissez le tournoi principal et les manches."
 }

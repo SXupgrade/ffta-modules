@@ -1,6 +1,7 @@
 export default {
   sdkVersion: '1.0.0',
   id: 'achievements',
+  audience: 'extra',
   name: 'Achievements',
   version: '0.1.0',
   description: 'Organizer achievements proof of concept for Compet+ and FFTA Modules usage milestones',
@@ -27,6 +28,6 @@ export default {
   acknowledgements: [
     { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
   ],
-  navigation: { accentColor: '#f59e0b' },
+  navigation: { accentColor: '#f59e0b', order: 90 },
   settings: []
 };

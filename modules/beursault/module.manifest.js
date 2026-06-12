@@ -1,6 +1,8 @@
 export default {
   sdkVersion: '1.0.0',
   id: 'beursault',
+  audience: 'organizer',
+  tournament: { locSubRules: ['SetFrBeursault'] },
   name: 'Beursault Scores',
   version: '0.1.0',
   description: 'Dedicated Beursault score entry: honours first, then points, 4s and 3s.',
@@ -19,7 +21,7 @@ export default {
     read: 'AclReadOnly',
     write: 'AclReadWrite'
   },
-  navigation: { accentColor: '#7c3aed' },
+  navigation: { accentColor: '#7c3aed', order: 30 },
   creator: {
     name: 'FFTA Modules',
     role: 'Module integration'

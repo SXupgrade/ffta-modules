@@ -6,6 +6,7 @@
  *   getLeagueInput  — full input for JS domain calculation
  *   getStandings    — convenience alias (same as getLeagueInput)
  *   getContext      — master tournament and round summary
+ *   listTournaments — available tournaments for the settings selector
  *   saveSettings    — persist league settings (POST)
  *   recalculate     — force recalculation signal (currently same as getLeagueInput)
  */
@@ -31,6 +32,11 @@ try {
             ffta_acl_require($leagueAccess, 'read');
             $input = $repository->getLeagueInput();
             echo json_encode(array('ok' => true, 'data' => $input));
+            break;
+
+        case 'listTournaments':
+            ffta_acl_require($leagueAccess, 'read');
+            echo json_encode(array('ok' => true, 'data' => $repository->listTournaments()));
             break;
 
         case 'getContext':

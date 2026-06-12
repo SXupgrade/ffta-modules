@@ -1,6 +1,7 @@
 export default {
   sdkVersion: '1.0.0',
   id: 'toss',
+  audience: 'organizer',
   name: 'Toss',
   version: '0.1.0',
   description: 'Provably fair random toss and draw module for competition decisions',
@@ -27,6 +28,6 @@ export default {
   acknowledgements: [
     { name: 'FFTA community', reason: 'Domain feedback, real competition workflows and field needs' }
   ],
-  navigation: { accentColor: '#0891b2' },
+  navigation: { accentColor: '#0891b2', order: 70 },
   settings: []
 };

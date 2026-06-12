@@ -1,45 +1,47 @@
 {
-    "navigation": {
-      "title": "Beursault"
-    },
-    "page": {
-      "title": "Beursault score entry",
-      "description": "Enter honours and point zones for Beursault competitions."
-    },
-    "filters": {
-      "session": "Session",
-      "fromTarget": "From target",
-      "toTarget": "To target"
-    },
-    "actions": {
-      "load": "Load archers",
-      "save": "Save",
-      "saving": "Saving..."
-    },
-    "table": {
-      "target": "Target",
-      "license": "License",
-      "archer": "Archer",
-      "club": "Club",
-      "ones": "1",
-      "twos": "2",
-      "threes": "3",
-      "fours": "4",
-      "honours": "Honours",
-      "points": "Points",
-      "status": "Status"
-    },
-    "status": {
-      "valid": "Valid",
-      "invalid": "Check"
-    },
-    "empty": "Select a session and target range.",
-    "saved": "Score saved.",
-    "error": {
-      "load": "Unable to load Beursault data.",
-      "save": "Unable to save score."
-    },
-    "warning": {
-      "notBeursault": "This module is only available for SetFrBeursault tournaments."
-    }
+  "navigation": {
+    "title": "Beursault"
+  },
+  "page": {
+    "title": "Beursault score entry",
+    "description": "Enter honours and point zones for Beursault competitions."
+  },
+  "filters": {
+    "session": "Session",
+    "fromTarget": "From target",
+    "toTarget": "To target"
+  },
+  "actions": {
+    "load": "Reload",
+    "save": "Save",
+    "saving": "Saving..."
+  },
+  "table": {
+    "target": "Target",
+    "license": "License",
+    "archer": "Archer",
+    "club": "Club",
+    "ones": "1",
+    "twos": "2",
+    "threes": "3",
+    "fours": "4",
+    "honours": "Honours",
+    "points": "Points",
+    "status": "Status"
+  },
+  "status": {
+    "valid": "Valid",
+    "invalid": "Check",
+    "invalidHelp": "The number of honours exceeds the allowed number of arrows. Check zones 1 to 4."
+  },
+  "empty": "Select a session and target range.",
+  "saved": "Score saved.",
+  "error": {
+    "load": "Unable to load Beursault data.",
+    "save": "Unable to save score."
+  },
+  "warning": {
+    "notBeursault": "This module is only available for SetFrBeursault tournaments."
+  },
+  "intro": "Enter Beursault scores target by target. Rows load automatically when you change session; press Enter to jump to the next cell."
 }

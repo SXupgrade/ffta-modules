@@ -44,5 +44,11 @@
     "contributors": "Contributors",
     "acknowledgements": "Acknowledgements",
     "notProvided": "Not provided."
+  },
+  "intro": {
+    "dismiss": "Got it"
+  },
+  "confirm": {
+    "confirm": "Confirm"
   }
 }

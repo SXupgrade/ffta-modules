@@ -1,45 +1,47 @@
 {
-    "navigation": {
-      "title": "Beursault"
-    },
-    "page": {
-      "title": "Saisie Beursault",
-      "description": "Saisie dédiée aux honneurs et aux zones de points du tir Beursault."
-    },
-    "filters": {
-      "session": "Session",
-      "fromTarget": "Cible de",
-      "toTarget": "Cible à"
-    },
-    "actions": {
-      "load": "Charger",
-      "save": "Enregistrer",
-      "saving": "Enregistrement..."
-    },
-    "table": {
-      "target": "Cible",
-      "license": "Licence",
-      "archer": "Archer",
-      "club": "Club",
-      "ones": "1",
-      "twos": "2",
-      "threes": "3",
-      "fours": "4",
-      "honours": "Honneurs",
-      "points": "Points",
-      "status": "Statut"
-    },
-    "status": {
-      "valid": "OK",
-      "invalid": "À vérifier"
-    },
-    "empty": "Sélectionne une session et une plage de cibles.",
-    "saved": "Score enregistré.",
-    "error": {
-      "load": "Impossible de charger les données Beursault.",
-      "save": "Impossible d’enregistrer le score."
-    },
-    "warning": {
-      "notBeursault": "Ce module est disponible uniquement pour les compétitions SetFrBeursault."
-    }
+  "navigation": {
+    "title": "Beursault"
+  },
+  "page": {
+    "title": "Saisie Beursault",
+    "description": "Saisie des honneurs et des zones de points du tir Beursault."
+  },
+  "filters": {
+    "session": "Session",
+    "fromTarget": "Cible de",
+    "toTarget": "Cible à"
+  },
+  "actions": {
+    "load": "Recharger",
+    "save": "Enregistrer",
+    "saving": "Enregistrement..."
+  },
+  "table": {
+    "target": "Cible",
+    "license": "Licence",
+    "archer": "Archer",
+    "club": "Club",
+    "ones": "1",
+    "twos": "2",
+    "threes": "3",
+    "fours": "4",
+    "honours": "Honneurs",
+    "points": "Points",
+    "status": "Statut"
+  },
+  "status": {
+    "valid": "OK",
+    "invalid": "À vérifier",
+    "invalidHelp": "Le nombre d’honneurs dépasse le nombre de flèches autorisé. Vérifiez les zones 1 à 4."
+  },
+  "empty": "Sélectionne une session et une plage de cibles.",
+  "saved": "Score enregistré.",
+  "error": {
+    "load": "Impossible de charger les données Beursault.",
+    "save": "Impossible d’enregistrer le score."
+  },
+  "warning": {
+    "notBeursault": "Ce module est disponible uniquement pour les compétitions SetFrBeursault."
+  },
+  "intro": "Saisissez les scores Beursault cible par cible. Les lignes se chargent automatiquement quand vous changez de session ; appuyez sur Entrée pour passer à la case suivante."
 }

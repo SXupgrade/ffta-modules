@@ -11,6 +11,19 @@ require_once(__DIR__ . '/../../../../core/adapters/ianseo/database/query.php');
  */
 class LeagueQueries {
 
+    /**
+     * UX v0.2.14 — liste des tournois disponibles pour le selecteur des
+     * parametres du championnat (plus de saisie de codes a la main).
+     */
+    public static function listTournaments($limit = 300) {
+        $limit = max(1, (int) $limit);
+        $sql = "SELECT ToId, ToCode, ToName, ToNameShort, ToWhenFrom"
+             . " FROM Tournament"
+             . " ORDER BY ToWhenFrom DESC, ToCode DESC"
+             . " LIMIT {$limit}";
+        return ffta_fetch_all(ffta_query($sql));
+    }
+
     public static function getTournamentsByCodes(array $codes) {
         if (empty($codes)) {
             return array();

@@ -1,17 +1,16 @@
 {
   "name": "ffta-modules",
-  "version": "0.2.12",
+  "version": "0.2.15",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test modules/league/tests/league.points.test.js modules/league/tests/league.standings.test.js modules/league/tests/league.tiebreaks.test.js modules/league/tests/league.validation.test.js modules/toss/tests/toss.provablyFair.test.js modules/earchery/tests/earchery.game.test.js modules/achievements/tests/achievements.engine.test.js modules/assistant/tests/assistant.engine.test.js",
     "test:watch": "node --test --watch modules/league/tests/*.test.js",
-    "lint": "echo \"No linter configured yet \u2014 add eslint if needed\"",
+    "lint": "echo \"No linter configured yet — add eslint if needed\"",
+    "lint:ui": "node scripts/lint-ui.cjs",
     "lab": "npm --prefix lab run dev",
-    "lab:preview": "npm --prefix lab run preview"
-  },
-  "devDependencies": {},
-  "scripts": {
+    "lab:preview": "npm --prefix lab run preview",
     "build:release": "node scripts/build-release.cjs"
-  }
+  },
+  "devDependencies": {}
 }

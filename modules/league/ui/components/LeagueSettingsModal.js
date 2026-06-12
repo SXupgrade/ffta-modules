@@ -20,10 +20,10 @@ export function LeagueSettingsModal({ app, vm } = {}) {
     <form id="league-settings-form" class="league-settings-form">
       <div class="ffta-form-group">
         <label for="ls-master">${app.t('league.settings.masterTournament')}</label>
-        <input id="ls-master" name="masterTournamentCode" type="text"
+        <input id="ls-master" name="masterTournamentCode" type="text" list="ls-tournaments-list"
                value="${escapeAttr(settings.masterTournamentCode ?? '')}"
-               placeholder="e.g. 2026-DR">
-        <span class="ffta-form-hint">${app.t('league.settings.masterTournamentHint')}</span>
+               placeholder="2026-DR">
+        <span class="ffta-form-hint" id="ls-master-hint">${app.t('league.settings.tournamentsLoading')}</span>
       </div>
 
       <div class="ffta-form-group">
@@ -33,6 +33,16 @@ export function LeagueSettingsModal({ app, vm } = {}) {
         <span class="ffta-form-hint">${app.t('league.settings.roundTournamentsHint', { max: MAX_LEAGUE_ROUNDS })}</span>
         <span class="ffta-form-error" id="ls-rounds-error"></span>
       </div>
+
+      <div class="ffta-form-group">
+        <label for="ls-add-round">${app.t('league.settings.addRound')}</label>
+        <div class="ffta-actions">
+          <input id="ls-add-round" type="text" list="ls-tournaments-list" placeholder="2026-DRA">
+          <button type="button" class="cp-btn cp-btn--secondary" data-action="add-round">${app.t('league.settings.addRoundAction')}</button>
+        </div>
+      </div>
+
+      <datalist id="ls-tournaments-list"></datalist>
     </form>
   `;
 
@@ -50,8 +60,28 @@ export function LeagueSettingsModal({ app, vm } = {}) {
 
   const form = modal.el.querySelector('#league-settings-form');
 
+  // UX v0.2.14 : selection au lieu de saisie. Les tournois existants sont
+  // proposes dans une liste (datalist) pour le tournoi principal et les
+  // manches — plus d'erreur de frappe sur les codes. La saisie libre reste
+  // possible si la liste ne charge pas.
+  populateTournamentList({ app, vm, modal });
+
   modal.el.addEventListener('click', async (event) => {
     const action = event.target.closest('[data-action]')?.dataset.action;
+
+    if (action === 'add-round') {
+      const picker = modal.el.querySelector('#ls-add-round');
+      const textarea = form.querySelector('[name="roundTournamentCodes"]');
+      const code = extractTournamentCode(picker?.value);
+      if (code && textarea) {
+        const existing = textarea.value.split('\n').map((line) => line.trim()).filter(Boolean);
+        if (!existing.includes(code)) {
+          textarea.value = [...existing, code].join('\n');
+        }
+        picker.value = '';
+      }
+      return;
+    }
 
     if (action === 'cancel-settings') {
       modal.close();
@@ -73,7 +103,7 @@ export function LeagueSettingsModal({ app, vm } = {}) {
 function parseForm(form, app, currentSettings) {
   let valid = true;
 
-  const master = form.querySelector('[name="masterTournamentCode"]').value.trim();
+  const master = extractTournamentCode(form.querySelector('[name="masterTournamentCode"]').value);
 
   const roundsText = form.querySelector('[name="roundTournamentCodes"]').value;
   const roundCodes = roundsText.split('\n').map((s) => s.trim()).filter(Boolean);
@@ -105,4 +135,26 @@ function escapeHtml(value) {
 
 function escapeAttr(value) {
   return String(value ?? '').replace(/"/g, '&quot;');
+}
+
+async function populateTournamentList({ app, vm, modal }) {
+  const datalist = modal.el.querySelector('#ls-tournaments-list');
+  const hint = modal.el.querySelector('#ls-master-hint');
+  if (!datalist) return;
+  const tournaments = typeof vm.listTournaments === 'function' ? await vm.listTournaments() : [];
+  if (!modal.el.isConnected) return;
+  datalist.innerHTML = tournaments.map((tournament) => {
+    const code = escapeAttr(tournament.code ?? '');
+    const name = tournament.name ? ` \u2014 ${tournament.name}` : '';
+    const date = tournament.date ? ` (${String(tournament.date).slice(0, 10)})` : '';
+    return `<option value="${code}" label="${escapeAttr(`${tournament.code}${name}${date}`)}"></option>`;
+  }).join('');
+  if (hint) hint.textContent = app.t('league.settings.masterTournamentHint');
+}
+
+/** Accepte « CODE » ou « CODE \u2014 Nom (date) » et retourne le code seul. */
+function extractTournamentCode(value) {
+  const raw = String(value ?? '').trim();
+  if (!raw) return '';
+  return raw.split('\u2014')[0].split(' (')[0].trim();
 }

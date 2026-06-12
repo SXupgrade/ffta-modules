@@ -1,5 +1,7 @@
 {
-  "navigation": { "title": "Rule Book" },
+  "navigation": {
+    "title": "Rule Book"
+  },
   "kicker": "Règlement FFTA",
   "title": "Rule Book",
   "description": "Consultation légère du règlement sportif et arbitrage : sommaire, règles fréquentes, recherche rapide et lien vers le PDF officiel.",
@@ -7,7 +9,8 @@
     "openPdf": "Ouvrir le PDF officiel",
     "favorites": "Favoris",
     "addFavorite": "Ajouter aux favoris",
-    "removeFavorite": "Retirer des favoris"
+    "removeFavorite": "Retirer des favoris",
+    "openPdfAtPage": "Ouvrir le PDF à la page {page}"
   },
   "summary": {
     "version": "Version",
@@ -28,9 +31,12 @@
     "para": "Para-tir à l’arc",
     "nature": "Parcours Nature",
     "threeD": "Tir sur cibles 3D",
-    "runArchery": "Run Archery"
+    "runArchery": "Run Archery",
+    "organisation": "Organisation d'un concours"
   },
-  "disciplines": { "all": "Toutes les sections" },
+  "disciplines": {
+    "all": "Toutes les sections"
+  },
   "results": {
     "title": "Fiches rapides",
     "count": "{count} résultat(s)"
@@ -43,5 +49,7 @@
   "empty": {
     "title": "Aucun résultat",
     "description": "Essaie un mot-clé plus large ou désactive le filtre favoris. Même les règlements aiment parfois se cacher."
-  }
+  },
+  "intro": "Le règlement FFTA à portée de main : recherchez un mot-clé, parcourez le sommaire, ou ouvrez le PDF officiel directement à la bonne page.",
+  "versionNote": "Version du règlement : {version}. Vérifiez sur le site FFTA qu’une mise à jour n’est pas parue."
 }

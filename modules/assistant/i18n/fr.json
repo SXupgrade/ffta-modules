@@ -4,8 +4,8 @@
   },
   "kicker": "Copilote organisateur",
   "title": "Assistant tournoi",
-  "description": "Une timeline pratique pour préparer, piloter et clôturer un concours. Checklist manuelle, contournement N/A et contrôles automatiques quand les données sont disponibles.",
-  "badge": "Checklist PoC",
+  "description": "Votre fil conducteur pour préparer, piloter et clôturer le concours : une checklist avant / pendant / après, avec des contrôles automatiques quand c’est possible.",
+  "badge": "Votre checklist du concours",
   "toolbar": {
     "title": "Garder le concours sous contrôle",
     "description": "Scanne le concours actif, puis coche ce qui est fait ou marque les éléments non applicables."
@@ -17,7 +17,8 @@
     "done": "Fait",
     "na": "N/A",
     "todo": "À faire",
-    "print": "Imprimer"
+    "print": "Imprimer",
+    "goto": "Faire maintenant →"
   },
   "summary": {
     "total": "Complétés",
@@ -180,5 +181,6 @@
   "print": {
     "title": "Check-list tournoi",
     "description": "Version papier : cases visibles, timeline complète et informations utiles pour le jour J."
-  }
+  },
+  "intro": "Cet écran vous guide du début à la fin du concours. Les contrôles automatiques se lancent tout seuls ; cochez le reste au fur et à mesure, et imprimez la checklist si besoin."
 }

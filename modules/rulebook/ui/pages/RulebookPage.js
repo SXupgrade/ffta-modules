@@ -22,6 +22,11 @@ export function mountRulebookPage({ root, vm, app }) {
     if (action === 'favorite') vm.toggleFavorite(actionElement.dataset.entryId);
     if (action === 'favorites-filter') vm.toggleFavoritesFilter();
     if (action === 'open-pdf') window.open(vm.pdfUrl, '_blank', 'noopener,noreferrer');
+    if (action === 'open-pdf-page') {
+      const page = event.target.closest('[data-page]')?.dataset.page;
+      const url = page ? `${vm.pdfUrl}#page=${encodeURIComponent(page)}` : vm.pdfUrl;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
   }
 
   const unsubscribe = vm.state.__store ? vm.state.__store.subscribe(render) : null;
@@ -47,6 +52,7 @@ function buildHtml(vm, app) {
           <p class="rulebook-kicker">${escapeHtml(app.t('rulebook.kicker'))}</p>
           <h1>${escapeHtml(app.t('rulebook.title'))}</h1>
           <p class="ffta-muted">${escapeHtml(app.t('rulebook.description'))}</p>
+          <p class="ffta-muted ffta-small">${escapeHtml(app.t('rulebook.versionNote', { version: vm.meta?.version || '' }))}</p>
         </div>
         <button type="button" class="cp-button cp-button--primary" data-action="open-pdf">${escapeHtml(app.t('rulebook.actions.openPdf'))}</button>
       </div>
@@ -115,9 +121,14 @@ function detailView(entry, vm, app) {
         <h2>${escapeHtml(entry.title)}</h2>
         <p>${escapeHtml(app.t('rulebook.labels.page', { page: entry.page }))} · ${escapeHtml(entry.sourceHint)}</p>
       </div>
-      <button type="button" class="cp-button ${isFavorite ? 'cp-button--primary' : ''}" data-action="favorite" data-entry-id="${escapeAttribute(entry.id)}">
-        ${escapeHtml(app.t(isFavorite ? 'rulebook.actions.removeFavorite' : 'rulebook.actions.addFavorite'))}
-      </button>
+      <div class="ffta-actions">
+        <button type="button" class="cp-btn cp-btn--primary" data-action="open-pdf-page" data-page="${escapeAttribute(entry.page)}">
+          ${escapeHtml(app.t('rulebook.actions.openPdfAtPage', { page: entry.page }))}
+        </button>
+        <button type="button" class="cp-btn ${isFavorite ? 'cp-btn--primary' : 'cp-btn--secondary'}" data-action="favorite" data-entry-id="${escapeAttribute(entry.id)}">
+          ${escapeHtml(app.t(isFavorite ? 'rulebook.actions.removeFavorite' : 'rulebook.actions.addFavorite'))}
+        </button>
+      </div>
     </div>
     <p class="rulebook-detail__summary">${escapeHtml(entry.summary)}</p>
     <div class="rulebook-tags">${(entry.tags || []).map((tag) => `<span>${escapeHtml(tag)}</span>`).join('')}</div>

@@ -5,6 +5,7 @@ import { RecordsStandingsPanel } from '../components/RecordsStandingsPanel.js';
 import { RecordsImportModal } from '../components/RecordsImportModal.js';
 import { RecordsEditModal } from '../components/RecordsEditModal.js';
 import { CpLoader } from '../../../../core/ui/components/CpLoader.js';
+import { CpConfirm } from '../../../../core/ui/components/CpConfirm.js';
 
 export function mountRecordsPage({ root, vm, app }) {
   vm = vm || app.services.get('records.vm');
@@ -56,8 +57,19 @@ export function mountRecordsPage({ root, vm, app }) {
     if (action === 'deleteRecordArea') {
       const areaCode = button.dataset.areaCode;
       if (!areaCode) return;
-      const message = app.t('records.standings.confirmDelete').replace('{code}', areaCode);
-      if (window.confirm(message)) vm.deleteRecordArea(areaCode).catch(() => {});
+      // UX v0.2.14 : confirmation explicite — la modale dit ce qui va
+      // disparaitre (zone + nombre de records) au lieu d'un confirm() natif.
+      const catalogCount = (vm.state.recordCodes ?? []).find((item) => item.areaCode === areaCode)?.recordsCount
+        ?? (vm.state.globalRecords ?? []).filter((record) => record.areaCode === areaCode).length;
+      const confirmed = await CpConfirm({
+        app,
+        title: app.t('records.standings.deleteTitle'),
+        message: app.t('records.standings.confirmDeleteDetail')
+          .replace(/\{code\}/g, areaCode)
+          .replace('{count}', String(catalogCount ?? 0)),
+        confirmLabel: app.t('records.actions.delete')
+      });
+      if (confirmed) vm.deleteRecordArea(areaCode).catch(() => {});
     }
   }
 

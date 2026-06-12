@@ -1,8 +1,10 @@
 {
-  "navigation": { "title": "Impressions" },
-  "title": "Impressions",
-  "description": "Impressions Ianseo exposées via la façade partagée AppIanseo.",
-  "adapterBadge": "Adaptateur AppIanseo impressions",
+  "navigation": {
+    "title": "Impressions"
+  },
+  "title": "Impressions du concours",
+  "description": "Imprimez les documents du concours : feuilles de marque, listes, résultats…",
+  "adapterBadge": "",
   "loading": "Chargement des impressions...",
   "actions": {
     "open": "Ouvrir",
@@ -16,6 +18,8 @@
     "targetsFrom": "Cibles de",
     "targetsTo": "à",
     "distances": "Distances",
-    "noEmpty": "Sans cibles vides"
-  }
+    "noEmpty": "Sans cibles vides",
+    "help": "Feuilles de marque à distribuer sur chaque cible avant le départ. Laissez les champs par défaut pour tout imprimer."
+  },
+  "intro": "Tous les documents à imprimer pour votre concours sont ici, regroupés par usage. Le plus courant : les feuilles de marque, à distribuer sur chaque cible avant le départ."
 }

@@ -3,11 +3,11 @@
     "title": "FFTA Export"
   },
   "title": "FFTA results export",
-  "subtitle": "Official federation export plus reproducible non-regression checks.",
+  "subtitle": "The results file to upload to the FFTA extranet.",
   "tabs": {
     "export": "Export",
-    "tnrActive": "Active tournament TNR",
-    "tnrDataset": "JSON dataset TNR"
+    "tnrActive": "Tests (active tournament)",
+    "tnrDataset": "Tests (dataset)"
   },
   "fields": {
     "level": "Level",
@@ -20,7 +20,7 @@
     "N": "French championship"
   },
   "actions": {
-    "download": "Download TXT",
+    "download": "Download the FFTA file",
     "runTnr": "Run TNR",
     "runDataset": "Test dataset",
     "refresh": "Refresh"
@@ -35,7 +35,7 @@
   },
   "status": {
     "idle": "Ready",
-    "success": "Success",
+    "success": "File ready. Upload it to the FFTA extranet.",
     "failure": "Failure",
     "missingExpected": "Expected file missing",
     "running": "Running..."
@@ -46,5 +46,6 @@
     "generated": "Generated",
     "expected": "Expected",
     "lines": "lines"
-  }
+  },
+  "intro": "This module generates the official results file to upload to the FFTA extranet. Pick the level (shown on your mandate), then download."
 }

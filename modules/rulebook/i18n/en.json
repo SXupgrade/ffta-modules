@@ -1,5 +1,7 @@
 {
-  "navigation": { "title": "Rule Book" },
+  "navigation": {
+    "title": "Rule Book"
+  },
   "kicker": "FFTA rules",
   "title": "Rule Book",
   "description": "Lightweight companion for the sports and judging rules: table of contents, frequent rules, quick search and official PDF link.",
@@ -7,7 +9,8 @@
     "openPdf": "Open official PDF",
     "favorites": "Favorites",
     "addFavorite": "Add favorite",
-    "removeFavorite": "Remove favorite"
+    "removeFavorite": "Remove favorite",
+    "openPdfAtPage": "Open the PDF at page {page}"
   },
   "summary": {
     "version": "Version",
@@ -28,9 +31,12 @@
     "para": "Para archery",
     "nature": "Nature course",
     "threeD": "3D target archery",
-    "runArchery": "Run Archery"
+    "runArchery": "Run Archery",
+    "organisation": "Tournament organisation"
   },
-  "disciplines": { "all": "All sections" },
+  "disciplines": {
+    "all": "All sections"
+  },
   "results": {
     "title": "Quick cards",
     "count": "{count} result(s)"
@@ -43,5 +49,7 @@
   "empty": {
     "title": "No result",
     "description": "Try a broader keyword or disable the favorites filter. Even rule books sometimes enjoy hiding."
-  }
+  },
+  "intro": "The FFTA rulebook at hand: search a keyword, browse the table of contents, or open the official PDF right at the right page.",
+  "versionNote": "Rulebook version: {version}. Check the FFTA website for updates."
 }

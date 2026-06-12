@@ -1,0 +1,34 @@
+/* Harmonisation v0.2.13 — base d'impression commune.
+ * Les modules n'ajoutent que leurs spécificités dans leur propre @media print.
+ * Marge de page standard unique (les valeurs locales 1.5cm / 12mm divergeaient). */
+@media print {
+  @page {
+    margin: 12mm;
+  }
+
+  body {
+    background: #fff !important;
+  }
+
+  .ffta-modules-shell .ffta-shell__header,
+  .ffta-modules-shell .ffta-shell__nav,
+  .ffta-modules-shell .ffta-shell__actions,
+  .ffta-modules-shell .cp-modal-backdrop,
+  .ffta-modules-shell .ffta-toast-container,
+  .ffta-modules-shell .ffta-dev-badge,
+  .cp-modal-backdrop,
+  .ffta-toast-container {
+    display: none !important;
+  }
+
+  .ffta-modules-shell .ffta-app {
+    background: #fff;
+    min-height: 0;
+  }
+
+  .ffta-modules-shell .cp-card,
+  .ffta-modules-shell .league-group {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+}
