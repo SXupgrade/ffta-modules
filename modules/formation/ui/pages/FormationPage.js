@@ -8,6 +8,8 @@ export function mountFormationPage({ root, vm, app }) {
     if (!action) return;
     if (action.dataset.action === 'select-lesson') { vm.selectLesson(action.dataset.lessonId); render(); }
     if (action.dataset.action === 'refresh') await vm.refresh();
+    if (action.dataset.action === 'seed') await vm.seedCurrentLesson();
+    if (action.dataset.action === 'verify') await vm.verifyCurrentExercise();
     if (action.dataset.action === 'validate') await vm.validateCurrentLesson();
     if (action.dataset.action === 'reset') await vm.resetProgress();
   }
@@ -25,7 +27,10 @@ function buildHtml(vm, app) {
   const completion = vm.getCompletion();
   const selectedLesson = vm.getSelectedLesson();
   const progress = state.progress || {};
+  const exerciseInit = state.exerciseInit || {};
+  const exerciseCheck = state.exerciseCheck || {};
   const archerName = snapshot.sample?.archer || app.t('formation.dynamic.defaultArcher');
+  const course = vm.getCourse();
   return `
     <section class="ffta-page formation-page">
       <div class="ffta-page__header formation-hero">
@@ -42,7 +47,7 @@ function buildHtml(vm, app) {
       <div class="formation-context cp-card">
         <h2>${escapeHtml(app.t('formation.context.title'))}</h2>
         ${snapshot.tournament ? `
-          <p><strong>${escapeHtml(snapshot.tournament.name || snapshot.tournament.code)}</strong> · ${escapeHtml(snapshot.tournament.code || '')}</p>
+          <p><strong>${escapeHtml(snapshot.tournament.name || snapshot.tournament.code)}</strong> - ${escapeHtml(snapshot.tournament.code || '')}</p>
           <p class="ffta-muted">${escapeHtml(app.t('formation.context.stats', snapshot.stats || {}))}</p>
           <p class="formation-live">${escapeHtml(app.t('formation.context.liveExample', { archer: archerName }))}</p>
         ` : `<p class="ffta-muted">${escapeHtml(app.t('formation.context.noTournament'))}</p>`}
@@ -53,12 +58,21 @@ function buildHtml(vm, app) {
       <div class="formation-layout">
         <aside class="formation-lessons cp-card">
           <h2>${escapeHtml(app.t('formation.lessons.title'))}</h2>
-          ${vm.course.lessons.map((lesson, index) => lessonButton({ lesson, index, selectedLesson, progress, app })).join('')}
+          ${course.lessons.map((lesson, index) => lessonButton({ lesson, index, selectedLesson, progress })).join('')}
         </aside>
         <main class="formation-detail cp-card">
-          <p class="formation-step">${escapeHtml(app.t('formation.lessonNumber', { number: vm.course.lessons.indexOf(selectedLesson) + 1, total: vm.course.lessons.length }))}</p>
-          <h2>${escapeHtml(app.t(selectedLesson.titleKey))}</h2>
-          <p>${escapeHtml(app.t(selectedLesson.goalKey, { archer: archerName }))}</p>
+          <p class="formation-step">${escapeHtml(app.t('formation.lessonNumber', { number: course.lessons.indexOf(selectedLesson) + 1, total: course.lessons.length }))}</p>
+          <h2>${escapeHtml(interpolate(selectedLesson.title, { archer: archerName }))}</h2>
+          <section class="formation-block">
+            <h3>${escapeHtml(app.t('formation.step.objectives'))}</h3>
+            <p>${escapeHtml(interpolate(selectedLesson.objectives, { archer: archerName }))}</p>
+          </section>
+          <section class="formation-block">
+            <h3>${escapeHtml(app.t('formation.step.learningText'))}</h3>
+            <p>${escapeHtml(interpolate(selectedLesson.learningText, { archer: archerName }))}</p>
+          </section>
+          ${imagesHtml(selectedLesson, app)}
+          ${exerciseHtml(selectedLesson, exerciseInit[selectedLesson.id], exerciseCheck[selectedLesson.id], app, state.loading)}
           ${validationHtml(progress[selectedLesson.id], app)}
           <div class="formation-actions">
             <button class="cp-button cp-button--primary" data-action="validate" ${state.loading ? 'disabled' : ''}>${escapeHtml(app.t('formation.actions.validate'))}</button>
@@ -68,11 +82,63 @@ function buildHtml(vm, app) {
     </section>`;
 }
 
-function lessonButton({ lesson, index, selectedLesson, progress, app }) {
+function imagesHtml(lesson, app) {
+  if (!lesson?.hasImages) return '';
+  return `<section class="formation-images" aria-label="${escapeAttribute(app.t('formation.step.images'))}">
+    <h3>${escapeHtml(app.t('formation.step.images'))}</h3>
+    <div class="formation-image-slider">
+      ${lesson.images.map((image, index) => imageHtml(image, index, app)).join('')}
+    </div>
+  </section>`;
+}
+
+function imageHtml(image, index, app) {
+  const label = app.t('formation.step.imageLabel', { number: index + 1 });
+  const src = `modules/formation/data/${encodeURIComponent(image)}`;
+  return `<figure class="formation-image-slide">
+    <img src="${escapeAttribute(src)}" alt="${escapeAttribute(label)}" loading="lazy">
+    <figcaption>${escapeHtml(label)}</figcaption>
+  </figure>`;
+}
+
+function exerciseHtml(lesson, init, check, app, loading) {
+  if (!lesson?.hasExercise) return '';
+  return `<section class="formation-case">
+    <h3>${escapeHtml(app.t('formation.step.exercise'))}</h3>
+    <p>${escapeHtml(lesson.exercise)}</p>
+    ${init ? scriptResultHtml(init, app, 'formation.seed.completed', 'formation.seed.warning', 'formation.seed.error') : ''}
+    ${check ? exerciseCheckHtml(check, app) : ''}
+    <div class="formation-actions">
+      ${lesson.canInitExercise ? `<button class="cp-button" data-action="seed" ${loading ? 'disabled' : ''}>${escapeHtml(app.t('formation.actions.seed'))}</button>` : ''}
+      ${lesson.canVerifyExercise ? `<button class="cp-button" data-action="verify" ${loading ? 'disabled' : ''}>${escapeHtml(app.t('formation.actions.verify'))}</button>` : ''}
+    </div>
+  </section>`;
+}
+
+function exerciseCheckHtml(check, app) {
+  return scriptResultHtml(check, app, 'formation.exercise.success', 'formation.exercise.warning', 'formation.exercise.error');
+}
+
+function scriptResultHtml(result, app, okKey, warningKey, errorKey) {
+  const statusClass = result.status === 'ok' ? 'is-ok' : result.status === 'warning' ? 'is-warning' : 'is-ko';
+  const titleKey = result.status === 'ok' ? okKey : result.status === 'warning' ? warningKey : errorKey;
+  return `<div class="formation-validation ${statusClass}">
+    <strong>${escapeHtml(app.t(titleKey))}</strong>
+    ${(result.results || []).map((item) => `<p>${statusIcon(item.status)} ${escapeHtml(item.message)}</p>`).join('')}
+  </div>`;
+}
+
+function statusIcon(status) {
+  if (status === 'ok') return '&check;';
+  if (status === 'warning') return '!';
+  return '&bull;';
+}
+
+function lessonButton({ lesson, index, selectedLesson, progress }) {
   const done = progress[lesson.id]?.completed;
   const active = selectedLesson.id === lesson.id;
   return `<button class="formation-lesson ${active ? 'is-active' : ''}" data-action="select-lesson" data-lesson-id="${escapeAttribute(lesson.id)}">
-    <span>${done ? '✓' : index + 1}</span><strong>${escapeHtml(app.t(lesson.titleKey))}</strong>
+    <span>${done ? '&check;' : index + 1}</span><strong>${escapeHtml(lesson.title)}</strong>
   </button>`;
 }
 
@@ -80,9 +146,12 @@ function validationHtml(entry, app) {
   if (!entry) return `<p class="ffta-muted">${escapeHtml(app.t('formation.validation.notChecked'))}</p>`;
   return `<div class="formation-validation ${entry.completed ? 'is-ok' : 'is-ko'}">
     <strong>${escapeHtml(app.t(entry.completed ? 'formation.validation.ok' : 'formation.validation.ko'))}</strong>
-    ${(entry.results || []).map((result) => `<p>${result.ok ? '✓' : '•'} ${escapeHtml(result.message)}</p>`).join('')}
+    ${(entry.results || []).map((result) => `<p>${result.ok ? '&check;' : '&bull;'} ${escapeHtml(result.message)}</p>`).join('')}
   </div>`;
 }
 
+function interpolate(value, params = {}) {
+  return String(value ?? '').replace(/\{([a-zA-Z0-9_]+)\}/g, (_, key) => params[key] ?? '');
+}
 function escapeHtml(value) { return String(value ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 function escapeAttribute(value) { return escapeHtml(value).replace(/'/g, '&#39;'); }

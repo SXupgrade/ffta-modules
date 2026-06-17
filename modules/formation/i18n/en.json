@@ -3,10 +3,10 @@
     "title": "Training"
   },
   "kicker": "Ianseo eLearning",
-  "title": "FFTA Ianseo Training — V1",
-  "description": "Guided course based on the 2024 simplified FFTA tutorial, with automatic checks on the active tournament.",
+  "title": "FFTA Ianseo Training - V1",
+  "description": "Guided course based on the simplified FFTA tutorial and Ianseo user guide, with automatic checks on the active tournament.",
   "course": {
-    "title": "2024 FFTA path",
+    "title": "FFTA training path",
     "description": "From setup to the federation TXT export."
   },
   "context": {
@@ -21,7 +21,29 @@
   "actions": {
     "refresh": "Refresh",
     "reset": "Reset",
+    "seed": "Prepare practical case",
+    "verify": "Verify exercise",
     "validate": "Validate this step"
+  },
+  "seed": {
+    "completed": "Initialization script executed.",
+    "warning": "Initialization script executed with warning.",
+    "error": "Initialization script failed."
+  },
+  "case": {
+    "title": "Practical case"
+  },
+  "step": {
+    "objectives": "Objectives",
+    "learningText": "Course",
+    "images": "Images",
+    "imageLabel": "Image {number}",
+    "exercise": "Application exercise"
+  },
+  "exercise": {
+    "success": "Exercise passed.",
+    "warning": "Exercise checked with warning.",
+    "error": "Exercise needs fixing."
   },
   "lessonNumber": "Step {number}/{total}",
   "validation": {
@@ -35,51 +57,121 @@
     "title": "Courses",
     "equipment": {
       "title": "Equipment and access",
-      "goal": "Check that the training environment is ready and a tournament is open."
+      "goal": "Check that the training environment is ready and a tournament is open.",
+      "reference": "Reference: workstation setup, browser access, local Ianseo server, current tournament context."
     },
     "updateResources": {
       "title": "Ianseo and FFTA resource updates",
-      "goal": "Review Ianseo updates and federation resource synchronization before creating the tournament."
+      "goal": "Review Ianseo updates and federation resource synchronization before creating the tournament.",
+      "reference": "Reference: Ianseo update workflow and federation resource update reminders from the training documents."
     },
     "createCompetition": {
       "title": "Create the tournament",
-      "goal": "Create a training tournament with a code, name, location and dates."
+      "goal": "Create a training tournament with a code, name, location and dates.",
+      "reference": "Reference: tournament creation and competition information screens."
     },
     "configureFfta18m": {
       "title": "Configure FFTA indoor 18m",
-      "goal": "Select French rules, Indoor 18m / 2 distances and the expected sub-rule."
+      "goal": "Select French rules, Indoor 18m / 2 distances and the expected sub-rule.",
+      "reference": "Reference: FFTA indoor competition type and local rule selection."
     },
     "sessions": {
       "title": "Configure sessions",
-      "goal": "Create sessions, target count, archers per target and timings."
+      "goal": "Create sessions, target count, archers per target and timings.",
+      "reference": "Reference: departures, target count, archers per target and timetable setup."
     },
     "distancesClasses": {
       "title": "Distances, divisions and classes",
-      "goal": "Check that divisions, classes and distances were generated from the FFTA rules."
+      "goal": "Check that divisions, classes and distances were generated from the FFTA rules.",
+      "reference": "Reference: generated categories, bow divisions, age classes and distances."
     },
     "officials": {
       "title": "Staff and judges",
-      "goal": "Introduce the staff management screen. In V1, validation is pedagogical and non-blocking."
+      "goal": "Introduce the staff management screen. In V1, validation is pedagogical and non-blocking.",
+      "reference": "Reference: organizing staff and judge information screens."
     },
     "participants": {
       "title": "Participants",
-      "goal": "Create or import at least two archers, for example {archer}, with license, club, division and class."
+      "goal": "Create or import at least two archers, for example {archer}, with license, club, division and class.",
+      "reference": "Reference: participant entry, lookup, club, license, division and class fields."
     },
     "targetAssignment": {
       "title": "Target assignment",
-      "goal": "Assign at least one archer to a target using manual assignment or the advanced list."
+      "goal": "Assign at least one archer to a target using manual assignment or the advanced list.",
+      "reference": "Reference: manual target assignment and advanced assignment list."
     },
     "scoreSheets": {
       "title": "Score sheets and QR codes",
-      "goal": "Prepare score sheet printing. Automatic validation checks that targets exist before printing."
+      "goal": "Prepare score sheet printing. Automatic validation checks that targets exist before printing.",
+      "reference": "Reference: score sheet printing and QR code workflow."
     },
     "scoreEntry": {
       "title": "Score entry and verification",
-      "goal": "Enter at least one score, then explain paper / Scorekeeper verification."
+      "goal": "Enter at least one score, then explain paper / Scorekeeper verification.",
+      "reference": "Reference: score entry, consistency checks, totals, 10s and X/9s."
     },
     "rankingExport": {
       "title": "Rankings and TXT export",
-      "goal": "Recalculate rankings and prepare the federation TXT export after the tournament."
+      "goal": "Recalculate rankings and prepare the federation TXT export after the tournament.",
+      "reference": "Reference: qualification ranking, recalculation and FFTA TXT export."
+    }
+  },
+  "cases": {
+    "identity": {
+      "summary": "The module can fill a neutral training identity so the trainee focuses on the required fields.",
+      "instructions": [
+        "Open the competition information screen and review the code, name, venue and dates.",
+        "Adjust one visible field, save, then validate the step here."
+      ],
+      "expected": "Expected state: the tournament has a code, a name or place, and a start date."
+    },
+    "ffta18m": {
+      "summary": "Prepare the tournament as a French indoor 18m training event.",
+      "instructions": [
+        "Review the competition type and local rules after seed preparation.",
+        "If your Ianseo version offers more precise FFTA sub-rules, select the one used by the trainer."
+      ],
+      "expected": "Expected state: French rules are selected and the tournament is configured as indoor 18m or two distances."
+    },
+    "sessions": {
+      "summary": "Create two classroom departures with targets and four archers per target.",
+      "instructions": [
+        "Open the session/departure setup screen.",
+        "Confirm there is at least one departure with target count and archers per target."
+      ],
+      "expected": "Expected state: at least one session has target capacity and archers per target."
+    },
+    "taxonomy": {
+      "summary": "Seed a minimal recurve Senior 1 taxonomy when the training database is empty.",
+      "instructions": [
+        "Open division, class and distance screens.",
+        "Check that generated FFTA values exist or complete them from the trainer instructions."
+      ],
+      "expected": "Expected state: divisions, classes and distances exist for the active tournament."
+    },
+    "participants": {
+      "summary": "Add two training archers that can be reused by later practical cases.",
+      "instructions": [
+        "Open the participants screen and inspect Camille Martin and Noa Bernard.",
+        "Complete any missing FFTA fields requested by the trainer, such as club, license, class or division."
+      ],
+      "expected": "Expected state: at least two participants exist in the tournament."
+    },
+    "wrongTarget": {
+      "summary": "Camille Martin is intentionally assigned to the wrong target.",
+      "instructions": [
+        "Open target assignment and find Camille Martin.",
+        "Move Camille Martin from target 001A to target 002A, then save the assignment."
+      ],
+      "expected": "Expected state: FFTA-FORM-001 / Camille Martin is assigned to target 002A."
+    },
+    "scores": {
+      "summary": "Seed a small scored qualification so trainees can practice score checks and rankings.",
+      "instructions": [
+        "Open score entry and inspect the two training archers.",
+        "Change or confirm one score, then recalculate rankings from Ianseo."
+      ],
+      "expected": "Expected state: at least one qualification score exists; ranking recalculation is checked in the final step."
     }
   }
 }

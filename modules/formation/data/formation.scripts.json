@@ -1,0 +1,405 @@
+{
+  "initScripts": {
+    "tournament_identity": {
+      "actions": [
+        {
+          "type": "updateTournament",
+          "values": {
+            "ToCode": "FFTA-FORM",
+            "ToName": "FFTA Training Tournament",
+            "ToWhere": "Training hall",
+            "ToVenue": "Ianseo classroom",
+            "ToWhenFrom": "{today}",
+            "ToWhenTo": "{today}"
+          }
+        }
+      ]
+    },
+    "ffta_18m": {
+      "actions": [
+        {
+          "type": "updateTournament",
+          "values": {
+            "ToLocRule": "FR",
+            "ToTypeName": "Indoor 18m",
+            "ToNumDist": 2,
+            "ToNumSession": 2
+          }
+        }
+      ]
+    },
+    "sessions": {
+      "actions": [
+        {
+          "type": "upsertSession",
+          "match": { "SesOrder": 1 },
+          "values": {
+            "SesOrder": 1,
+            "SesName": "FFTA-FORM Depart 1",
+            "SesTar4Session": 12,
+            "SesAth4Target": 4
+          }
+        },
+        {
+          "type": "upsertSession",
+          "match": { "SesOrder": 2 },
+          "values": {
+            "SesOrder": 2,
+            "SesName": "FFTA-FORM Depart 2",
+            "SesTar4Session": 12,
+            "SesAth4Target": 4
+          }
+        },
+        {
+          "type": "updateTournament",
+          "values": { "ToNumSession": 2 }
+        }
+      ]
+    },
+    "taxonomy": {
+      "actions": [
+        {
+          "type": "upsertDivision",
+          "match": { "DivId": "CL" },
+          "values": {
+            "DivId": "CL",
+            "DivDescription": "Recurve",
+            "DivViewOrder": 1
+          }
+        },
+        {
+          "type": "upsertClass",
+          "match": { "ClId": "S1" },
+          "values": {
+            "ClId": "S1",
+            "ClDescription": "Senior 1",
+            "ClViewOrder": 1
+          }
+        },
+        {
+          "type": "upsertTournamentDistance",
+          "match": { "TdSequence": 1 },
+          "values": {
+            "TdSequence": 1,
+            "TdDistance": 18
+          }
+        },
+        {
+          "type": "upsertTournamentDistance",
+          "match": { "TdSequence": 2 },
+          "values": {
+            "TdSequence": 2,
+            "TdDistance": 18
+          }
+        }
+      ]
+    },
+    "participants": {
+      "actions": [
+        {
+          "type": "upsertCountry",
+          "match": { "CoCode": "FFTA" },
+          "values": {
+            "CoCode": "FFTA",
+            "CoName": "Formation Club",
+            "CoNameComplete": "Club Formation FFTA",
+            "CoIocCode": "FRA"
+          }
+        },
+        {
+          "type": "upsertEntry",
+          "match": { "EnCode": "1000123A" },
+          "values": {
+            "EnCode": "1000123A",
+            "EnFirstName": "Camille",
+            "EnName": "Martin",
+            "EnCountry": { "ref": "country:FFTA" },
+            "EnDivision": "CL",
+            "EnClass": "S1F",
+            "EnAgeClass": "S1F",
+            "EnIocCode": "FRA",
+            "EnDob": "2000-01-02",
+            "EnSex": 1,
+            "EnStatus": 0,
+            "EnTargetFace": 1
+          }
+        },
+        {
+          "type": "upsertQualification",
+          "entryCode": "1000123A",
+          "values": {
+            "QuSession": 2,
+            "QuTargetNo": "2002A",
+            "QuTarget": "2",
+            "QuLetter": "A",
+            "QuScore": 0,
+            "QuClRank": 0
+          }
+        },
+        {
+          "type": "upsertEntry",
+          "match": { "EnCode": "1000456Z" },
+          "values": {
+            "EnCode": "1000456Z",
+            "EnFirstName": "Noa",
+            "EnName": "Bernard",
+            "EnCountry": { "ref": "country:FFTA" },
+            "EnDivision": "CL",
+            "EnClass": "S2H",
+            "EnAgeClass": "S2H",
+            "EnIocCode": "FRA",
+            "EnDob": "1990-09-02",
+            "EnSex": 0,
+            "EnStatus": 0,
+            "EnTargetFace": 1
+          }
+        },
+        {
+          "type": "upsertQualification",
+          "entryCode": "1000456Z",
+          "values": {
+            "QuSession": 1,
+            "QuTargetNo": "1004B",
+            "QuTarget": "4",
+            "QuLetter": "B",
+            "QuScore": 0,
+            "QuClRank": 0
+          }
+        }
+      ]
+    },
+    "wrong_target": {
+      "actions": [
+        { "type": "runInitScript", "scriptId": "participants" },
+        {
+          "type": "upsertQualification",
+          "entryCode": "1000123A",
+          "values": {
+            "QuSession": 2,
+            "QuTarget": "5",
+            "QuLetter": "A"
+          }
+        }
+      ]
+    },
+    "scores": {
+      "actions": [
+        { "type": "runInitScript", "scriptId": "participants" },
+        {
+          "type": "upsertQualification",
+          "entryCode": "1000123A",
+          "values": {
+            "QuScore": 542,
+            "QuGold": 18,
+            "QuXnine": 7,
+            "QuClRank": 1
+          }
+        },
+        {
+          "type": "upsertQualification",
+          "entryCode": "FFTA-FORM-002",
+          "values": {
+            "QuScore": 511,
+            "QuGold": 11,
+            "QuXnine": 3,
+            "QuClRank": 2
+          }
+        }
+      ]
+    }
+  },
+  "checkScripts": {
+    "active_tournament": {
+      "checks": [
+        {
+          "type": "activeTournament",
+          "message": "Active tournament detected."
+        }
+      ]
+    },
+    "tournament_identity": {
+      "checks": [
+        {
+          "type": "fieldNotEmpty",
+          "from": "Tournament",
+          "field": "ToCode",
+          "message": "Tournament code is required."
+        },
+        {
+          "type": "or",
+          "message": "Tournament name or place is required.",
+          "checks": [
+            { "type": "fieldNotEmpty", "from": "Tournament", "field": "ToName" },
+            { "type": "fieldNotEmpty", "from": "Tournament", "field": "ToWhere" }
+          ]
+        },
+        {
+          "type": "fieldNotEmpty",
+          "from": "Tournament",
+          "field": "ToWhenFrom",
+          "message": "Tournament start date is required."
+        }
+      ]
+    },
+    "ffta_18m_ready": {
+      "checks": [
+        {
+          "type": "fieldContains",
+          "from": "Tournament",
+          "field": "ToLocRule",
+          "value": "FR",
+          "message": "Use French rules in competition information."
+        },
+        {
+          "type": "or",
+          "message": "Expected an indoor 18m / 2 distances setup.",
+          "checks": [
+            { "type": "fieldContains", "from": "Tournament", "field": "ToTypeName", "value": "18" },
+            { "type": "fieldEquals", "from": "Tournament", "field": "ToNumDist", "value": 2 }
+          ]
+        }
+      ]
+    },
+    "sessions_configured": {
+      "checks": [
+        {
+          "type": "count",
+          "from": "Session",
+          "where": {
+            "SesTar4Session": { "operator": ">", "value": 0 },
+            "SesAth4Target": { "operator": ">", "value": 0 }
+          },
+          "operator": ">",
+          "expected": 0,
+          "message": "At least one session must define targets and archers per target."
+        }
+      ]
+    },
+    "2_sessions_configured": {
+      "checks": [
+        {
+          "type": "count",
+          "from": "Session",
+          "where": {
+            "SesTar4Session": { "operator": ">", "value": 0 },
+            "SesAth4Target": { "operator": ">", "value": 0 }
+          },
+          "operator": ">",
+          "expected": 1,
+          "message": "At least two sessions must define targets and archers per target."
+        }
+      ]
+    },
+    "taxonomy_configured": {
+      "checks": [
+        {
+          "type": "count",
+          "from": "Divisions",
+          "operator": ">",
+          "expected": 0,
+          "message": "Divisions must exist."
+        },
+        {
+          "type": "count",
+          "from": "Classes",
+          "operator": ">",
+          "expected": 0,
+          "message": "Classes must exist."
+        },
+        {
+          "type": "or",
+          "message": "Distances must be generated or configured.",
+          "checks": [
+            { "type": "count", "from": "TournamentDistances", "operator": ">", "expected": 0 },
+            { "type": "count", "from": "DistanceInformation", "operator": ">", "expected": 0 }
+          ]
+        }
+      ]
+    },
+    "participants_created": {
+      "checks": [
+        {
+          "type": "count",
+          "from": "Entries",
+          "operator": ">=",
+          "expected": 2,
+          "message": "Create at least two participants."
+        }
+      ]
+    },
+    "target_case_fixed": {
+      "checks": [
+        {
+          "type": "count",
+          "from": "Qualifications",
+          "join": "Entries",
+          "where": {
+            "Entries.EnCode": "1000123A",
+            "Qualifications.QuTarget": "1",
+            "Qualifications.QuPosition": "C"
+          },
+          "operator": "===",
+          "expected": 1,
+          "message": "Camille Martin must be moved back to target 1C."
+        }
+      ]
+    },
+    "targets_assigned": {
+      "checks": [
+        {
+          "type": "count",
+          "from": "Qualifications",
+          "join": "Entries",
+          "where": {
+            "Qualifications.QuTargetNo": { "operator": "!=", "value": "" }
+          },
+          "operator": ">=",
+          "expected": 1,
+          "message": "Assign at least one archer to a target."
+        }
+      ]
+    },
+    "scores_entered": {
+      "checks": [
+        {
+          "type": "count",
+          "from": "Qualifications",
+          "join": "Entries",
+          "where": {
+            "Qualifications.QuScore": { "operator": ">", "value": 0 }
+          },
+          "operator": ">=",
+          "expected": 1,
+          "message": "Enter at least one score."
+        }
+      ]
+    },
+    "ranking_export_ready": {
+      "checks": [
+        {
+          "type": "count",
+          "from": "Qualifications",
+          "join": "Entries",
+          "where": {
+            "Qualifications.QuScore": { "operator": ">", "value": 0 },
+            "Qualifications.QuClRank": { "operator": ">", "value": 0 }
+          },
+          "operator": ">=",
+          "expected": 1,
+          "message": "Ranking should be recalculated after score entry."
+        },
+        {
+          "type": "count",
+          "from": "Qualifications",
+          "join": "Entries",
+          "where": {
+            "Qualifications.QuScore": { "operator": ">", "value": 0 }
+          },
+          "operator": ">=",
+          "expected": 1,
+          "message": "TXT export is possible once scores exist."
+        }
+      ]
+    }
+  }
+}

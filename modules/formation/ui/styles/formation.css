@@ -1,19 +1,34 @@
-.formation-page { display: grid; gap: 1rem; }
-.formation-hero { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-.formation-kicker { margin: 0 0 .35rem; color: #7c3aed; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
-.formation-score { min-width: 96px; padding: 1rem; border-radius: 1rem; background: rgba(124,58,237,.10); text-align: center; }
-.formation-score strong { display: block; font-size: 2rem; }
-.formation-context { display: grid; gap: .5rem; }
-.formation-live { border-left: 4px solid #7c3aed; padding-left: .75rem; }
-.formation-layout { display: grid; grid-template-columns: minmax(230px, 320px) 1fr; gap: 1rem; }
-.formation-lessons { display: grid; gap: .5rem; align-content: start; }
-.formation-lesson { width: 100%; border: 1px solid rgba(100,116,139,.25); background: transparent; border-radius: .9rem; padding: .75rem; display: flex; gap: .75rem; align-items: center; text-align: left; cursor: pointer; }
-.formation-lesson span { width: 1.8rem; height: 1.8rem; border-radius: 999px; display: grid; place-items: center; background: rgba(124,58,237,.10); }
-.formation-lesson.is-active { border-color: #7c3aed; background: rgba(124,58,237,.08); }
-.formation-detail { display: grid; gap: 1rem; align-content: start; }
-.formation-step { margin: 0; color: #64748b; font-size: .9rem; }
-.formation-validation { border-radius: .9rem; padding: .9rem; background: rgba(239,68,68,.08); }
-.formation-validation.is-ok { background: rgba(34,197,94,.10); }
-.formation-validation p { margin: .35rem 0 0; }
-.formation-actions { display: flex; gap: .5rem; }
-@media (max-width: 760px) { .formation-hero, .formation-layout { grid-template-columns: 1fr; display: grid; } }
+.ffta-modules-shell .formation-page { display: grid; gap: 1rem; }
+.ffta-modules-shell .formation-hero { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.ffta-modules-shell .formation-kicker { margin: 0 0 .35rem; color: #7c3aed; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.ffta-modules-shell .formation-score { min-width: 96px; padding: 1rem; border-radius: 1rem; background: rgba(124,58,237,.10); text-align: center; }
+.ffta-modules-shell .formation-score strong { display: block; font-size: 2rem; }
+.ffta-modules-shell .formation-context { display: grid; gap: .5rem; }
+.ffta-modules-shell .formation-live { border-left: 4px solid #7c3aed; padding-left: .75rem; }
+.ffta-modules-shell .formation-layout { display: grid; grid-template-columns: minmax(230px, 320px) 1fr; gap: 1rem; }
+.ffta-modules-shell .formation-lessons { display: grid; gap: .5rem; align-content: start; }
+.ffta-modules-shell .formation-lesson { width: 100%; border: 1px solid rgba(100,116,139,.25); background: transparent; border-radius: .9rem; padding: .75rem; display: flex; gap: .75rem; align-items: center; text-align: left; cursor: pointer; }
+.ffta-modules-shell .formation-lesson span { width: 1.8rem; height: 1.8rem; border-radius: 999px; display: grid; place-items: center; background: rgba(124,58,237,.10); }
+.ffta-modules-shell .formation-lesson.is-active { border-color: #7c3aed; background: rgba(124,58,237,.08); }
+.ffta-modules-shell .formation-detail { display: grid; gap: 1rem; align-content: start; }
+.ffta-modules-shell .formation-step { margin: 0; color: #64748b; font-size: .9rem; }
+.ffta-modules-shell .formation-block { display: grid; gap: .35rem; }
+.ffta-modules-shell .formation-block h3, .ffta-modules-shell .formation-block p { margin: 0; }
+.ffta-modules-shell .formation-reference { margin: 0; color: #475569; font-size: .95rem; }
+.ffta-modules-shell .formation-images { display: grid; gap: .75rem; }
+.ffta-modules-shell .formation-images h3 { margin: 0; }
+.ffta-modules-shell .formation-image-slider { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(260px, 82%); gap: .75rem; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: inline mandatory; padding-bottom: .35rem; }
+.ffta-modules-shell .formation-image-slide { display: grid; gap: .4rem; margin: 0; scroll-snap-align: start; }
+.ffta-modules-shell .formation-image-slide img { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; border: 1px solid rgba(100,116,139,.25); border-radius: .5rem; background: rgba(248,250,252,.85); }
+.ffta-modules-shell .formation-image-slide figcaption { color: #475569; font-size: .9rem; text-align: center; }
+.ffta-modules-shell .formation-case { display: grid; gap: .75rem; border: 1px solid rgba(20,184,166,.35); border-radius: .5rem; padding: 1rem; background: rgba(20,184,166,.07); }
+.ffta-modules-shell .formation-case h3, .ffta-modules-shell .formation-case p { margin: 0; }
+.ffta-modules-shell .formation-case ol { margin: 0; padding-left: 1.25rem; }
+.ffta-modules-shell .formation-case li + li { margin-top: .35rem; }
+.ffta-modules-shell .formation-expected { color: #0f766e; font-weight: 700; }
+.ffta-modules-shell .formation-validation { border-radius: .9rem; padding: .9rem; background: rgba(239,68,68,.08); }
+.ffta-modules-shell .formation-validation.is-ok { background: rgba(34,197,94,.10); }
+.ffta-modules-shell .formation-validation.is-warning { background: rgba(245,158,11,.12); }
+.ffta-modules-shell .formation-validation p { margin: .35rem 0 0; }
+.ffta-modules-shell .formation-actions { display: flex; gap: .5rem; }
+@media (max-width: 760px) { .ffta-modules-shell .formation-hero, .ffta-modules-shell .formation-layout { grid-template-columns: 1fr; display: grid; } }

@@ -3,83 +3,175 @@
     "title": "Formation"
   },
   "kicker": "eLearning Ianseo",
-  "title": "Formation Ianseo FFTA — V1",
-  "description": "Parcours guidé basé sur le tutoriel FFTA simplifié 2024, avec validations automatiques sur la compétition ouverte.",
+  "title": "Formation Ianseo FFTA - V1",
+  "description": "Parcours guide base sur le tutoriel FFTA simplifie et le manuel Ianseo, avec validations automatiques sur la competition ouverte.",
   "course": {
-    "title": "Parcours FFTA 2024",
-    "description": "De la préparation au fichier TXT fédéral."
+    "title": "Parcours de formation FFTA",
+    "description": "De la preparation a l'export TXT federal."
   },
   "context": {
-    "title": "Compétition de formation",
-    "noTournament": "Ouvre ou crée d'abord une compétition Ianseo. Le module travaillera ensuite sur cette compétition.",
-    "stats": "{entries} participant(s), {sessions} session(s), {assigned} affectation(s), {scores} score(s).",
+    "title": "Competition de formation",
+    "noTournament": "Ouvre ou cree d'abord une competition Ianseo. Le module travaillera ensuite sur cette competition.",
+    "stats": "{entries} participant(s), {sessions} depart(s), {assigned} affectation(s), {scores} score(s).",
     "liveExample": "Exemple vivant : si l'archer {archer} existe, le cours peut s'appuyer sur lui pour les consignes suivantes."
   },
   "dynamic": {
     "defaultArcher": "votre premier archer"
   },
   "actions": {
-    "refresh": "Rafraîchir",
-    "reset": "Réinitialiser",
-    "validate": "Valider cette étape"
+    "refresh": "Rafraichir",
+    "reset": "Reinitialiser",
+    "seed": "Preparer le cas pratique",
+    "verify": "Verifier l'exercice",
+    "validate": "Valider cette etape"
   },
-  "lessonNumber": "Étape {number}/{total}",
+  "seed": {
+    "completed": "Script d'initialisation execute.",
+    "warning": "Script d'initialisation execute avec avertissement.",
+    "error": "Script d'initialisation en erreur."
+  },
+  "case": {
+    "title": "Cas pratique"
+  },
+  "step": {
+    "objectives": "Objectifs",
+    "learningText": "Cours",
+    "images": "Images",
+    "imageLabel": "Image {number}",
+    "exercise": "Exercice d'application"
+  },
+  "exercise": {
+    "success": "Exercice reussi.",
+    "warning": "Exercice verifie avec avertissement.",
+    "error": "Exercice a corriger."
+  },
+  "lessonNumber": "Etape {number}/{total}",
   "validation": {
-    "notChecked": "Cette étape n'a pas encore été contrôlée.",
-    "ok": "Étape validée",
-    "ko": "À corriger",
-    "completed": "Étape validée.",
-    "checked": "Contrôle effectué : il reste des points à corriger."
+    "notChecked": "Cette etape n'a pas encore ete controlee.",
+    "ok": "Etape validee",
+    "ko": "A corriger",
+    "completed": "Etape validee.",
+    "checked": "Controle effectue : il reste des points a corriger."
   },
   "lessons": {
     "title": "Cours",
     "equipment": {
-      "title": "Équipements et accès",
-      "goal": "Vérifier que l'environnement de formation est prêt et qu'une compétition est ouverte."
+      "title": "Equipements et acces",
+      "goal": "Verifier que l'environnement de formation est pret et qu'une competition est ouverte.",
+      "reference": "Reference : poste de travail, acces navigateur, serveur Ianseo local et contexte de competition courant."
     },
     "updateResources": {
-      "title": "Mise à jour Ianseo et ressources FFTA",
-      "goal": "Faire le point pédagogique sur la mise à jour Ianseo et la synchronisation des ressources avant création du concours."
+      "title": "Mise a jour Ianseo et ressources FFTA",
+      "goal": "Faire le point pedagogique sur la mise a jour Ianseo et la synchronisation des ressources avant creation du concours.",
+      "reference": "Reference : mise a jour Ianseo et rappels de synchronisation des ressources federales dans les supports de formation."
     },
     "createCompetition": {
-      "title": "Créer la compétition",
-      "goal": "Créer une compétition de formation avec un code, un nom, un lieu et des dates cohérentes."
+      "title": "Creer la competition",
+      "goal": "Creer une competition de formation avec un code, un nom, un lieu et des dates coherentes.",
+      "reference": "Reference : ecrans de creation et d'informations de la competition."
     },
     "configureFfta18m": {
       "title": "Configurer Salle 18m FFTA",
-      "goal": "Choisir les règles françaises, le type Salle 18m / 2 distances et la sous-règle adaptée."
+      "goal": "Choisir les regles francaises, le type Salle 18m / 2 distances et la sous-regle adaptee.",
+      "reference": "Reference : choix du type de concours FFTA en salle et des regles locales."
     },
     "sessions": {
-      "title": "Configurer les départs",
-      "goal": "Créer les départs, renseigner le nombre de cibles, les archers par cible et les horaires."
+      "title": "Configurer les departs",
+      "goal": "Creer les departs, renseigner le nombre de cibles, les archers par cible et les horaires.",
+      "reference": "Reference : departs, nombre de cibles, archers par cible et parametrage des horaires."
     },
     "distancesClasses": {
       "title": "Distances, divisions et classes",
-      "goal": "Contrôler que les divisions, classes et distances ont été générées par les règles FFTA."
+      "goal": "Controler que les divisions, classes et distances ont ete generees par les regles FFTA.",
+      "reference": "Reference : categories generees, armes, classes d'age et distances."
     },
     "officials": {
       "title": "Personnel et arbitres",
-      "goal": "Présenter l'écran de gestion du personnel. En V1, la validation reste pédagogique et non bloquante."
+      "goal": "Presenter l'ecran de gestion du personnel. En V1, la validation reste pedagogique et non bloquante.",
+      "reference": "Reference : ecrans de gestion des organisateurs, arbitres et personnel."
     },
     "participants": {
       "title": "Participants",
-      "goal": "Créer ou importer au moins deux archers, par exemple {archer}, avec licence, club, division et classe."
+      "goal": "Creer ou importer au moins deux archers, par exemple {archer}, avec licence, club, division et classe.",
+      "reference": "Reference : saisie participant, recherche, club, licence, division et classe."
     },
     "targetAssignment": {
       "title": "Affectation des cibles",
-      "goal": "Affecter au moins un archer à une cible via l'affectation manuelle ou la liste avancée."
+      "goal": "Affecter au moins un archer a une cible via l'affectation manuelle ou la liste avancee.",
+      "reference": "Reference : affectation manuelle des cibles et liste avancee."
     },
     "scoreSheets": {
       "title": "Feuilles de marque et QR codes",
-      "goal": "Préparer l'impression des feuilles de marque. Le contrôle automatique vérifie que les cibles existent avant impression."
+      "goal": "Preparer l'impression des feuilles de marque. Le controle automatique verifie que les cibles existent avant impression.",
+      "reference": "Reference : impression des feuilles de marque et flux QR code."
     },
     "scoreEntry": {
-      "title": "Saisie et vérification des scores",
-      "goal": "Saisir au moins un score, puis expliquer la vérification papier / Scorekeeper."
+      "title": "Saisie et verification des scores",
+      "goal": "Saisir au moins un score, puis expliquer la verification papier / Scorekeeper.",
+      "reference": "Reference : saisie des scores, controles de coherence, totaux, 10 et X/9."
     },
     "rankingExport": {
       "title": "Classements et export TXT",
-      "goal": "Recalculer les classements et préparer l'export TXT fédéral de fin de concours."
+      "goal": "Recalculer les classements et preparer l'export TXT federal de fin de concours.",
+      "reference": "Reference : classement qualificatif, recalcul et export TXT FFTA."
+    }
+  },
+  "cases": {
+    "identity": {
+      "summary": "Le module peut renseigner une identite neutre de formation pour concentrer l'eleve sur les champs obligatoires.",
+      "instructions": [
+        "Ouvrir l'ecran d'informations de la competition et verifier le code, le nom, le lieu et les dates.",
+        "Modifier un champ visible, enregistrer, puis valider l'etape ici."
+      ],
+      "expected": "Etat attendu : la competition possede un code, un nom ou lieu, et une date de debut."
+    },
+    "ffta18m": {
+      "summary": "Preparer le concours comme un entrainement Salle 18m sous regles francaises.",
+      "instructions": [
+        "Verifier le type de competition et les regles locales apres preparation du cas.",
+        "Si votre version Ianseo propose des sous-regles FFTA plus precises, choisir celle indiquee par le formateur."
+      ],
+      "expected": "Etat attendu : les regles francaises sont selectionnees et le concours est en Salle 18m ou en deux distances."
+    },
+    "sessions": {
+      "summary": "Creer deux departs de formation avec des cibles et quatre archers par cible.",
+      "instructions": [
+        "Ouvrir l'ecran de parametrage des departs.",
+        "Verifier qu'au moins un depart possede un nombre de cibles et un nombre d'archers par cible."
+      ],
+      "expected": "Etat attendu : au moins un depart a une capacite de cibles et d'archers par cible."
+    },
+    "taxonomy": {
+      "summary": "Initialiser une taxonomie minimale arc classique Senior 1 si la base de formation est vide.",
+      "instructions": [
+        "Ouvrir les ecrans divisions, classes et distances.",
+        "Verifier que les valeurs FFTA generees existent ou les completer selon les consignes du formateur."
+      ],
+      "expected": "Etat attendu : divisions, classes et distances existent pour la competition ouverte."
+    },
+    "participants": {
+      "summary": "Ajouter deux archers de formation reutilisables dans les cas pratiques suivants.",
+      "instructions": [
+        "Ouvrir l'ecran participants et inspecter Camille Martin et Noa Bernard.",
+        "Completer les champs FFTA demandes par le formateur : club, licence, classe ou division."
+      ],
+      "expected": "Etat attendu : au moins deux participants existent dans la competition."
+    },
+    "wrongTarget": {
+      "summary": "Camille Martin est volontairement affectee a une mauvaise cible.",
+      "instructions": [
+        "Ouvrir l'affectation des cibles et retrouver Camille Martin.",
+        "Deplacer Camille Martin de la cible 001A vers la cible 002A, puis enregistrer."
+      ],
+      "expected": "Etat attendu : FFTA-FORM-001 / Camille Martin est affectee a la cible 002A."
+    },
+    "scores": {
+      "summary": "Initialiser une petite qualification scoree pour travailler la verification et les classements.",
+      "instructions": [
+        "Ouvrir la saisie des scores et inspecter les deux archers de formation.",
+        "Modifier ou confirmer un score, puis recalculer les classements depuis Ianseo."
+      ],
+      "expected": "Etat attendu : au moins un score qualificatif existe ; le recalcul du classement est controle dans l'etape finale."
     }
   }
 }

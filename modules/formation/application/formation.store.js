@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'ffta.formation.state.v1';
-const DEFAULT_STATE = { selectedLessonId: 'equipment', snapshot: null, progress: {}, loading: false, error: '' };
+const DEFAULT_STATE = { selectedLessonId: 'equipment', snapshot: null, progress: {}, exerciseInit: {}, exerciseCheck: {}, course: null, loading: false, error: '' };
 export function createFormationStore({ storage } = {}) {
   let state = loadState(storage);
   const listeners = new Set();
