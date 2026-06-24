@@ -14,14 +14,14 @@ $__simpleMenuDefaultProfile = 'ffta-beginner';
 $__simpleMenuSelectedProfile = $__simpleMenuDefaultProfile;
 
 try {
-    if (function_exists('getModuleParameter')) {
-        $__simpleMenuStoredProfile = getModuleParameter('ffta-modules', 'simpleMenu.profile', $__simpleMenuDefaultProfile, 0, true);
-        if (is_string($__simpleMenuStoredProfile) && $__simpleMenuStoredProfile !== '') {
-            $__simpleMenuDecodedProfile = json_decode($__simpleMenuStoredProfile, true);
-            $__simpleMenuSelectedProfile = is_string($__simpleMenuDecodedProfile) && $__simpleMenuDecodedProfile !== ''
-                ? $__simpleMenuDecodedProfile
-                : $__simpleMenuStoredProfile;
-        }
+    $__simpleMenuStoredProfile = function_exists('ffta_menu_get_parameter')
+        ? ffta_menu_get_parameter('simpleMenu.profile', $__simpleMenuDefaultProfile)
+        : $__simpleMenuDefaultProfile;
+    if (is_string($__simpleMenuStoredProfile) && $__simpleMenuStoredProfile !== '') {
+        $__simpleMenuDecodedProfile = json_decode($__simpleMenuStoredProfile, true);
+        $__simpleMenuSelectedProfile = is_string($__simpleMenuDecodedProfile) && $__simpleMenuDecodedProfile !== ''
+            ? $__simpleMenuDecodedProfile
+            : $__simpleMenuStoredProfile;
     }
 
     $__simpleMenuSelectedProfile = preg_replace('/[^a-zA-Z0-9_-]/', '', $__simpleMenuSelectedProfile);
@@ -49,7 +49,17 @@ try {
         function ffta_simple_menu_resolve_url($url) {
             global $CFG;
             $root = isset($CFG->ROOT_DIR) ? $CFG->ROOT_DIR : '';
-            return str_replace('{ROOT_DIR}', $root, (string) $url);
+            $value = str_replace('{ROOT_DIR}', $root, (string) $url);
+
+            if ($value === ''
+                || preg_match('#^[a-z][a-z0-9+.-]*:#i', $value)
+                || strpos($value, '/') === 0
+                || strpos($value, '#') === 0
+            ) {
+                return $value;
+            }
+
+            return rtrim($root, '/') . '/' . ltrim($value, '/');
         }
     }
 
@@ -91,7 +101,7 @@ try {
                 }
 
                 $candidate = ffta_simple_menu_normalize_url($parts[1]);
-                if ($candidate === $needle || strpos($candidate, $needle) !== false || strpos($needle, $candidate) !== false) {
+                if ($candidate === $needle) {
                     return $item;
                 }
             }

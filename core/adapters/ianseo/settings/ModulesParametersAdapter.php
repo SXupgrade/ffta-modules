@@ -4,11 +4,10 @@ require_once(__DIR__ . '/../database/query.php');
 /**
  * Read/write module settings through Ianseo's ModulesParameters table.
  *
- * Ianseo schema:
- *   ModulesParameters(MpModule, MpParameter, MpTournament, MpValue)
- *
- * Ianseo stores module parameters per tournament. We keep the same behavior so
- * settings follow the active tournament context and remain export-compatible.
+ * Important implementation note:
+ * Ianseo's native setModuleParameter()/getModuleParameter() treats TourId=0 as
+ * "use the current session tournament". FFTA Modules needs real tournament 0
+ * settings when no tournament is active, so this adapter uses direct SQL.
  */
 class ModulesParametersAdapter {
 
@@ -21,11 +20,6 @@ class ModulesParametersAdapter {
     }
 
     public function get($key) {
-        if (function_exists('getModuleParameter')) {
-            $value = getModuleParameter($this->moduleName, $key, null, $this->tourId, true);
-            return $this->decodeValue($value);
-        }
-
         $sql = 'SELECT MpValue FROM ModulesParameters'
              . ' WHERE MpModule=' . ffta_sql_string($this->moduleName)
              . ' AND MpParameter=' . ffta_sql_string($key)
@@ -36,11 +30,6 @@ class ModulesParametersAdapter {
     }
 
     public function set($key, $value) {
-        if (function_exists('setModuleParameter')) {
-            setModuleParameter($this->moduleName, $key, $this->encodeValue($value), $this->tourId);
-            return true;
-        }
-
         $stored = serialize($this->encodeValue($value));
         $sql = 'INSERT INTO ModulesParameters SET '
              . 'MpValue=' . ffta_sql_string($stored) . ', '
@@ -53,15 +42,6 @@ class ModulesParametersAdapter {
     }
 
     public function getAll() {
-        if (function_exists('getModule')) {
-            $values = getModule($this->moduleName, '', $this->tourId);
-            $out = array();
-            foreach ($values as $key => $value) {
-                $out[$key] = $this->decodeValue($value);
-            }
-            return $out;
-        }
-
         $sql = 'SELECT MpParameter, MpValue FROM ModulesParameters'
              . ' WHERE MpModule=' . ffta_sql_string($this->moduleName)
              . ' AND MpTournament=' . (int) $this->tourId;
@@ -74,11 +54,21 @@ class ModulesParametersAdapter {
     }
 
     private function resolveTourId() {
-        return isset($_SESSION['TourId']) ? (int) $_SESSION['TourId'] : 0;
+        $sessionTourId = isset($_SESSION['TourId']) ? (int) $_SESSION['TourId'] : 0;
+        if ($sessionTourId <= 0) {
+            return 0;
+        }
+
+        // Some Ianseo screens may keep an old TourId in session after closing a
+        // tournament. Only use it if the tournament still exists.
+        $sql = 'SELECT ToId FROM Tournament WHERE ToId=' . (int) $sessionTourId . ' LIMIT 1';
+        $row = ffta_fetch_one(ffta_query($sql));
+        return $row ? $sessionTourId : 0;
     }
 
     /**
-     * Keep Ianseo storage compatible while still supporting JSON-like values.
+     * Store JSON inside Ianseo's serialized MpValue field. This keeps values
+     * readable for this adapter while staying compatible with Ianseo storage.
      */
     private function encodeValue($value) {
         return json_encode($value, JSON_UNESCAPED_UNICODE);

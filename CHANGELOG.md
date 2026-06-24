@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.17 - fix bugs
+
+- Selection des modules a activer sans tournois selectionnés.
+
 ## v0.2.16 - Simple-menu
 
 - Module simple-menu qui permet de remplacer l'ordre des menus ianseo.
