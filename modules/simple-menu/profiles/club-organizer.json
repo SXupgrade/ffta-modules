@@ -1,0 +1,157 @@
+{
+  "id": "club-organizer",
+  "label": "Club organizer",
+  "description": "Compact workflow for a standard local competition.",
+  "expertMenu": true,
+  "hideFromExpert": [
+    "HHT",
+    "ROBIN",
+    "MEDIA"
+  ],
+  "menus": [
+    {
+      "id": "SM_PREP",
+      "label": "Préparation",
+      "items": [
+        {
+          "label": "Informations concours",
+          "url": "{ROOT_DIR}Tournament/index.php"
+        },
+        {
+          "label": "Départs / sessions",
+          "url": "{ROOT_DIR}Tournament/ManSessions_kiss.php"
+        },
+        {
+          "label": "Images / logos",
+          "url": "{ROOT_DIR}Tournament/ManLogo.php"
+        },
+        {
+          "label": "Équipe terrain / arbitres",
+          "url": "{ROOT_DIR}Tournament/ManStaffField.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_REGISTRATION",
+      "label": "Inscriptions",
+      "items": [
+        {
+          "label": "Synchroniser licences",
+          "url": "{ROOT_DIR}Partecipants/LookupTableLoad.php"
+        },
+        {
+          "label": "Inscrire les archers",
+          "url": "{ROOT_DIR}Partecipants/index.php"
+        },
+        {
+          "label": "Importer une liste",
+          "url": "{ROOT_DIR}Partecipants/ListLoad.php"
+        },
+        {
+          "label": "Liste participants",
+          "url": "{ROOT_DIR}Partecipants/PrintOut.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_FIELD",
+      "label": "Plan de cible",
+      "items": [
+        {
+          "label": "Affectation manuelle",
+          "url": "{ROOT_DIR}Partecipants/SetTarget_default.php?Ses=*"
+        },
+        {
+          "label": "Tirage automatique",
+          "url": "{ROOT_DIR}Partecipants/SetTarget_auto.php"
+        },
+        {
+          "label": "Changer de départ",
+          "url": "{ROOT_DIR}Partecipants/MoveSession.php"
+        },
+        {
+          "label": "Déplacer une cible",
+          "url": "{ROOT_DIR}Partecipants/MoveTarget.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_PRINT",
+      "label": "Impressions",
+      "items": [
+        {
+          "label": "Feuilles de marque",
+          "url": "{ROOT_DIR}Qualification/PrintScore.php"
+        },
+        {
+          "label": "Dossards",
+          "url": "{ROOT_DIR}Accreditation/IdCards.php?CardType=Q"
+        },
+        {
+          "label": "Listes participants",
+          "url": "{ROOT_DIR}Partecipants/PrintOut.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_RESULTS",
+      "label": "Résultats",
+      "items": [
+        {
+          "label": "Saisie des scores",
+          "url": "{ROOT_DIR}Qualification/index.php"
+        },
+        {
+          "label": "Classement individuel",
+          "url": "{ROOT_DIR}Qualification/RankPersonal1.php"
+        },
+        {
+          "label": "Résultats par catégorie",
+          "url": "{ROOT_DIR}Qualification/PrintOut.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_EXPORTS",
+      "label": "Exports",
+      "items": [
+        {
+          "label": "Exporter compétition",
+          "url": "{ROOT_DIR}Tournament/TournamentExport.php"
+        },
+        {
+          "label": "Envoyer vers ianseo.net",
+          "url": "{ROOT_DIR}Tournament/UploadResults.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_ADMIN",
+      "label": "Administration",
+      "items": [
+        {
+          "label": "FFTA Modules",
+          "url": "{ROOT_DIR}Modules/Custom/ffta-modules/",
+          "direct": true
+        },
+        {
+          "label": "Paramètres FFTA Modules",
+          "url": "{ROOT_DIR}Modules/Custom/ffta-modules/#/settings",
+          "direct": true
+        },
+        {
+          "divider": true
+        },
+        {
+          "label": "Verrouillage concours",
+          "url": "{ROOT_DIR}Tournament/BlockTour.php"
+        },
+        {
+          "label": "Droits d’accès",
+          "url": "{ROOT_DIR}Tournament/AccessControlList/index.php"
+        }
+      ]
+    }
+  ],
+  "safeMode": true
+}

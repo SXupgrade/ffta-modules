@@ -74,6 +74,7 @@ async function bootstrap() {
     installDevHooks(app);
     const registry = createModuleRegistry();
     const pageMounts = new Map();
+    const loadedModulesById = new Map();
 
     app.i18n.registerNamespace('app', { en: coreEn, fr: coreFr });
 
@@ -102,25 +103,46 @@ async function bootstrap() {
 
     for (const moduleDefinition of enabledModules) {
       try {
-        const loadedModule = await loadDiscoveredModule({
-          moduleDefinition,
-          manifest: manifestsById.get(moduleDefinition.id),
-          app,
-          registry,
-          baseUrl
-        });
-
-        if (loadedModule?.mountPage) {
-          pageMounts.set(loadedModule.manifest.id, loadedModule.mountPage);
-        }
+        const manifest = manifestsById.get(moduleDefinition.id);
+        const moduleBaseUrl = new URL(`./modules/${moduleDefinition.id}/`, baseUrl).href;
+        await loadManifestI18n({ app, manifest, moduleBaseUrl });
+        registerDiscoveredModuleNavigation({ app, manifest });
       } catch (error) {
         const moduleId = moduleDefinition.id || moduleDefinition.manifestPath || 'unknown';
-        console.error(`[ffta] Module failed: ${moduleId}`, error);
-        app.notify.error(`Module failed: ${moduleId}`);
+        console.error(`[ffta] Module metadata failed: ${moduleId}`, error);
+        app.notify.error(`Module metadata failed: ${moduleId}`);
       }
     }
 
-    mountShell({ root, app, pageMounts, manifestsById, discoveredModules, enabledModuleIds, accessByModuleId, eligibleModuleIds, tournamentContext });
+    async function loadModuleById(moduleId) {
+      if (pageMounts.has(moduleId)) {
+        return pageMounts.get(moduleId);
+      }
+      if (loadedModulesById.has(moduleId)) {
+        return loadedModulesById.get(moduleId)?.mountPage || null;
+      }
+
+      const moduleDefinition = enabledModules.find((item) => item.id === moduleId);
+      if (!moduleDefinition) return null;
+
+      const loadedModule = await loadDiscoveredModule({
+        moduleDefinition,
+        manifest: manifestsById.get(moduleDefinition.id),
+        app,
+        registry,
+        baseUrl
+      });
+
+      loadedModulesById.set(moduleId, loadedModule);
+      if (loadedModule?.mountPage) {
+        pageMounts.set(loadedModule.manifest.id, loadedModule.mountPage);
+        return loadedModule.mountPage;
+      }
+
+      return null;
+    }
+
+    mountShell({ root, app, pageMounts, loadModuleById, manifestsById, discoveredModules, enabledModuleIds, accessByModuleId, eligibleModuleIds, tournamentContext });
   } catch (error) {
     console.error('[ffta] Bootstrap failed', error);
     root.innerHTML = `<div class="ffta-page"><p class="ffta-badge ffta-badge--error">${escapeHtml(String(error))}</p></div>`;
@@ -331,11 +353,21 @@ async function loadManifestI18n({ app, manifest, moduleBaseUrl }) {
 }
 
 function registerSimpleModule({ app, manifest }) {
-  const titleKey = manifest.page?.titleKey || `${manifest.id}.title`;
+  // Navigation is registered once during metadata boot.
+  // Lazy loading must not append the same menu item again.
+  // Older modules may still register their own nav entries; router.service.js is idempotent.
+}
+
+function registerDiscoveredModuleNavigation({ app, manifest }) {
+  if (!manifest?.id) return;
+  const titleKey = manifest.page?.titleKey || `${manifest.id}.navigation.title`;
+  const translatedLabel = app.t(titleKey);
+  const label = translatedLabel && translatedLabel !== titleKey ? translatedLabel : (manifest.name || manifest.id);
   app.menu.register({
     id: manifest.id,
-    label: app.t(titleKey),
-    route: `/${manifest.id}`
+    label,
+    route: `/${manifest.id}`,
+    accentColor: manifest.navigation?.accentColor || manifest.accentColor || undefined
   });
 }
 
@@ -457,7 +489,7 @@ async function resolvePageMount({ manifest, moduleBaseUrl }) {
   return mountPage;
 }
 
-function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, enabledModuleIds, accessByModuleId, eligibleModuleIds = null, tournamentContext = null }) {
+function mountShell({ root, app, pageMounts, loadModuleById, manifestsById, discoveredModules, enabledModuleIds, accessByModuleId, eligibleModuleIds = null, tournamentContext = null }) {
   let unmountCurrent = null;
   let currentEnabledModuleIds = [...enabledModuleIds];
 
@@ -571,17 +603,35 @@ function mountShell({ root, app, pageMounts, manifestsById, discoveredModules, e
       return;
     }
 
-    const mountPage = pageMounts.get(activeId) ?? pageMounts.values().next().value;
-    if (outlet && mountPage) {
-      let vm = null;
-      try {
-        vm = app.services.get(`${activeId}.vm`);
-      } catch (error) {
-        vm = null;
+    mountActiveModulePage({ outlet, activeId, renderVersion: ++currentRenderVersion });
+  }
+
+  let currentRenderVersion = 0;
+
+  async function mountActiveModulePage({ outlet, activeId, renderVersion }) {
+    if (!outlet) return;
+    outlet.innerHTML = '<div class="cp-loader"><span class="cp-loader__spinner"></span></div>';
+
+    try {
+      const mountPage = pageMounts.get(activeId) || await loadModuleById?.(activeId);
+      if (renderVersion !== currentRenderVersion) return;
+
+      if (outlet && mountPage) {
+        let vm = null;
+        try {
+          vm = app.services.get(`${activeId}.vm`);
+        } catch (error) {
+          vm = null;
+        }
+        unmountCurrent = mountPage({ root: outlet, vm, app });
+      } else {
+        outlet.innerHTML = `<div class="ffta-page"><p>${escapeHtml(app.t('app.settings.noEnabledModule'))}</p></div>`;
       }
-      unmountCurrent = mountPage({ root: outlet, vm, app });
-    } else {
-      outlet.innerHTML = `<div class="ffta-page"><p>${escapeHtml(app.t('app.settings.noEnabledModule'))}</p></div>`;
+    } catch (error) {
+      console.error(`[ffta] Module failed: ${activeId}`, error);
+      if (renderVersion !== currentRenderVersion) return;
+      app.notify.error(`Module failed: ${activeId}`);
+      outlet.innerHTML = `<div class="ffta-page"><p class="ffta-badge ffta-badge--error">${escapeHtml(error.message || String(error))}</p></div>`;
     }
   }
 

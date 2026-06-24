@@ -1,0 +1,59 @@
+{
+  "id": "minimal-with-expert",
+  "label": "Minimal + expert",
+  "description": "Keeps only core actions and the expert fallback menu.",
+  "expertMenu": true,
+  "hideFromExpert": [
+    "HHT",
+    "ROBIN",
+    "MEDIA"
+  ],
+  "menus": [
+    {
+      "id": "SM_HOME",
+      "label": "Accueil",
+      "items": [
+        {
+          "label": "Accueil du concours",
+          "url": "{ROOT_DIR}Main.php"
+        },
+        {
+          "label": "FFTA Modules",
+          "url": "{ROOT_DIR}Modules/Custom/ffta-modules/",
+          "direct": true
+        }
+      ]
+    },
+    {
+      "id": "SM_WORKFLOW",
+      "label": "Workflow",
+      "items": [
+        {
+          "label": "Informations concours",
+          "url": "{ROOT_DIR}Tournament/index.php"
+        },
+        {
+          "label": "Liste simple",
+          "url": "{ROOT_DIR}Partecipants/index.php"
+        },
+        {
+          "label": "Affectation manuelle",
+          "url": "{ROOT_DIR}Partecipants/SetTarget_default.php?Ses=*"
+        },
+        {
+          "label": "Feuilles de marque",
+          "url": "{ROOT_DIR}Qualification/PrintScore.php"
+        },
+        {
+          "label": "Saisie standard",
+          "url": "{ROOT_DIR}Qualification/index.php"
+        },
+        {
+          "label": "Classement individuel",
+          "url": "{ROOT_DIR}Qualification/RankPersonal1.php"
+        }
+      ]
+    }
+  ],
+  "safeMode": true
+}

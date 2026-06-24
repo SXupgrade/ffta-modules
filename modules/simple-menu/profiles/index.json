@@ -1,0 +1,35 @@
+{
+  "defaultProfile": "ffta-beginner",
+  "profiles": [
+    {
+      "id": "ffta-beginner",
+      "label": "FFTA beginner",
+      "description": "Guided workflow for club organizers and first trainings.",
+      "file": "ffta-beginner.json"
+    },
+    {
+      "id": "club-organizer",
+      "label": "Club organizer",
+      "description": "Compact workflow for a standard local competition.",
+      "file": "club-organizer.json"
+    },
+    {
+      "id": "training",
+      "label": "Training mode",
+      "description": "Very small menu for FFTA training sessions.",
+      "file": "training.json"
+    },
+    {
+      "id": "arbitrator",
+      "label": "Arbitrator",
+      "description": "Menu focused on checks, documents and official outputs.",
+      "file": "arbitrator.json"
+    },
+    {
+      "id": "minimal-with-expert",
+      "label": "Minimal + expert",
+      "description": "Keeps only core actions and the expert fallback menu.",
+      "file": "minimal-with-expert.json"
+    }
+  ]
+}

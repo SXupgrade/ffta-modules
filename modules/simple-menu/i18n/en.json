@@ -1,0 +1,29 @@
+{
+  "simpleMenu": {
+    "nav": {
+      "title": "Simple Menu"
+    },
+    "title": "Simple Menu",
+    "description": "Reorganizes the native Ianseo navigation around simpler menu profiles.",
+    "status": {
+      "title": "Status",
+      "enabled": "The module is enabled in FFTA Modules settings.",
+      "reload": "Reload Ianseo after changing the profile to rebuild the native menu bar."
+    },
+    "profile": {
+      "title": "Navigation profile",
+      "help": "Choose the JSON profile used by the Ianseo hook on the next reload.",
+      "selectorLabel": "Active profile",
+      "noDescription": "No description available."
+    },
+    "actions": {
+      "saveProfile": "Save profile",
+      "saving": "Saving…",
+      "saved": "Simple Menu profile saved."
+    },
+    "errors": {
+      "loadFailed": "Unable to load Simple Menu profiles.",
+      "saveFailed": "Unable to save Simple Menu profile."
+    }
+  }
+}

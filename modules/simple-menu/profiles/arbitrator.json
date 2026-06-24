@@ -1,0 +1,131 @@
+{
+  "id": "arbitrator",
+  "label": "Arbitrator",
+  "description": "Menu focused on checks, documents and official outputs.",
+  "expertMenu": true,
+  "hideFromExpert": [
+    "HHT",
+    "ROBIN",
+    "MEDIA"
+  ],
+  "menus": [
+    {
+      "id": "SM_CONTEST",
+      "label": "Concours",
+      "items": [
+        {
+          "label": "Informations concours",
+          "url": "{ROOT_DIR}Tournament/index.php"
+        },
+        {
+          "label": "Équipe terrain / arbitres",
+          "url": "{ROOT_DIR}Tournament/ManStaffField.php"
+        },
+        {
+          "label": "Départs / sessions",
+          "url": "{ROOT_DIR}Tournament/ManSessions_kiss.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_CHECKS",
+      "label": "Contrôles",
+      "items": [
+        {
+          "label": "Liste participants",
+          "url": "{ROOT_DIR}Partecipants/PrintOut.php"
+        },
+        {
+          "label": "Statistiques participants",
+          "url": "{ROOT_DIR}Partecipants/PrintOutStat.php"
+        },
+        {
+          "label": "Affectation cibles",
+          "url": "{ROOT_DIR}Partecipants/SetTarget_default.php?Ses=*"
+        },
+        {
+          "label": "Contrôle des mises à jour",
+          "url": "{ROOT_DIR}Qualification/CheckTargetUpdate.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_SCORECARDS",
+      "label": "Feuilles",
+      "items": [
+        {
+          "label": "Feuilles de marque",
+          "url": "{ROOT_DIR}Qualification/PrintScore.php"
+        },
+        {
+          "label": "Dossards",
+          "url": "{ROOT_DIR}Accreditation/IdCards.php?CardType=Q"
+        }
+      ]
+    },
+    {
+      "id": "SM_RESULTS",
+      "label": "Classements",
+      "items": [
+        {
+          "label": "Classement individuel",
+          "url": "{ROOT_DIR}Qualification/RankPersonal1.php"
+        },
+        {
+          "label": "Résultats par catégorie",
+          "url": "{ROOT_DIR}Qualification/PrintOut.php"
+        },
+        {
+          "label": "Round de qualification",
+          "url": "{ROOT_DIR}Qualification/PrintOutAbs.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_REPORTS",
+      "label": "Rapports",
+      "items": [
+        {
+          "label": "Rapport final",
+          "url": "{ROOT_DIR}Tournament/FinalReport/index.php"
+        },
+        {
+          "label": "Imprimer rapport final",
+          "url": "{ROOT_DIR}Tournament/FinalReport/PDFReport.php"
+        },
+        {
+          "label": "Check-list",
+          "url": "{ROOT_DIR}Tournament/FinalReport/PDFCheckList.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_ADMIN",
+      "label": "Administration",
+      "items": [
+        {
+          "label": "FFTA Modules",
+          "url": "{ROOT_DIR}Modules/Custom/ffta-modules/",
+          "direct": true
+        },
+        {
+          "label": "Paramètres FFTA Modules",
+          "url": "{ROOT_DIR}Modules/Custom/ffta-modules/#/settings",
+          "direct": true
+        },
+        {
+          "divider": true
+        },
+        {
+          "label": "Verrouillage concours",
+          "url": "{ROOT_DIR}Tournament/BlockTour.php"
+        },
+        {
+          "label": "Droits d’accès",
+          "url": "{ROOT_DIR}Tournament/AccessControlList/index.php"
+        }
+      ]
+    }
+  ],
+  "safeMode": true
+}

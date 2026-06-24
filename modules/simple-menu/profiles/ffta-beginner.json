@@ -1,0 +1,106 @@
+{
+  "mode": "rebuild",
+  "expertMenu": true,
+  "keepMenus": ["FFTA"],
+  "menus": [
+    {
+      "id": "SIMPLE_COMPETITION",
+      "label": "Concours",
+      "items": [
+        { "label": "Accueil du concours", "url": "Main.php" },
+        { "label": "Informations concours", "url": "Tournament/index.php" },
+        { "label": "Images / logos", "url": "Tournament/ManLogo.php" },
+        { "label": "Départs / sessions", "url": "Tournament/ManSessions_kiss.php" },
+        { "label": "Équipe terrain / arbitres", "url": "Tournament/ManStaffField.php" },
+        { "label": "Planning", "url": "Scheduler/index.php" },
+        { "divider": true },
+        { "label": "Changer de langue", "url": "Language/index.php" },
+        { "label": "Fermer le concours", "url": "Common/TourOff.php" }
+      ]
+    },
+    {
+      "id": "SIMPLE_ARCHERS",
+      "label": "Archers",
+      "items": [
+        { "label": "Liste simple", "url": "Partecipants/index.php" },
+        { "label": "Liste avancée", "url": "Partecipants-exp/index.php" },
+        { "label": "Synchronisation licences", "url": "Partecipants/LookupTableLoad.php" },
+        { "label": "Import liste", "url": "Partecipants/ListLoad.php" },
+        { "label": "Anomalies / écarts", "url": "Partecipants/Discrepancies.php" },
+        { "divider": true },
+        { "label": "Statut des archers", "url": "Partecipants/ManStatus.php" },
+        { "label": "Statistiques", "url": "Partecipants/PrintOutStat.php" },
+        { "label": "Liste imprimable", "url": "Partecipants/PrintOut.php" }
+      ]
+    },
+    {
+      "id": "SIMPLE_TARGETS",
+      "label": "Cibles",
+      "items": [
+        { "label": "Affectation manuelle", "url": "Partecipants/SetTarget_default.php" },
+        { "label": "Tirage automatique", "url": "Partecipants/SetTarget_auto.php" },
+        { "divider": true },
+        { "label": "Changer de départ", "url": "Partecipants/MoveSession.php" },
+        { "label": "Déplacer une cible", "url": "Partecipants/MoveTarget.php" },
+        { "label": "Affecter depuis le classement", "url": "Partecipants/TargetFromRank.php" },
+        { "label": "Supprimer affectations", "url": "Partecipants/DeleteTarget.php" }
+      ]
+    },
+    {
+      "id": "SIMPLE_SCORES",
+      "label": "Scores",
+      "items": [
+        { "label": "Saisie standard", "url": "Qualification/index.php" },
+        { "label": "Saisie étendue", "url": "Qualification/index_all.php" },
+        { "label": "Flèche par flèche", "url": "Qualification/WriteArrows.php" },
+        { "label": "Saisie feuilles de marque", "url": "Qualification/WriteScoreCard.php" },
+        { "divider": true },
+        { "label": "Contrôle mise à jour", "url": "Qualification/CheckTargetUpdate.php" },
+        { "label": "Export TSV", "url": "Qualification/ExportTSV.php" }
+      ]
+    },
+    {
+      "id": "SIMPLE_RANKINGS",
+      "label": "Classements",
+      "items": [
+        { "label": "Classement individuel", "url": "Qualification/RankPersonal1.php" },
+        { "label": "Résultats par catégorie", "url": "Qualification/PrintOut.php" },
+        { "label": "Tour de qualification", "url": "Qualification/PrintOutAbs.php" }
+      ]
+    },
+    {
+      "id": "SIMPLE_DOCUMENTS",
+      "label": "Documents",
+      "items": [
+        { "label": "Feuilles de marque", "url": "Qualification/PrintScore.php" },
+        { "label": "Dossards", "url": "Accreditation/IdCards.php" },
+        { "label": "Badges", "url": "Accreditation/IdCards.php" },
+        { "label": "Liste archers", "url": "Partecipants/PrintOut.php" },
+        { "label": "Panneaux / signalétique", "url": "Common/Sign" }
+      ]
+    },
+    {
+      "id": "SIMPLE_EXPORTS",
+      "label": "Exports",
+      "items": [
+        { "label": "Exporter le concours", "url": "Tournament/TournamentExport.php" },
+        { "label": "Export complet", "url": "Tournament/TournamentExport.php?Complete=1" },
+        { "label": "Exporter les inscriptions", "url": "Partecipants/EntriesExchange.php" },
+        { "divider": true },
+        { "label": "Codes ianseo.net", "url": "Tournament/SetCredentials.php" },
+        { "label": "Envoyer vers ianseo.net", "url": "Tournament/UploadResults.php" }
+      ]
+    },
+    {
+      "id": "SIMPLE_ADMIN",
+      "label": "Administration",
+      "items": [
+        { "label": "Modules FFTA", "url": "Modules/Custom/ffta-modules/" },
+        { "label": "Mise à jour Ianseo", "url": "Update/" },
+        { "label": "Sécurité / verrouillage", "url": "Tournament/BlockTour.php" },
+        { "label": "Gestion des accès", "url": "Tournament/AccessControlList/index.php" },
+        { "label": "Supprimer le concours", "url": "Tournament/TourDelete.php" }
+      ]
+    }
+  ]
+}

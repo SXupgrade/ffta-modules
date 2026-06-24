@@ -12,8 +12,16 @@ The first reference module is **Championnat par équipe** (`modules/league`).
 
 - Provide a small, clean module platform for FFTA/community modules.
 - Reuse the host Ianseo installation configuration, session, database connection, language and tournament context.
-- Keep modules portable enough to be reused later.
+- Keep modules portable enough to be reused later by Compet+ through the same contracts.
 - Keep the public module contract small and stable.
+
+## Non-goals
+
+- Do not include Compet+ private code.
+- Do not implement Compet+ desktop runtime here.
+- Do not implement Compet+ web `/api/v1` here.
+- Do not add licensing, updater, cloud sync, live publishing or premium themes.
+- Do not ask users for database host/user/password. The module must reuse Ianseo config.
 
 ## Architecture
 
@@ -44,7 +52,7 @@ app.exports.xlsx()
 app.context.getTournament()
 ```
 
-Modules must not directly depend on Ianseo internals, SQL helpers, MariaDB internals.
+Modules must not directly depend on Ianseo internals, SQL helpers, MariaDB, SQLite, Electron or Compet+ internals.
 
 
 ## Update
@@ -54,7 +62,7 @@ The root UI includes a simple `[update module]` button. It downloads the latest 
 Expected release asset URL:
 
 ```txt
-https://github.com/SXUpgrade/ffta-modules/releases/latest/download/ffta-modules.zip
+https://github.com/FFTA/ffta-modules/releases/latest/download/ffta-modules.zip
 ```
 
 

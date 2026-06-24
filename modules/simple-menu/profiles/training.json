@@ -1,0 +1,111 @@
+{
+  "id": "training",
+  "label": "Training mode",
+  "description": "Very small menu for FFTA training sessions.",
+  "expertMenu": true,
+  "hideFromExpert": [
+    "HHT",
+    "ROBIN",
+    "MEDIA"
+  ],
+  "menus": [
+    {
+      "id": "SM_STEP_1",
+      "label": "1. Concours",
+      "items": [
+        {
+          "label": "Informations concours",
+          "url": "{ROOT_DIR}Tournament/index.php"
+        },
+        {
+          "label": "Départs / sessions",
+          "url": "{ROOT_DIR}Tournament/ManSessions_kiss.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_STEP_2",
+      "label": "2. Archers",
+      "items": [
+        {
+          "label": "Synchronisation licences",
+          "url": "{ROOT_DIR}Partecipants/LookupTableLoad.php"
+        },
+        {
+          "label": "Liste simple",
+          "url": "{ROOT_DIR}Partecipants/index.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_STEP_3",
+      "label": "3. Cibles",
+      "items": [
+        {
+          "label": "Affectation manuelle",
+          "url": "{ROOT_DIR}Partecipants/SetTarget_default.php?Ses=*"
+        },
+        {
+          "label": "Tirage automatique",
+          "url": "{ROOT_DIR}Partecipants/SetTarget_auto.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_STEP_4",
+      "label": "4. Documents",
+      "items": [
+        {
+          "label": "Feuilles de marque",
+          "url": "{ROOT_DIR}Qualification/PrintScore.php"
+        },
+        {
+          "label": "Listes participants",
+          "url": "{ROOT_DIR}Partecipants/PrintOut.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_STEP_5",
+      "label": "5. Résultats",
+      "items": [
+        {
+          "label": "Saisie standard",
+          "url": "{ROOT_DIR}Qualification/index.php"
+        },
+        {
+          "label": "Classement individuel",
+          "url": "{ROOT_DIR}Qualification/RankPersonal1.php"
+        }
+      ]
+    },
+    {
+      "id": "SM_ADMIN",
+      "label": "Administration",
+      "items": [
+        {
+          "label": "FFTA Modules",
+          "url": "{ROOT_DIR}Modules/Custom/ffta-modules/",
+          "direct": true
+        },
+        {
+          "label": "Paramètres FFTA Modules",
+          "url": "{ROOT_DIR}Modules/Custom/ffta-modules/#/settings",
+          "direct": true
+        },
+        {
+          "divider": true
+        },
+        {
+          "label": "Verrouillage concours",
+          "url": "{ROOT_DIR}Tournament/BlockTour.php"
+        },
+        {
+          "label": "Droits d’accès",
+          "url": "{ROOT_DIR}Tournament/AccessControlList/index.php"
+        }
+      ]
+    }
+  ],
+  "safeMode": true
+}
