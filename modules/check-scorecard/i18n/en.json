@@ -1,0 +1,65 @@
+{
+  "navigation": {
+    "title": "Check scorecards"
+  },
+  "page": {
+    "title": "Scorecard check",
+    "description": "Shows scores by distance and lets you confirm or unconfirm each QuConfirm bit, including the global bit."
+  },
+  "badge": {
+    "distances": "{count} distances"
+  },
+  "warning": {
+    "readOnly": "Read-only mode: confirm/unconfirm actions are disabled."
+  },
+  "filters": {
+    "session": "Session"
+  },
+  "actions": {
+    "load": "Refresh",
+    "loading": "Loading…",
+    "confirm": "Confirm",
+    "unconfirm": "Unconfirm",
+    "saving": "Saving…"
+  },
+  "summary": {
+    "title": "Summary",
+    "archers": "Archers",
+    "fullMask": "Distances mask",
+    "globalActive": "Global active",
+    "fullConfirmed": "Complete"
+  },
+  "help": {
+    "global": "QuConfirm uses bit 0 for the global total",
+    "distances": "following bits match D1, D2, etc."
+  },
+  "table": {
+    "target": "Target",
+    "archer": "Archer",
+    "total": "Total",
+    "quConfirm": "QuConfirm",
+    "global": "Global",
+    "distance": "D{index}",
+    "bit": "bit {bit}",
+    "tieBreaks": "{hits} arrows · {gold} 10 · {xnine} X/9",
+    "shootOff": "TB: {value}",
+    "noArrows": "No arrow",
+    "confirmations": "Confirmations",
+    "confirmationsHint": "Global + {count} distances"
+  },
+  "status": {
+    "confirmed": "Confirmed",
+    "open": "Open",
+    "globalOn": "global active",
+    "globalOff": "global inactive"
+  },
+  "message": {
+    "confirmed": "Bit confirmed.",
+    "unconfirmed": "Bit unconfirmed."
+  },
+  "error": {
+    "load": "Unable to load scorecards.",
+    "save": "Unable to update QuConfirm."
+  },
+  "empty": "No scorecard found for this session."
+}

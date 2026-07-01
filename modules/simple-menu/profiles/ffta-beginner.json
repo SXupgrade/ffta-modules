@@ -1,7 +1,7 @@
 {
   "mode": "rebuild",
   "expertMenu": true,
-  "keepMenus": ["FFTA"],
+  "keepMenus": [],
   "menus": [
     {
       "id": "SIMPLE_COMPETITION",
@@ -14,7 +14,8 @@
         { "label": "Équipe terrain / arbitres", "url": "Tournament/ManStaffField.php" },
         { "label": "Planning", "url": "Scheduler/index.php" },
         { "divider": true },
-        { "label": "Changer de langue", "url": "Language/index.php" },
+        { "label": "Ouvrir un concours", "url": "index.php" },
+        { "label": "Creer un concours", "url": "Tournament/index.php?New=" },
         { "label": "Fermer le concours", "url": "Common/TourOff.php" }
       ]
     },
@@ -38,7 +39,7 @@
       "label": "Cibles",
       "items": [
         { "label": "Affectation manuelle", "url": "Partecipants/SetTarget_default.php" },
-        { "label": "Tirage automatique", "url": "Partecipants/SetTarget_auto.php" },
+        { "label": "Affectation automatique", "url": "Partecipants/SetTarget_auto.php" },
         { "divider": true },
         { "label": "Changer de départ", "url": "Partecipants/MoveSession.php" },
         { "label": "Déplacer une cible", "url": "Partecipants/MoveTarget.php" },
@@ -51,19 +52,13 @@
       "label": "Scores",
       "items": [
         { "label": "Saisie standard", "url": "Qualification/index.php" },
-        { "label": "Saisie étendue", "url": "Qualification/index_all.php" },
-        { "label": "Flèche par flèche", "url": "Qualification/WriteArrows.php" },
-        { "label": "Saisie feuilles de marque", "url": "Qualification/WriteScoreCard.php" },
-        { "divider": true },
-        { "label": "Contrôle mise à jour", "url": "Qualification/CheckTargetUpdate.php" },
-        { "label": "Export TSV", "url": "Qualification/ExportTSV.php" }
+        { "label": "Saisie étendue", "url": "Qualification/index_all.php" }
       ]
     },
     {
       "id": "SIMPLE_RANKINGS",
       "label": "Classements",
       "items": [
-        { "label": "Classement individuel", "url": "Qualification/RankPersonal1.php" },
         { "label": "Résultats par catégorie", "url": "Qualification/PrintOut.php" },
         { "label": "Tour de qualification", "url": "Qualification/PrintOutAbs.php" }
       ]
@@ -73,10 +68,7 @@
       "label": "Documents",
       "items": [
         { "label": "Feuilles de marque", "url": "Qualification/PrintScore.php" },
-        { "label": "Dossards", "url": "Accreditation/IdCards.php" },
-        { "label": "Badges", "url": "Accreditation/IdCards.php" },
-        { "label": "Liste archers", "url": "Partecipants/PrintOut.php" },
-        { "label": "Panneaux / signalétique", "url": "Common/Sign" }
+        { "label": "Liste archers", "url": "Partecipants/PrintOut.php" }
       ]
     },
     {
@@ -84,17 +76,24 @@
       "label": "Exports",
       "items": [
         { "label": "Exporter le concours", "url": "Tournament/TournamentExport.php" },
-        { "label": "Export complet", "url": "Tournament/TournamentExport.php?Complete=1" },
-        { "label": "Exporter les inscriptions", "url": "Partecipants/EntriesExchange.php" },
+        { "label": "Export FFTA", "url": "Modules/Sets/FR/exports/" },
         { "divider": true },
         { "label": "Codes ianseo.net", "url": "Tournament/SetCredentials.php" },
         { "label": "Envoyer vers ianseo.net", "url": "Tournament/UploadResults.php" }
       ]
     },
     {
+      "id": "SIMPLE_MODSFFTA",
+      "label": "FFTA Modules",
+      "items": [
+        { "label": "Découvrir les modules de la FFTA", "url": "Modules/Custom/ffta-modules/" }
+      ]
+    },
+    {
       "id": "SIMPLE_ADMIN",
       "label": "Administration",
       "items": [
+        { "label": "Changer de langue", "url": "Language/index.php" },
         { "label": "Modules FFTA", "url": "Modules/Custom/ffta-modules/" },
         { "label": "Mise à jour Ianseo", "url": "Update/" },
         { "label": "Sécurité / verrouillage", "url": "Tournament/BlockTour.php" },

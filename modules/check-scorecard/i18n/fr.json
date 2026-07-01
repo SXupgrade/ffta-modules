@@ -1,0 +1,65 @@
+{
+  "navigation": {
+    "title": "Contrôle feuilles"
+  },
+  "page": {
+    "title": "Contrôle des feuilles de marque",
+    "description": "Affiche les scores par distance et permet de confirmer ou dé-valider chaque bit QuConfirm, y compris le bit global."
+  },
+  "badge": {
+    "distances": "{count} distances"
+  },
+  "warning": {
+    "readOnly": "Mode lecture seule : les actions confirm/unconfirm sont désactivées."
+  },
+  "filters": {
+    "session": "Session"
+  },
+  "actions": {
+    "load": "Actualiser",
+    "loading": "Chargement…",
+    "confirm": "Confirmer",
+    "unconfirm": "Dé-valider",
+    "saving": "Sauvegarde…"
+  },
+  "summary": {
+    "title": "Résumé",
+    "archers": "Archers",
+    "fullMask": "Masque distances",
+    "globalActive": "Global actif",
+    "fullConfirmed": "Complet"
+  },
+  "help": {
+    "global": "QuConfirm utilise le bit 0 pour le total global",
+    "distances": "les bits suivants correspondent à D1, D2, etc."
+  },
+  "table": {
+    "target": "Cible",
+    "archer": "Archer",
+    "total": "Total",
+    "quConfirm": "QuConfirm",
+    "global": "Global",
+    "distance": "D{index}",
+    "bit": "bit {bit}",
+    "tieBreaks": "{hits} fl. · {gold} 10 · {xnine} X/9",
+    "shootOff": "TB : {value}",
+    "noArrows": "Aucune flèche",
+    "confirmations": "Confirmations",
+    "confirmationsHint": "Global + {count} distances"
+  },
+  "status": {
+    "confirmed": "Confirmé",
+    "open": "Ouvert",
+    "globalOn": "global actif",
+    "globalOff": "global inactif"
+  },
+  "message": {
+    "confirmed": "Bit confirmé.",
+    "unconfirmed": "Bit dé-validé."
+  },
+  "error": {
+    "load": "Impossible de charger les feuilles de marque.",
+    "save": "Impossible de mettre à jour QuConfirm."
+  },
+  "empty": "Aucune feuille trouvée pour cette session."
+}
