@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.18 - New module : checkScorecard
+
+- Module qui permet de confirmer des feuilles de marques
+- Ce module permet aussi d'enlever la confirmation d'une feuille de marque qui peut bloquer Scorekeeper de saisie
+
 ## v0.2.17 - fix bugs
 
 - Selection des modules a activer sans tournois selectionnés.
