@@ -5,6 +5,12 @@ export async function scanAssistantMetrics({ data } = {}) {
   const tournament = await safeCall(() => data?.tournament?.getCurrent?.({ moduleId: 'assistant' }), null);
   const entries = await safeCall(() => data?.entries?.list?.({}, { moduleId: 'assistant' }), []);
   const scores = await safeCall(() => data?.scores?.readQualificationScores?.({}, { moduleId: 'assistant' }), []);
+  // `data.officials` has no accessor in core/module-api/services/data.service.js (unlike
+  // tournament/entries/scores above) and no lab mock, so this always resolves to `[]` via
+  // optional chaining today — responsibleJudgeCount can never come from a live/lab scan yet.
+  // `judge.responsible.declared` is effectively manual-only until that accessor exists.
+  // A real backend implementation can reuse the query FftaExportRepository::getResponsibleJudges()
+  // already uses: TournamentInvolved joined to InvolvedType, filtered on ItId=5.
   const officials = await safeCall(() => data?.officials?.list?.({}, { moduleId: 'assistant' }), []);
 
   return buildMetrics({ tournament, entries, scores, officials });

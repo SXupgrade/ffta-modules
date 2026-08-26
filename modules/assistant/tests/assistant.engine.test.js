@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { evaluateChecklist, buildSummary, applyDomainEvent } from '../domain/assistant.engine.js';
-import { buildMetrics } from '../domain/assistant.scanner.js';
+import { buildMetrics, scanAssistantMetrics } from '../domain/assistant.scanner.js';
 
 test('assistant checklist marks automatic checks from tournament metrics', () => {
   const metrics = buildMetrics({
@@ -57,4 +57,35 @@ test('assistant checklist includes the pitfall warnings surfaced from organizer 
 
   assert.equal(byId['archers.database.imported'].phase, 'before');
   assert.equal(byId['flags.clubs.downloaded'].priority, 'optional');
+});
+
+test('responsible judge auto-check stays at 0 against the current shared data service shape', async () => {
+  // Mirrors core/module-api/services/data.service.js's real return value: no `officials`
+  // key. This documents that judge.responsible.declared cannot auto-complete via a live
+  // scan today, without the scan throwing or silently reporting a wrong non-zero count.
+  const data = {
+    request: async () => { throw new Error('Unknown lab data action: scanTournamentAssistant'); },
+    tournament: { getCurrent: async () => ({ name: 'Test tournament' }) },
+    entries: { list: async () => [{ target: '001A' }] },
+    scores: { readQualificationScores: async () => [{ score: 560, rank: 1 }] }
+  };
+
+  const metrics = await scanAssistantMetrics({ data });
+
+  assert.equal(metrics.responsibleJudgeCount, 0);
+  assert.equal(metrics.tournamentName, 'Test tournament', 'the fields with a real accessor must still resolve');
+});
+
+test('responsible judge auto-check would detect a judge once data.officials.list exists', async () => {
+  const data = {
+    request: async () => { throw new Error('Unknown lab data action: scanTournamentAssistant'); },
+    tournament: { getCurrent: async () => ({ name: 'Test tournament' }) },
+    entries: { list: async () => [] },
+    scores: { readQualificationScores: async () => [] },
+    officials: { list: async () => [{ role: 'Responsible judge' }] }
+  };
+
+  const metrics = await scanAssistantMetrics({ data });
+
+  assert.equal(metrics.responsibleJudgeCount, 1);
 });

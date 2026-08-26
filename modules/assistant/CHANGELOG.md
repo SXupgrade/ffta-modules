@@ -10,6 +10,16 @@
   have no in-app safeguard (destructive target reassignment, UPPERCASE
   false positives on archer database refresh, silent double-counted
   podiums, etc.), rendered as a highlighted alert on the item card.
+- Document (README + code comment in `assistant.scanner.js`) that
+  `judge.responsible.declared` cannot actually auto-complete via a live or
+  lab scan today: `data.officials` has no accessor in the shared
+  `core/module-api/services/data.service.js` and no lab mock, unlike
+  the tournament/entries/scores calls the other four auto-checks use, so
+  the fetch silently resolves to `[]`. `buildMetrics()` already computes
+  `responsibleJudgeCount` correctly when given real officials data — only
+  the transport is missing. Add regression tests locking in today's
+  graceful-degrade-to-0 behavior and the expected behavior once a
+  `data.officials.list()` accessor exists.
 
 ## 0.1.0
 
