@@ -1,0 +1,8 @@
+# Dépendances de développement uniquement — jamais uploadées en production
+
+# Config et verrou générés par l'installateur (secrets MySQL, secret CRON).
+/dist
+
+# Éditeurs / OS
+.DS_Store
+Thumbs.db
