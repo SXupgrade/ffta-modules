@@ -65,3 +65,34 @@ or
 ```
 
 `count` checks build scoped `SELECT COUNT(*)` queries from declarative JSON. Supported joins are intentionally limited; currently `Qualifications` can join `Entries` to scope scores and target assignments to the active tournament.
+
+## Writing a real exercise, not a no-op
+
+A lesson's `scriptInitExercise` and `scriptVerifExercise` only prove the
+trainee did something when the seeded starting state cannot already
+satisfy the check. `wrong_target` / `target_case_fixed` is the reference
+pattern: the init script deliberately moves Camille Martin to the wrong
+target (`QuTarget: "5"`), and the check only passes once she is back on
+`QuTarget=2` / `QuLetter=A` — the state the `participants` baseline
+originally gave her. Several other lessons follow the same shape:
+`tournament_identity` seeds a blank name/place, `ffta_18m` seeds World
+Archery / Outdoor 70m / 4 distances instead of French rules / Indoor 18m,
+`sessions` leaves the second depart with no archers-per-target, and
+`participants` seeds both training archers without an age class.
+
+When adding or editing an init/check pair:
+
+- Only use columns listed in `formation_allowed_columns()` in
+  `api/formation.php` — a check field that isn't whitelisted is silently
+  dropped from the `WHERE` clause instead of erroring, which quietly turns
+  a check into a no-op. `modules/formation/tests/formation.scripts.test.js`
+  guards the columns used by the current checks; add a case there for any
+  new one.
+- Reference real entry codes. `upsertQualification` looks up the entry by
+  `entryCode` and returns a `ko` result (visible in the exercise card, but
+  easy to miss) if it doesn't exist — copy-pasting a code from another
+  script is the most common way to break a seed silently.
+- Prefer reusing the two training archers (`1000123A` Camille Martin,
+  `1000456Z` Noa Bernard) seeded by the `participants` script over
+  inventing new placeholder codes, so nested `runInitScript` calls stay
+  consistent across lessons.

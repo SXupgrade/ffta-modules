@@ -151,7 +151,8 @@ test('participant scripts include extended entry and qualification fields', () =
 
   assert.equal(club.values.CoNameComplete, 'Club Formation FFTA');
   assert.deepEqual(camilleEntry.values.EnCountry, { ref: 'country:FFTA' });
-  assert.equal(camilleEntry.values.EnAgeClass, 'S1F');
+  assert.equal(camilleEntry.values.EnClass, 'S1');
+  assert.equal(camilleEntry.values.EnAgeClass, '', 'age class starts blank so the trainee must pick the FFTA-correct code');
   assert.equal(camilleEntry.values.EnIocCode, 'FRA');
   assert.equal(camilleEntry.values.EnDob, '2000-01-02');
   assert.equal(camilleEntry.values.EnSex, 1);
