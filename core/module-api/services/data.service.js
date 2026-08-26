@@ -85,6 +85,11 @@ export function createDataService(adapter = null, acl = null, dev = null, logger
         return request('unassignTarget', payload, { ...options, permission: 'write' });
       }
     },
+    officials: {
+      list(filters = {}, options = {}) {
+        return request('listOfficials', filters, options);
+      }
+    },
     clubs: {
       list(filters = {}, options = {}) {
         return request('listClubs', filters, options);

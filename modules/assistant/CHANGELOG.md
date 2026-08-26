@@ -10,16 +10,20 @@
   have no in-app safeguard (destructive target reassignment, UPPERCASE
   false positives on archer database refresh, silent double-counted
   podiums, etc.), rendered as a highlighted alert on the item card.
-- Document (README + code comment in `assistant.scanner.js`) that
-  `judge.responsible.declared` cannot actually auto-complete via a live or
-  lab scan today: `data.officials` has no accessor in the shared
-  `core/module-api/services/data.service.js` and no lab mock, unlike
-  the tournament/entries/scores calls the other four auto-checks use, so
-  the fetch silently resolves to `[]`. `buildMetrics()` already computes
-  `responsibleJudgeCount` correctly when given real officials data — only
-  the transport is missing. Add regression tests locking in today's
-  graceful-degrade-to-0 behavior and the expected behavior once a
-  `data.officials.list()` accessor exists.
+- Wire up `judge.responsible.declared`'s automatic check end to end: add
+  an `officials.list()` accessor to the shared
+  `core/module-api/services/data.service.js` (calling `listOfficials`,
+  mirroring the existing `clubs`/`divisions`/`classes` accessors), a lab
+  mock case in `lab/src/mockIanseoRuntime.js` backed by a new
+  `lab/mock-data/officials.json` fixture (wired into all 5 lab data
+  scenarios), and regression tests — including one exercising the real
+  `createDataService()` end to end — proving `assistant.scanner.js`
+  now genuinely detects a declared responsible judge in the lab, the
+  same as the other five auto-checks. No real Ianseo backend action
+  exists yet for `listOfficials` (or for any other `data.service.js`
+  action, in any module); a future implementation should reuse the query
+  `export-ffta`'s `FftaExportRepository::getResponsibleJudges()` already
+  uses (`TournamentInvolved` joined to `InvolvedType`, `ItId=5`).
 
 ## 0.1.0
 

@@ -59,10 +59,9 @@ test('assistant checklist includes the pitfall warnings surfaced from organizer 
   assert.equal(byId['flags.clubs.downloaded'].priority, 'optional');
 });
 
-test('responsible judge auto-check stays at 0 against the current shared data service shape', async () => {
-  // Mirrors core/module-api/services/data.service.js's real return value: no `officials`
-  // key. This documents that judge.responsible.declared cannot auto-complete via a live
-  // scan today, without the scan throwing or silently reporting a wrong non-zero count.
+test('responsible judge auto-check degrades to 0 if data.officials is absent', async () => {
+  // Defensive case: an adapter/context that predates the `officials` accessor (or a
+  // read-restricted ACL profile that hides it) must not throw or report a wrong count.
   const data = {
     request: async () => { throw new Error('Unknown lab data action: scanTournamentAssistant'); },
     tournament: { getCurrent: async () => ({ name: 'Test tournament' }) },
@@ -76,7 +75,7 @@ test('responsible judge auto-check stays at 0 against the current shared data se
   assert.equal(metrics.tournamentName, 'Test tournament', 'the fields with a real accessor must still resolve');
 });
 
-test('responsible judge auto-check would detect a judge once data.officials.list exists', async () => {
+test('responsible judge auto-check detects a judge through data.officials.list', async () => {
   const data = {
     request: async () => { throw new Error('Unknown lab data action: scanTournamentAssistant'); },
     tournament: { getCurrent: async () => ({ name: 'Test tournament' }) },
@@ -88,4 +87,26 @@ test('responsible judge auto-check would detect a judge once data.officials.list
   const metrics = await scanAssistantMetrics({ data });
 
   assert.equal(metrics.responsibleJudgeCount, 1);
+});
+
+test('the real createDataService officials.list accessor reaches the adapter and resolves through scanAssistantMetrics', async () => {
+  const { createDataService } = await import('../../../core/module-api/services/data.service.js');
+  const calls = [];
+  const adapter = {
+    async request(action) {
+      calls.push(action);
+      if (action === 'getCurrentTournament') return { name: 'Adapter tournament' };
+      if (action === 'listEntries') return [];
+      if (action === 'readQualificationScores') return [];
+      if (action === 'listOfficials') return [{ name: 'A. Dupont', role: 'Responsible Judge' }];
+      throw new Error(`Unexpected action: ${action}`);
+    }
+  };
+  const data = createDataService(adapter);
+
+  const metrics = await scanAssistantMetrics({ data });
+
+  assert.ok(calls.includes('listOfficials'), 'data.officials.list() must call the adapter with the listOfficials action');
+  assert.equal(metrics.responsibleJudgeCount, 1);
+  assert.equal(metrics.tournamentName, 'Adapter tournament');
 });

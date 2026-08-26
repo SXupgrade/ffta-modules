@@ -1,6 +1,7 @@
 import tournament from '../mock-data/tournament.json' with { type: 'json' };
 import entries from '../mock-data/entries.json' with { type: 'json' };
 import qualificationScores from '../mock-data/qualification-scores.json' with { type: 'json' };
+import officials from '../mock-data/officials.json' with { type: 'json' };
 import aclProfiles from '../mock-data/acl-profiles.json' with { type: 'json' };
 import scenarios from '../mock-data/scenarios.json' with { type: 'json' };
 import fftaModulesConfig from '../../config/ffta-modules.config.js';
@@ -135,6 +136,8 @@ function createLabDataAdapter({ getDataStore, state }) {
           return structuredCloneSafe(dataStore.tournament);
         case 'getCurrentUser':
           return structuredCloneSafe(dataStore.currentUser);
+        case 'listOfficials':
+          return filterByKnownFields(dataStore.officials || [], payload);
         case 'listEntries':
           return filterByKnownFields(dataStore.entries, payload);
         case 'getEntry':
@@ -201,7 +204,8 @@ function buildDataStore(scenarioId = 'standard') {
       tournament: structuredCloneSafe({ ...tournament, name: 'Empty Lab Tournament' }),
       currentUser: buildCurrentUser(),
       entries: [],
-      qualificationScores: []
+      qualificationScores: [],
+      officials: []
     };
   }
   if (scenarioId === 'large') {
@@ -224,7 +228,8 @@ function buildDataStore(scenarioId = 'standard') {
         tens: index % 24,
         nines: index % 18,
         rank: index + 1
-      }))
+      })),
+      officials: structuredCloneSafe(officials)
     };
   }
   if (scenarioId === 'invalid') {
@@ -238,6 +243,10 @@ function buildDataStore(scenarioId = 'standard') {
       qualificationScores: [
         ...structuredCloneSafe(qualificationScores),
         { quId: 999, entryId: 999, name: '', club: null, session: 1, target: '', division: '', class: '', distance: 1, score: null, tens: null, nines: null, rank: null }
+      ],
+      officials: [
+        ...structuredCloneSafe(officials),
+        { id: 999, name: '', role: '' }
       ]
     };
   }
@@ -245,7 +254,8 @@ function buildDataStore(scenarioId = 'standard') {
     tournament: structuredCloneSafe(tournament),
     currentUser: buildCurrentUser(),
     entries: structuredCloneSafe(entries),
-    qualificationScores: structuredCloneSafe(qualificationScores)
+    qualificationScores: structuredCloneSafe(qualificationScores),
+    officials: structuredCloneSafe(officials)
   };
 }
 
@@ -363,7 +373,8 @@ function buildGeneratedDataStore(options = {}) {
     },
     currentUser: buildCurrentUser(),
     entries: generatedEntries,
-    qualificationScores: generatedScores
+    qualificationScores: generatedScores,
+    officials: structuredCloneSafe(officials)
   };
 }
 

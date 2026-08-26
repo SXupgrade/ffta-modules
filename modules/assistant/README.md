@@ -45,25 +45,24 @@ No new Ianseo table is required. Manual statuses are stored in local runtime sto
 ### What actually auto-completes today
 
 `scanTournamentAssistant` doesn't exist as a backend action anywhere yet, so
-every scan currently falls through to the per-field SDK calls. Of those,
-`data.tournament.getCurrent`, `data.entries.list` and
-`data.scores.readQualificationScores` are real accessors
-(`core/module-api/services/data.service.js`) with lab mocks
-(`lab/src/mockIanseoRuntime.js`), so these auto-checks genuinely work in
-the lab and against a wired-up Ianseo backend:
+every scan currently falls through to the per-field SDK calls. All five of
+those calls — `data.tournament.getCurrent`, `data.entries.list`,
+`data.scores.readQualificationScores` and `data.officials.list` — are real
+accessors in `core/module-api/services/data.service.js`, each with a lab
+mock in `lab/src/mockIanseoRuntime.js` and fixture data under
+`lab/mock-data/`, so all five auto-checks genuinely work in the lab:
 
 - `tournament.identity.confirmed`, `entries.imported`, `field.assigned`,
-  `qualification.scored`, `results.checked`.
+  `qualification.scored`, `results.checked`, `judge.responsible.declared`.
 
-`judge.responsible.declared` is catalogued with `checkKey: 'hasResponsibleJudge'`
-and `assistant.scanner.js` does compute `responsibleJudgeCount` correctly
-from an `officials` array — but `data.officials` has no accessor in the
-shared data service and no lab mock, unlike the four calls above. The
-fetch resolves to `[]` via optional chaining, so this one item is
-manual-only in practice today despite looking automatic in the catalog.
-Wiring it up for real needs, at minimum: a `data.officials.list()`
-accessor in `data.service.js`, a lab mock case + fixture, and (for a real
-Ianseo backend) the query `export-ffta`'s `FftaExportRepository::getResponsibleJudges()`
+None of them have a real Ianseo backend action behind `data.service.js`'s
+generic `POST api/data.php?action=...` proxy yet — that endpoint doesn't
+exist anywhere in this repo for any module, this isn't specific to
+`officials`. For `listOfficials` specifically, a real implementation can
+reuse the query `export-ffta`'s `FftaExportRepository::getResponsibleJudges()`
 already uses — `TournamentInvolved` joined to `InvolvedType`, filtered on
 `ItId=5` — which is more precise than this module's current
-description-string heuristic (`isResponsibleJudge()` in `assistant.scanner.js`).
+description-string heuristic (`isResponsibleJudge()` in `assistant.scanner.js`)
+and should be preferred if the backend can expose it as a normalized field
+(e.g. a boolean or role code) instead of a free-text description to match
+against.

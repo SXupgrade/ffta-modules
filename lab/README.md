@@ -44,6 +44,7 @@ Mock datasets are stored in `lab/mock-data/`:
 - `tournament.json`
 - `entries.json`
 - `qualification-scores.json`
+- `officials.json`
 - `acl-profiles.json`
 
 The mock data adapter currently supports:
@@ -53,6 +54,7 @@ The mock data adapter currently supports:
 - `readQualificationScores`
 - `writeQualificationScore`
 - `listTargets`
+- `listOfficials`
 
 ## Intentional limitation
 

@@ -1,0 +1,5 @@
+[
+  { "id": 1, "name": "A. Dupont", "role": "Responsible Judge" },
+  { "id": 2, "name": "B. Lefevre", "role": "Judge" },
+  { "id": 3, "name": "C. Moreau", "role": "Field Director" }
+]
