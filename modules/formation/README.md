@@ -3,7 +3,17 @@
 V1 eLearning module for Ianseo training sessions.
 
 The course follows the 2024 simplified FFTA Ianseo tutorial path:
-installation awareness, updates/resources, tournament creation, FFTA 18m setup, sessions, divisions/classes/distances, participants, target assignment, score sheets, score entry, ranking and TXT export.
+installation awareness, updates/resources, tournament creation, FFTA 18m
+setup, sessions, divisions/classes/distances, field team, FFTA license
+database synchronization, participants, individual shoot / individual
+event entry flags, target assignment, score sheets, score entry,
+all-results vs. event-ranking printouts, ranking/TXT export and ISK/
+Scorekeeper lite.
+
+Four of the lessons (FFTA database sync, entry flags, results printout
+distinction, ISK lite) are knowledge-only: they carry no exercise, the
+same way the existing "Personnel et arbitres" lesson does, because they
+document organizer pitfalls that have no reliable database check.
 
 Progress is stored in Ianseo `ModulesParameters` with module name `ffta-formation`, so it follows the active tournament export/import.
 

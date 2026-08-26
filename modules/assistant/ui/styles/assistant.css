@@ -33,6 +33,8 @@
 .ffta-modules-shell .assistant-status { background:rgba(102,112,133,.1); }
 .ffta-modules-shell .assistant-item h4 { margin:0; font-size:1.03rem; }
 .ffta-modules-shell .assistant-item p { margin:0; color:var(--cp-color-muted, #667085); }
+.ffta-modules-shell .assistant-item__warning { font-size:.88rem; }
+.ffta-modules-shell .assistant-item__warning strong { white-space:nowrap; }
 .ffta-modules-shell .assistant-tooltip { border-radius:var(--ffta-radius-card); background:rgba(102,112,133,.07); padding:.55rem .7rem; }
 .ffta-modules-shell .assistant-tooltip summary { cursor:pointer; font-weight:700; }
 .ffta-modules-shell .assistant-tooltip p { margin:.4rem 0 0; }
@@ -95,6 +97,7 @@
   .ffta-modules-shell .assistant-status { border:1px solid #777 !important; color:#111 !important; background:#fff !important; padding:.1rem .35rem !important; }
   .ffta-modules-shell .assistant-item h4 { font-size:.98rem !important; margin:.35rem 0 .15rem !important; }
   .ffta-modules-shell .assistant-item p { color:#222 !important; }
+  .ffta-modules-shell .assistant-item__warning { display:block !important; border:1px solid #111 !important; background:#fff !important; color:#111 !important; margin:.3rem 0 !important; padding:.35rem .5rem !important; font-size:.8rem !important; }
   .ffta-modules-shell .assistant-tooltip { display:block !important; border:0 !important; padding:.25rem 0 0 !important; background:#fff !important; }
   .ffta-modules-shell .assistant-tooltip summary { list-style:none; font-size:.82rem; }
   .ffta-modules-shell .assistant-tooltip summary::-webkit-details-marker { display:none; }

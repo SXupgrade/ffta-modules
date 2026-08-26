@@ -40,3 +40,21 @@ test('assistant summary counts mandatory progress', () => {
   assert.equal(summary.mandatory > 0, true);
   assert.equal(summary.done >= 1, true);
 });
+
+test('assistant checklist includes the pitfall warnings surfaced from organizer feedback', () => {
+  const items = evaluateChecklist();
+  const byId = Object.fromEntries(items.map((item) => [item.id, item]));
+
+  assert.equal(byId['rules.trio.locked'].phase, 'before');
+  assert.equal(byId['rules.trio.locked'].priority, 'mandatory');
+  assert.equal(byId['rules.trio.locked'].warningKey, 'items.rules.trio.warning');
+
+  assert.equal(byId['organizer.code.verified'].warningKey, 'items.organizer.code.warning');
+  assert.equal(byId['entries.flags.checked'].warningKey, 'items.entries.flags.warning');
+  assert.equal(byId['archers.database.refreshed'].warningKey, 'items.archers.database.refreshed.warning');
+  assert.equal(byId['results.classement.typeChecked'].phase, 'after');
+  assert.equal(byId['field.assigned'].warningKey, 'items.field.assigned.warning');
+
+  assert.equal(byId['archers.database.imported'].phase, 'before');
+  assert.equal(byId['flags.clubs.downloaded'].priority, 'optional');
+});

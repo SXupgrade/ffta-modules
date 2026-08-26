@@ -124,6 +124,7 @@ function buildItem(item, app) {
       </div>
       <h4>${escapeHtml(app.t(`assistant.${item.titleKey}`))}</h4>
       <p>${escapeHtml(app.t(`assistant.${item.descriptionKey}`))}</p>
+      ${item.warningKey ? `<div class="cp-alert cp-alert--warning assistant-item__warning"><strong>${escapeHtml(app.t('assistant.labels.warning'))} :</strong> ${escapeHtml(app.t(`assistant.${item.warningKey}`))}</div>` : ''}
       <details class="assistant-tooltip">
         <summary>${escapeHtml(app.t('assistant.labels.where'))}</summary>
         <p>${escapeHtml(app.t(`assistant.${item.tooltipKey}`))}</p>

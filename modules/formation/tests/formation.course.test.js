@@ -13,7 +13,7 @@ test('formation CSV exposes the expected editable Excel columns', () => {
 });
 
 test('formation course is built from tabular step rows', () => {
-  assert.equal(FORMATION_COURSE.lessons.length, 12);
+  assert.equal(FORMATION_COURSE.lessons.length, 16);
 
   for (const lesson of FORMATION_COURSE.lessons) {
     assert.ok(lesson.stepId);
@@ -85,10 +85,30 @@ test('semicolon CSV keeps comma text in the right columns', () => {
 });
 
 test('wrong target step maps to init and verification scripts', () => {
-  const lesson = FORMATION_COURSE.lessons.find((item) => item.stepId === '9');
+  const lesson = FORMATION_COURSE.lessons.find((item) => item.stepId === '11');
 
+  assert.equal(lesson.title, 'Affectation des cibles');
   assert.equal(lesson.scriptInitExercise, 'wrong_target');
   assert.equal(lesson.scriptVerifExercise, 'target_case_fixed');
+});
+
+test('sessions step is backed by a matching init and verification script', () => {
+  const lesson = FORMATION_COURSE.lessons.find((item) => item.stepId === '5');
+
+  assert.equal(lesson.scriptInitExercise, 'sessions');
+  assert.equal(lesson.scriptVerifExercise, '2_sessions_configured');
+});
+
+test('new organizer pitfall lessons are present with no backing exercise', () => {
+  const titles = FORMATION_COURSE.lessons.map((lesson) => lesson.title);
+
+  assert.ok(titles.includes('Synchronisation des licencies FFTA'));
+  assert.ok(titles.includes('Options tir individuel et epreuve individuelle'));
+  assert.ok(titles.includes('Classement des epreuves vs tous resultats'));
+  assert.ok(titles.includes('ISK / Scorekeeper mode lite'));
+
+  const syncLesson = FORMATION_COURSE.lessons.find((lesson) => lesson.title === 'Synchronisation des licencies FFTA');
+  assert.equal(syncLesson.hasExercise, false);
 });
 
 test('script registry lives in data and defines init/check scripts', () => {
