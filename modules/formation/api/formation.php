@@ -204,14 +204,6 @@ function formation_validate($lessonId, $scriptId) {
     return array('completed' => $completed, 'results' => $results, 'progress' => $progress, 'snapshot' => formation_snapshot());
 }
 
-function formation_check($validators) {
-    $results = array();
-    foreach ($validators as $validator) {
-        $results[] = formation_run_validator($validator);
-    }
-    return formation_script_response($results);
-}
-
 function formation_run_init_script($lessonId, $scriptId) {
     $tourId = formation_tour_id();
     if ($tourId <= 0) formation_error('Open or create a tournament before preparing a training case.', 400);
@@ -314,15 +306,12 @@ function formation_upsert_qualification_action($action, $tourId) {
 function formation_run_check_script($scriptId) {
     $scripts = formation_scripts();
     $script = $scripts['checkScripts'][$scriptId] ?? null;
-    if (!$script) formation_error('Unknown verification script.', 400);
-    if (isset($script['checks']) && is_array($script['checks'])) {
-        $results = array();
-        foreach ($script['checks'] as $index => $check) {
-            $results[] = formation_run_check($check, $scriptId . ':' . $index);
-        }
-        return formation_script_response($results);
+    if (!$script || !isset($script['checks']) || !is_array($script['checks'])) formation_error('Unknown verification script.', 400);
+    $results = array();
+    foreach ($script['checks'] as $index => $check) {
+        $results[] = formation_run_check($check, $scriptId . ':' . $index);
     }
-    return formation_check($script['validators'] ?? array());
+    return formation_script_response($results);
 }
 
 function formation_run_check($check, $id) {
@@ -403,87 +392,6 @@ function formation_where_conditions($where, $defaultTable) {
         $conditions[] = $sqlField . $operator . (is_int($value) || is_float($value) ? $value : ffta_sql_string($value));
     }
     return $conditions;
-}
-
-function formation_seed_sessions($tourId) {
-    if (formation_count("SELECT COUNT(*) cnt FROM Session WHERE SesTournament={$tourId}") > 0) return;
-    formation_insert_dynamic('Session', array('SesTournament' => $tourId, 'SesOrder' => 1, 'SesName' => 'FFTA-FORM Depart 1', 'SesTar4Session' => 12, 'SesAth4Target' => 4));
-    formation_insert_dynamic('Session', array('SesTournament' => $tourId, 'SesOrder' => 2, 'SesName' => 'FFTA-FORM Depart 2', 'SesTar4Session' => 12, 'SesAth4Target' => 4));
-    formation_update_dynamic('Tournament', array('ToNumSession' => 2), 'ToId=' . $tourId);
-}
-
-function formation_seed_taxonomy($tourId) {
-    if (formation_count("SELECT COUNT(*) cnt FROM Divisions WHERE DivTournament={$tourId} AND DivId='CL'") === 0) {
-        formation_insert_dynamic('Divisions', array('DivTournament' => $tourId, 'DivId' => 'CL', 'DivDescription' => 'Recurve', 'DivViewOrder' => 1));
-    }
-    if (formation_count("SELECT COUNT(*) cnt FROM Classes WHERE ClTournament={$tourId} AND ClId='S1'") === 0) {
-        formation_insert_dynamic('Classes', array('ClTournament' => $tourId, 'ClId' => 'S1', 'ClDescription' => 'Senior 1', 'ClViewOrder' => 1));
-    }
-    if (formation_count("SELECT COUNT(*) cnt FROM TournamentDistances WHERE TdTournament={$tourId}") === 0) {
-        formation_insert_dynamic('TournamentDistances', array('TdTournament' => $tourId, 'TdDistance' => 18, 'TdSequence' => 1));
-        formation_insert_dynamic('TournamentDistances', array('TdTournament' => $tourId, 'TdDistance' => 18, 'TdSequence' => 2));
-    }
-}
-
-function formation_seed_participants($tourId, $wrongTarget) {
-    formation_seed_sessions($tourId);
-    formation_seed_taxonomy($tourId);
-    $archers = array(
-        array('code' => 'FFTA-FORM-001', 'first' => 'Camille', 'last' => 'Martin', 'target' => $wrongTarget ? '001A' : '002A'),
-        array('code' => 'FFTA-FORM-002', 'first' => 'Noa', 'last' => 'Bernard', 'target' => '002B')
-    );
-    foreach ($archers as $archer) {
-        $entry = formation_row("SELECT EnId FROM Entries WHERE EnTournament={$tourId} AND EnCode=" . ffta_sql_string($archer['code']) . ' LIMIT 1');
-        if (!$entry) {
-            formation_insert_dynamic('Entries', array(
-                'EnTournament' => $tourId,
-                'EnCode' => $archer['code'],
-                'EnFirstName' => $archer['first'],
-                'EnName' => $archer['last'],
-                'EnCountry' => 'FFTA',
-                'EnCountry2' => 'FORM',
-                'EnDivision' => 'CL',
-                'EnClass' => 'S1',
-                'EnStatus' => 1
-            ));
-            $entry = formation_row("SELECT EnId FROM Entries WHERE EnTournament={$tourId} AND EnCode=" . ffta_sql_string($archer['code']) . ' LIMIT 1');
-        }
-        if ($entry && formation_count('SELECT COUNT(*) cnt FROM Qualifications WHERE QuId=' . (int) $entry->EnId) === 0) {
-            formation_insert_dynamic('Qualifications', array('QuId' => (int) $entry->EnId, 'QuSession' => 1, 'QuTargetNo' => $archer['target'], 'QuScore' => 0, 'QuClRank' => 0));
-        } elseif ($entry) {
-            formation_update_dynamic('Qualifications', array('QuSession' => 1, 'QuTargetNo' => $archer['target']), 'QuId=' . (int) $entry->EnId);
-        }
-    }
-}
-
-function formation_seed_scores($tourId) {
-    $rows = ffta_fetch_all(ffta_query("SELECT e.EnId, e.EnCode FROM Entries e WHERE e.EnTournament={$tourId} AND e.EnCode LIKE 'FFTA-FORM-%'"));
-    $rank = 1;
-    foreach ($rows as $row) {
-        formation_update_dynamic('Qualifications', array('QuScore' => $rank === 1 ? 542 : 511, 'QuGold' => $rank === 1 ? 18 : 11, 'QuXnine' => $rank === 1 ? 7 : 3, 'QuClRank' => $rank), 'QuId=' . (int) $row->EnId);
-        $rank++;
-    }
-}
-
-function formation_run_validator($validator) {
-    $tourId = formation_tour_id();
-    if ($validator === 'active_tournament') return formation_result($validator, $tourId > 0 ? 'ok' : 'ko', $tourId > 0 ? 'Active tournament detected.' : 'Open or create a tournament first.');
-    if ($tourId <= 0) return formation_result($validator, 'ko', 'No active tournament.');
-    $t = formation_row('SELECT * FROM Tournament WHERE ToId=' . $tourId . ' LIMIT 1');
-    if ($validator === 'tournament_identity') return formation_result($validator, $t && $t->ToCode && ($t->ToName || $t->ToWhere) && $t->ToWhenFrom ? 'ok' : 'ko', 'Tournament code, name/place and dates are required.');
-    if ($validator === 'french_rule') return formation_result($validator, $t && stripos((string) $t->ToLocRule, 'FR') !== false ? 'ok' : 'ko', 'Use French rules in competition information.');
-    if ($validator === 'indoor_two_distances') return formation_result($validator, $t && (stripos((string) $t->ToTypeName, '18') !== false || (int) $t->ToNumDist === 2) ? 'ok' : 'ko', 'Expected an indoor 18m / 2 distances setup.');
-    if ($validator === 'sessions_configured') return formation_result($validator, formation_count("SELECT COUNT(*) cnt FROM Session WHERE SesTournament={$tourId} AND SesTar4Session>0 AND SesAth4Target>0") > 0 ? 'ok' : 'ko', 'At least one session must define targets and archers per target.');
-    if ($validator === 'divisions_classes') return formation_result($validator, formation_count("SELECT COUNT(*) cnt FROM Divisions WHERE DivTournament={$tourId}") > 0 && formation_count("SELECT COUNT(*) cnt FROM Classes WHERE ClTournament={$tourId}") > 0 ? 'ok' : 'ko', 'Divisions and classes must exist.');
-    if ($validator === 'distances_configured') return formation_result($validator, formation_count("SELECT COUNT(*) cnt FROM TournamentDistances WHERE TdTournament={$tourId}") > 0 || formation_count("SELECT COUNT(*) cnt FROM DistanceInformation WHERE DiTournament={$tourId}") > 0 ? 'ok' : 'ko', 'Distances must be generated or configured.');
-    if ($validator === 'officials_optional') return formation_result($validator, 'warning', 'Optional in V1: the trainer can validate orally.');
-    if ($validator === 'participants_created') return formation_result($validator, formation_count("SELECT COUNT(*) cnt FROM Entries WHERE EnTournament={$tourId}") >= 2 ? 'ok' : 'ko', 'Create at least two participants.');
-    if ($validator === 'targets_assigned') return formation_result($validator, formation_count("SELECT COUNT(*) cnt FROM Qualifications q INNER JOIN Entries e ON e.EnId=q.QuId WHERE e.EnTournament={$tourId} AND COALESCE(q.QuTargetNo,'')<>''") >= 1 ? 'ok' : 'ko', 'Assign at least one archer to a target.');
-    if ($validator === 'target_case_fixed') return formation_result($validator, formation_count("SELECT COUNT(*) cnt FROM Qualifications q INNER JOIN Entries e ON e.EnId=q.QuId WHERE e.EnTournament={$tourId} AND e.EnCode='FFTA-FORM-001' AND q.QuTargetNo='002A'") === 1 ? 'ok' : 'ko', 'Camille Martin must be moved back to target 002A.');
-    if ($validator === 'scores_entered') return formation_result($validator, formation_count("SELECT COUNT(*) cnt FROM Qualifications q INNER JOIN Entries e ON e.EnId=q.QuId WHERE e.EnTournament={$tourId} AND q.QuScore>0") >= 1 ? 'ok' : 'ko', 'Enter at least one score.');
-    if ($validator === 'ranking_ready') return formation_result($validator, formation_count("SELECT COUNT(*) cnt FROM Qualifications q INNER JOIN Entries e ON e.EnId=q.QuId WHERE e.EnTournament={$tourId} AND q.QuScore>0 AND q.QuClRank>0") >= 1 ? 'ok' : 'ko', 'Ranking should be recalculated after score entry.');
-    if ($validator === 'txt_export_ready') return formation_result($validator, formation_count("SELECT COUNT(*) cnt FROM Qualifications q INNER JOIN Entries e ON e.EnId=q.QuId WHERE e.EnTournament={$tourId} AND q.QuScore>0") >= 1 ? 'ok' : 'ko', 'TXT export is possible once scores exist.');
-    return formation_result($validator, 'ko', 'Unknown validator.');
 }
 
 try {

@@ -1,4 +1,10 @@
 
+## v0.3.0
+
+- Removed the module's own PHP backend (`api/records.php`, `repositories/ianseo/IanseoRecordsRepository.php`): every read/write now goes through the shared `app.data.records.*` channel backed by `api/data.php` + `api/ianseo/records.service.php`, matching the other JS-only modules. Same tables (`RecAreas`, `TourRecords`, `RecTournament`, `RecBroken`), same SQL, same `RtRecExtra` serialize() format — no change to what Ianseo's own ORIS reports read.
+- Added `'lab'` and `'competplus'` to `runtimeCompatibility`, plus a lab mock covering the full dashboard/import/activate/sync/broken-records flow.
+- Behavior change: without an active tournament in session, records actions now fail cleanly instead of silently falling back to the most recently created tournament in the whole installation.
+
 ## v0.2.1
 
 - Aligned records table columns with the canonical CSV/JSON import-export format.
