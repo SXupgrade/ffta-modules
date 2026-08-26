@@ -30,7 +30,7 @@ export function mountAssistantPage({ root, vm, app }) {
   };
 }
 
-function buildHtml(vm, app) {
+export function buildHtml(vm, app) {
   const state = vm.state;
   return `
     <section class="ffta-page assistant-page">

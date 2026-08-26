@@ -60,7 +60,7 @@ export function mountTossPage({ root, vm, app }) {
   };
 }
 
-function buildHtml(state, vm, app) {
+export function buildHtml(state, vm, app) {
   const current = state.current;
   const isPrepared = current?.status === 'prepared';
   const isRevealed = current?.status === 'revealed';
