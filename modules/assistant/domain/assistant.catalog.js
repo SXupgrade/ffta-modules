@@ -10,8 +10,20 @@ export const ASSISTANT_ITEMS = [
     titleKey: 'items.tournament.identity.title', descriptionKey: 'items.tournament.identity.description', tooltipKey: 'items.tournament.identity.tooltip'
   },
   {
+    id: 'rules.trio.locked', phase: 'before', timing: 'J-30', priority: 'mandatory',
+    titleKey: 'items.rules.trio.title', descriptionKey: 'items.rules.trio.description', tooltipKey: 'items.rules.trio.tooltip', warningKey: 'items.rules.trio.warning'
+  },
+  {
+    id: 'organizer.code.verified', phase: 'before', timing: 'J-30', priority: 'mandatory',
+    titleKey: 'items.organizer.code.title', descriptionKey: 'items.organizer.code.description', tooltipKey: 'items.organizer.code.tooltip', warningKey: 'items.organizer.code.warning'
+  },
+  {
     id: 'judge.responsible.declared', phase: 'before', timing: 'J-30', priority: 'mandatory', checkKey: 'hasResponsibleJudge',
     titleKey: 'items.judge.responsible.title', descriptionKey: 'items.judge.responsible.description', tooltipKey: 'items.judge.responsible.tooltip'
+  },
+  {
+    id: 'archers.database.imported', phase: 'before', timing: 'J-25', priority: 'mandatory',
+    titleKey: 'items.archers.database.imported.title', descriptionKey: 'items.archers.database.imported.description', tooltipKey: 'items.archers.database.imported.tooltip'
   },
   {
     id: 'target.faces.ordered', phase: 'before', timing: 'J-20', priority: 'mandatory',
@@ -26,8 +38,20 @@ export const ASSISTANT_ITEMS = [
     titleKey: 'items.entries.imported.title', descriptionKey: 'items.entries.imported.description', tooltipKey: 'items.entries.imported.tooltip'
   },
   {
+    id: 'entries.flags.checked', phase: 'before', timing: 'J-8', priority: 'mandatory',
+    titleKey: 'items.entries.flags.title', descriptionKey: 'items.entries.flags.description', tooltipKey: 'items.entries.flags.tooltip', warningKey: 'items.entries.flags.warning'
+  },
+  {
     id: 'field.assigned', phase: 'before', timing: 'J-5', priority: 'mandatory', checkKey: 'allArchersAssigned',
-    titleKey: 'items.field.assigned.title', descriptionKey: 'items.field.assigned.description', tooltipKey: 'items.field.assigned.tooltip'
+    titleKey: 'items.field.assigned.title', descriptionKey: 'items.field.assigned.description', tooltipKey: 'items.field.assigned.tooltip', warningKey: 'items.field.assigned.warning'
+  },
+  {
+    id: 'archers.database.refreshed', phase: 'before', timing: 'J-3', priority: 'mandatory',
+    titleKey: 'items.archers.database.refreshed.title', descriptionKey: 'items.archers.database.refreshed.description', tooltipKey: 'items.archers.database.refreshed.tooltip', warningKey: 'items.archers.database.refreshed.warning'
+  },
+  {
+    id: 'flags.clubs.downloaded', phase: 'before', timing: 'J-3', priority: 'optional',
+    titleKey: 'items.flags.clubs.title', descriptionKey: 'items.flags.clubs.description', tooltipKey: 'items.flags.clubs.tooltip'
   },
   {
     linkModuleId: 'prints-adapter', id: 'scorecards.printed', phase: 'before', timing: 'J-2', priority: 'mandatory', eventType: 'pdf.scorecards.printed',
@@ -64,6 +88,10 @@ export const ASSISTANT_ITEMS = [
   {
     id: 'results.checked', phase: 'after', timing: 'J+0', priority: 'mandatory', checkKey: 'hasRankedScores',
     titleKey: 'items.results.checked.title', descriptionKey: 'items.results.checked.description', tooltipKey: 'items.results.checked.tooltip'
+  },
+  {
+    id: 'results.classement.typeChecked', phase: 'after', timing: 'J+0', priority: 'mandatory',
+    titleKey: 'items.results.classement.title', descriptionKey: 'items.results.classement.description', tooltipKey: 'items.results.classement.tooltip', warningKey: 'items.results.classement.warning'
   },
   {
     linkModuleId: 'export-ffta', id: 'ffta.export.generated', phase: 'after', timing: 'J+0', priority: 'mandatory', eventType: 'export.federal.generated',

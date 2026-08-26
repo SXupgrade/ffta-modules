@@ -10,7 +10,7 @@ export default {
   i18n: ['./i18n/en.json', './i18n/fr.json'],
   styles: ['./ui/styles/toss.css'],
   capabilities: ['i18n', 'routing', 'export'],
-  runtimeCompatibility: ['ianseo'],
+  runtimeCompatibility: ['ianseo', 'competplus'],
   access: {
     acl: 'AclModules',
     subFeature: 'fftaToss',
