@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.2.21 - checkScorecard et records en JS pure
+
+- Suppression des backends PHP propres aux modules `check-scorecard` et `records` (`modules/*/api/*.php`, `IanseoRecordsRepository.php`) : toutes leurs lectures/écritures passent désormais par le canal partagé `api/data.php`, comme les autres modules 100% JS.
+- Ajout de `api/ianseo/check-scorecard.service.php` et `api/ianseo/records.service.php` (logique SQL inchangée, migrée depuis les anciens fichiers PHP des modules).
+- Correction d'un défaut d'ACL côté `api/data.php` : `check-scorecard` et `records` étaient jusqu'ici accessibles via un contrôle générique unique ; ils ont maintenant chacun leur propre garde ACL (`AclQualification` / `AclModules`+`fftaRecords`), conforme à leur `module.manifest.js`.
+- `check-scorecard` et `records` gagnent `'lab'`/`'competplus'` dans `runtimeCompatibility` et un mock lab complet (sessions, aires de records, records, records battus).
+- Changement de comportement pour `records` : sans tournoi actif en session, les actions échouent désormais proprement au lieu d'opérer silencieusement sur le tournoi le plus récent de l'installation.
+- Modules PHP-privés restants : `beursault` uniquement (hors périmètre de ce chantier).
+
 ## v0.2.18 - New module : checkScorecard
 
 - Module qui permet de confirmer des feuilles de marques

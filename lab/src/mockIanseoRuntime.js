@@ -1,6 +1,10 @@
 import tournament from '../mock-data/tournament.json' with { type: 'json' };
 import entries from '../mock-data/entries.json' with { type: 'json' };
 import qualificationScores from '../mock-data/qualification-scores.json' with { type: 'json' };
+import sessions from '../mock-data/sessions.json' with { type: 'json' };
+import recordAreas from '../mock-data/record-areas.json' with { type: 'json' };
+import records from '../mock-data/records.json' with { type: 'json' };
+import brokenRecords from '../mock-data/broken-records.json' with { type: 'json' };
 import officials from '../mock-data/officials.json' with { type: 'json' };
 import aclProfiles from '../mock-data/acl-profiles.json' with { type: 'json' };
 import scenarios from '../mock-data/scenarios.json' with { type: 'json' };
@@ -162,6 +166,34 @@ function createLabDataAdapter({ getDataStore, state }) {
           return uniqueCodes(dataStore.entries, 'division');
         case 'listClasses':
           return uniqueCodes(dataStore.entries, 'class');
+        case 'getCheckScorecardContext':
+          return buildCheckScorecardContext(dataStore);
+        case 'listCheckScorecardSessions':
+          return structuredCloneSafe(dataStore.sessions || []);
+        case 'listCheckScorecardRows':
+          return listCheckScorecardRows(dataStore, payload);
+        case 'setCheckScorecardConfirm':
+          return setCheckScorecardConfirm(dataStore, payload);
+        case 'getRecordsDashboard':
+          return buildRecordsDashboard(dataStore);
+        case 'saveMonitoredRecord':
+          return saveMonitoredRecordMock(dataStore, payload);
+        case 'saveRecord':
+          return saveRecordMock(dataStore, payload);
+        case 'importRecords':
+          return importRecordsMock(dataStore, payload);
+        case 'activateTournamentRecords':
+          return activateTournamentRecordsMock(dataStore, payload);
+        case 'saveRecordArea':
+          return saveRecordAreaMock(dataStore, payload);
+        case 'deleteRecordArea':
+          return deleteRecordAreaMock(dataStore, payload);
+        case 'syncTournamentRecordAreas':
+          return syncTournamentRecordAreasMock(dataStore, payload);
+        case 'updateGlobalRecordsFromBroken':
+          return updateGlobalRecordsFromBrokenMock(dataStore);
+        case 'checkBrokenRecords':
+          return checkBrokenRecordsMock(dataStore);
         default:
           throw new Error(`Unknown lab data action: ${action}`);
       }
@@ -205,6 +237,10 @@ function buildDataStore(scenarioId = 'standard') {
       currentUser: buildCurrentUser(),
       entries: [],
       qualificationScores: [],
+      sessions: [],
+      recordAreas: [],
+      records: [],
+      brokenRecords: [],
       officials: []
     };
   }
@@ -227,8 +263,22 @@ function buildDataStore(scenarioId = 'standard') {
         score: 240 + (index % 91),
         tens: index % 24,
         nines: index % 18,
-        rank: index + 1
+        rank: index + 1,
+        hits: 60 + (index % 12),
+        gold: index % 24,
+        xnine: index % 18,
+        tieBreak: '',
+        confirm: 0,
+        d1Score: 240 + (index % 91),
+        d1Hits: 60 + (index % 12),
+        d1Gold: index % 24,
+        d1Xnine: index % 18,
+        d1Arrowstring: ''
       })),
+      sessions: buildLabSessions(2),
+      recordAreas: structuredCloneSafe(recordAreas),
+      records: structuredCloneSafe(records),
+      brokenRecords: structuredCloneSafe(brokenRecords),
       officials: structuredCloneSafe(officials)
     };
   }
@@ -242,8 +292,12 @@ function buildDataStore(scenarioId = 'standard') {
       ],
       qualificationScores: [
         ...structuredCloneSafe(qualificationScores),
-        { quId: 999, entryId: 999, name: '', club: null, session: 1, target: '', division: '', class: '', distance: 1, score: null, tens: null, nines: null, rank: null }
+        { quId: 999, entryId: 999, name: '', club: null, session: 1, target: '', division: '', class: '', distance: 1, score: null, tens: null, nines: null, rank: null, hits: null, gold: null, xnine: null, tieBreak: '', confirm: 0 }
       ],
+      sessions: structuredCloneSafe(sessions),
+      recordAreas: structuredCloneSafe(recordAreas),
+      records: structuredCloneSafe(records),
+      brokenRecords: structuredCloneSafe(brokenRecords),
       officials: [
         ...structuredCloneSafe(officials),
         { id: 999, name: '', role: '' }
@@ -255,8 +309,21 @@ function buildDataStore(scenarioId = 'standard') {
     currentUser: buildCurrentUser(),
     entries: structuredCloneSafe(entries),
     qualificationScores: structuredCloneSafe(qualificationScores),
+    sessions: structuredCloneSafe(sessions),
+    recordAreas: structuredCloneSafe(recordAreas),
+    records: structuredCloneSafe(records),
+    brokenRecords: structuredCloneSafe(brokenRecords),
     officials: structuredCloneSafe(officials)
   };
+}
+
+function buildLabSessions(sessionCount) {
+  return Array.from({ length: Math.max(1, Number(sessionCount) || 1) }, (_, index) => ({
+    id: index + 1,
+    label: `${index + 1} - Qualification`,
+    firstTarget: 1,
+    lastTarget: 12
+  }));
 }
 
 
@@ -344,6 +411,9 @@ function buildGeneratedDataStore(options = {}) {
   const random = createSeededRandom(seed + 99);
   const generatedScores = generatedEntries.map((entry, index) => {
     const score = Math.round(180 + random() * 180);
+    const hits = Math.min(72, Math.round(score / 5));
+    const gold = Math.floor(score / 30) + (index % 3);
+    const xnine = Math.floor(score / 40) + (index % 4);
     return {
       quId: entry.id,
       entryId: entry.id,
@@ -355,9 +425,19 @@ function buildGeneratedDataStore(options = {}) {
       class: entry.class,
       distance: 1,
       score,
-      tens: Math.floor(score / 30) + (index % 3),
-      nines: Math.floor(score / 40) + (index % 4),
-      rank: index + 1
+      tens: gold,
+      nines: xnine,
+      rank: index + 1,
+      hits,
+      gold,
+      xnine,
+      tieBreak: '',
+      confirm: 0,
+      d1Score: score,
+      d1Hits: hits,
+      d1Gold: gold,
+      d1Xnine: xnine,
+      d1Arrowstring: ''
     };
   }).sort((left, right) => Number(right.score || 0) - Number(left.score || 0))
     .map((row, index) => ({ ...row, rank: index + 1 }));
@@ -374,6 +454,10 @@ function buildGeneratedDataStore(options = {}) {
     currentUser: buildCurrentUser(),
     entries: generatedEntries,
     qualificationScores: generatedScores,
+    sessions: buildLabSessions(sessions),
+    recordAreas: [],
+    records: [],
+    brokenRecords: [],
     officials: structuredCloneSafe(officials)
   };
 }
@@ -471,6 +555,310 @@ function unassignTarget(rows, payload = {}) {
   if (!entry) throw new Error(`Unknown entry: ${entryId}`);
   entry.target = '';
   return structuredCloneSafe(entry);
+}
+
+function buildCheckScorecardContext(dataStore) {
+  const tournament = dataStore.tournament || {};
+  const numDistances = 1;
+  return {
+    id: Number(tournament.id) || 1,
+    code: tournament.code || tournament.shortName || '',
+    name: tournament.name || tournament.code || '',
+    numDistances,
+    numEnds: Number(tournament.numEnds) || 12,
+    maxDistanceScore: Number(tournament.maxDistanceScore) || 360,
+    fullConfirmMask: Math.pow(2, numDistances + 1) - 2
+  };
+}
+
+function buildCheckScorecardRow(entry, score, numDistances) {
+  const confirm = Number(score?.confirm || 0);
+  const distances = [];
+  for (let distance = 1; distance <= numDistances; distance++) {
+    const bit = Math.pow(2, distance);
+    distances.push({
+      index: distance,
+      bit,
+      confirmed: (confirm & bit) !== 0,
+      score: Number(score?.[`d${distance}Score`] ?? score?.score ?? 0),
+      hits: Number(score?.[`d${distance}Hits`] ?? score?.hits ?? 0),
+      gold: Number(score?.[`d${distance}Gold`] ?? score?.gold ?? 0),
+      xnine: Number(score?.[`d${distance}Xnine`] ?? score?.xnine ?? 0),
+      arrowString: String(score?.[`d${distance}Arrowstring`] ?? '')
+    });
+  }
+  return {
+    id: Number(entry.id),
+    license: entry.code || '',
+    lastName: entry.lastName || '',
+    firstName: entry.firstName || '',
+    category: `${entry.class || ''}${entry.division || ''}`,
+    clubCode: entry.clubCode || '',
+    clubName: entry.clubName || '',
+    target: entry.target || '',
+    totalScore: Number(score?.score ?? 0),
+    totalHits: Number(score?.hits || 0),
+    totalGold: Number(score?.gold || 0),
+    totalXnine: Number(score?.xnine || 0),
+    tieBreak: score?.tieBreak || '',
+    quConfirm: confirm,
+    globalConfirmed: (confirm & 1) !== 0,
+    distances
+  };
+}
+
+function listCheckScorecardRows(dataStore, payload = {}) {
+  const session = payload.session ? Number(payload.session) : null;
+  const numDistances = buildCheckScorecardContext(dataStore).numDistances;
+  const entries = (dataStore.entries || []).filter((entry) => !session || Number(entry.session) === session);
+  return entries.map((entry) => {
+    const score = (dataStore.qualificationScores || []).find((row) => Number(row.entryId) === Number(entry.id));
+    return buildCheckScorecardRow(entry, score, numDistances);
+  });
+}
+
+function setCheckScorecardConfirm(dataStore, payload = {}) {
+  const id = Number(payload.id);
+  const distance = Number(payload.distance || 0);
+  const confirmed = Boolean(payload.confirmed);
+  const score = (dataStore.qualificationScores || []).find((row) => Number(row.entryId) === id);
+  if (!score) throw new Error(`Unknown archer: ${id}`);
+  const entry = (dataStore.entries || []).find((row) => Number(row.id) === id);
+  if (!entry) throw new Error(`Unknown archer: ${id}`);
+  const bit = Math.pow(2, distance);
+  const current = Number(score.confirm || 0);
+  score.confirm = confirmed ? (current | bit) : (current & ~bit);
+  const numDistances = buildCheckScorecardContext(dataStore).numDistances;
+  return buildCheckScorecardRow(entry, score, numDistances);
+}
+
+function stripRecordScope(row) {
+  const clone = structuredCloneSafe(row);
+  delete clone.scope;
+  return clone;
+}
+
+function buildRecordsDashboard(dataStore) {
+  const areas = structuredCloneSafe(dataStore.recordAreas || []);
+  const allRecords = dataStore.records || [];
+  const globalRecords = allRecords.filter((row) => row.scope === 'global').map(stripRecordScope);
+  const tournamentRecords = allRecords.filter((row) => row.scope === 'tournament').map(stripRecordScope);
+  const monitoredRecords = areas
+    .filter((area) => tournamentRecords.some((row) => row.areaCode === area.code))
+    .map((area) => ({
+      tournamentId: dataStore.tournament?.id || 1,
+      areaCode: area.code,
+      areaName: area.name,
+      team: 0,
+      para: 0,
+      headerCode: area.code.slice(0, 2),
+      header: area.name,
+      color: '000000',
+      updatedAt: new Date().toISOString()
+    }));
+  const recordCodes = [...new Set(globalRecords.map((row) => row.areaCode))].map((areaCode) => {
+    const area = areas.find((entry) => entry.code === areaCode);
+    const matching = globalRecords.filter((row) => row.areaCode === areaCode);
+    return {
+      areaCode,
+      areaName: area?.name || areaCode,
+      team: 0,
+      para: 0,
+      recordsCount: matching.length,
+      updatedAt: new Date().toISOString()
+    };
+  });
+  return {
+    tournament: structuredCloneSafe(dataStore.tournament || null),
+    areas,
+    monitoredRecords,
+    recordCodes,
+    globalRecords,
+    records: tournamentRecords,
+    brokenRecords: structuredCloneSafe(dataStore.brokenRecords || []),
+    warnings: monitoredRecords.length
+      ? []
+      : [{ level: 'warning', message: 'No monitored record area is configured for this tournament.' }]
+  };
+}
+
+function saveRecordAreaMock(dataStore, payload = {}) {
+  const code = String(payload.areaCode || '').trim().toUpperCase();
+  if (!code) throw new Error('Record area code is required.');
+  const name = String(payload.areaName || code).trim() || code;
+  const areas = dataStore.recordAreas || (dataStore.recordAreas = []);
+  const existing = areas.find((area) => area.code === code);
+  if (existing) {
+    existing.name = name;
+  } else {
+    areas.push({ code, name, bitLevel: 1, waMaintenance: 0, globalRecordsCount: 0, tournamentRecordsCount: 0 });
+  }
+  return { ok: true };
+}
+
+function deleteRecordAreaMock(dataStore, payload = {}) {
+  const code = String(payload.areaCode || '').trim().toUpperCase();
+  if (!code) throw new Error('Record area code is required.');
+  dataStore.recordAreas = (dataStore.recordAreas || []).filter((area) => area.code !== code);
+  dataStore.records = (dataStore.records || []).filter((row) => row.areaCode !== code);
+  dataStore.brokenRecords = (dataStore.brokenRecords || []).filter((row) => row.areaCode !== code);
+  return { ok: true };
+}
+
+function saveMonitoredRecordMock(dataStore, payload = {}) {
+  const code = String(payload.areaCode || 'FFTA').trim().toUpperCase();
+  saveRecordAreaMock(dataStore, { areaCode: code, areaName: payload.areaName || code });
+  const area = (dataStore.recordAreas || []).find((entry) => entry.code === code);
+  if (area) area.tournamentRecordsCount = Math.max(1, area.tournamentRecordsCount || 0);
+  return { ok: true };
+}
+
+function importRecordsMock(dataStore, payload = {}) {
+  const rows = Array.isArray(payload.rows) ? payload.rows : [];
+  const scope = payload.targetTournament === 'current' || Number(payload.targetTournament || 0) > 0 ? 'tournament' : 'global';
+  const records = dataStore.records || (dataStore.records = []);
+  let imported = 0;
+  for (const row of rows) {
+    const areaCode = String(row.recordCode || row.areaCode || payload.areaCode || '').trim().toUpperCase();
+    const category = String(row.category || '').trim().toUpperCase();
+    const total = Number(row.total || 0);
+    if (!areaCode || !category || !total) continue;
+    saveRecordAreaMock(dataStore, { areaCode, areaName: payload.areaName || areaCode });
+    const record = {
+      scope,
+      areaCode,
+      recordCode: areaCode,
+      team: row.team ? 1 : 0,
+      isTeam: row.team ? 1 : 0,
+      para: row.para ? 1 : 0,
+      isPara: row.para ? 1 : 0,
+      category,
+      categoryName: row.categoryName || category,
+      division: row.division || '',
+      distance: row.distance || row.recordLabel || '',
+      recordLabel: row.distance || row.recordLabel || '',
+      total,
+      xNine: Number(row.xNine || 0),
+      tieBreaker: Number(row.xNine || 0),
+      recordDate: row.date || '',
+      date: row.date || '',
+      phase: Number(row.phase ?? 1),
+      subphase: Number(row.subphase ?? 0),
+      isDouble: row.double ? 1 : 0,
+      isMixed: row.double ? 1 : 0,
+      meters: Number(row.meters || 0),
+      maxScore: Number(row.maxScore || 0),
+      holderName: row.archer || row.holderName || '',
+      holderClubOrCountry: row.noc || 'FRA',
+      place: row.place || '',
+      source: ''
+    };
+    const existingIndex = records.findIndex((existing) => existing.scope === scope && existing.areaCode === areaCode && existing.category === category);
+    if (existingIndex >= 0) records[existingIndex] = record;
+    else records.push(record);
+    imported++;
+  }
+  return { imported };
+}
+
+function saveRecordMock(dataStore, payload = {}) {
+  const record = payload.record || {};
+  const targetTournament = payload.targetTournament === 'current' ? 'current' : 0;
+  return importRecordsMock(dataStore, {
+    targetTournament,
+    rows: [record]
+  });
+}
+
+function activateTournamentRecordsMock(dataStore, payload = {}) {
+  const codes = Array.isArray(payload.recordCodes)
+    ? payload.recordCodes.map((code) => String(code).trim().toUpperCase()).filter(Boolean)
+    : [];
+  if (!codes.length) return { activatedCodes: [], copiedRecords: 0 };
+  const records = dataStore.records || (dataStore.records = []);
+  let copied = 0;
+  for (const record of records.filter((row) => row.scope === 'global' && codes.includes(row.areaCode))) {
+    const clone = { ...record, scope: 'tournament' };
+    const existingIndex = records.findIndex((row) => row.scope === 'tournament' && row.areaCode === clone.areaCode && row.category === clone.category);
+    if (existingIndex >= 0) records[existingIndex] = clone;
+    else records.push(clone);
+    copied++;
+  }
+  return { activatedCodes: codes, copiedRecords: copied };
+}
+
+function syncTournamentRecordAreasMock(dataStore, payload = {}) {
+  const codes = Array.isArray(payload.areaCodes)
+    ? payload.areaCodes.map((code) => String(code).trim().toUpperCase()).filter(Boolean)
+    : [];
+  if (!codes.length) {
+    dataStore.records = (dataStore.records || []).filter((row) => row.scope !== 'tournament');
+    dataStore.brokenRecords = [];
+    return { selectedCodes: [], copiedRecords: 0, removedRecords: 'all' };
+  }
+  dataStore.records = (dataStore.records || []).filter((row) => row.scope !== 'tournament' || codes.includes(row.areaCode));
+  const { copiedRecords } = activateTournamentRecordsMock(dataStore, { recordCodes: codes });
+  return { selectedCodes: codes, copiedRecords };
+}
+
+function checkBrokenRecordsMock(dataStore) {
+  const tournamentRecords = (dataStore.records || []).filter((row) => row.scope === 'tournament' && !row.team);
+  const entries = dataStore.entries || [];
+  const scores = dataStore.qualificationScores || [];
+  const broken = [];
+  for (const record of tournamentRecords) {
+    for (const entry of entries) {
+      const category = `${entry.class || ''}${entry.division || ''}`;
+      if (category !== record.category) continue;
+      const score = scores.find((row) => Number(row.entryId) === Number(entry.id));
+      const total = Number(score?.score || 0);
+      if (total > Number(record.total || 0)) {
+        broken.push({
+          areaCode: record.areaCode,
+          athleteId: entry.id,
+          teamId: 0,
+          category: record.category,
+          team: 0,
+          para: 0,
+          eventCode: record.category,
+          brokenAt: new Date().toISOString(),
+          previousTotal: record.total,
+          previousXNine: record.xNine,
+          firstName: entry.firstName,
+          lastName: entry.lastName,
+          countryName: entry.clubName || entry.country || ''
+        });
+      }
+    }
+  }
+  dataStore.brokenRecords = broken;
+  return { scope: 'individual_qualification', brokenCount: broken.length };
+}
+
+function updateGlobalRecordsFromBrokenMock(dataStore) {
+  const broken = dataStore.brokenRecords || [];
+  const records = dataStore.records || (dataStore.records = []);
+  const scores = dataStore.qualificationScores || [];
+  let updated = 0;
+  for (const brokenRow of broken) {
+    const score = scores.find((row) => Number(row.entryId) === Number(brokenRow.athleteId));
+    const newTotal = Number(score?.score || 0);
+    if (!newTotal) continue;
+    const globalIndex = records.findIndex((row) => row.scope === 'global' && row.areaCode === brokenRow.areaCode && row.category === brokenRow.category);
+    if (globalIndex < 0) continue;
+    if (newTotal > Number(records[globalIndex].total || 0)) {
+      records[globalIndex] = {
+        ...records[globalIndex],
+        total: newTotal,
+        xNine: Number(score?.xnine || 0),
+        tieBreaker: Number(score?.xnine || 0),
+        holderName: `${brokenRow.firstName || ''} ${brokenRow.lastName || ''}`.trim(),
+        holderClubOrCountry: brokenRow.countryName || records[globalIndex].holderClubOrCountry
+      };
+      updated++;
+    }
+  }
+  return { updatedRecords: updated };
 }
 
 function buildTargets(entriesRows, filters = {}) {

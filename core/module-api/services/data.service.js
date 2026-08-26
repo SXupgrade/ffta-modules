@@ -104,6 +104,38 @@ export function createDataService(adapter = null, acl = null, dev = null, logger
       list(filters = {}, options = {}) {
         return request('listClasses', filters, options);
       }
+    },
+    records: {
+      getDashboard(options = {}) {
+        return request('getRecordsDashboard', {}, options);
+      },
+      saveMonitoredRecord(input = {}, options = {}) {
+        return request('saveMonitoredRecord', input, { ...options, permission: 'write' });
+      },
+      saveRecord(payload = {}, options = {}) {
+        return request('saveRecord', payload, { ...options, permission: 'write' });
+      },
+      importRecords(payload = {}, options = {}) {
+        return request('importRecords', payload, { ...options, permission: 'write' });
+      },
+      activateTournamentRecords(payload = {}, options = {}) {
+        return request('activateTournamentRecords', payload, { ...options, permission: 'write' });
+      },
+      saveRecordArea(input = {}, options = {}) {
+        return request('saveRecordArea', input, { ...options, permission: 'write' });
+      },
+      deleteRecordArea(input = {}, options = {}) {
+        return request('deleteRecordArea', input, { ...options, permission: 'write' });
+      },
+      syncTournamentRecordAreas(payload = {}, options = {}) {
+        return request('syncTournamentRecordAreas', payload, { ...options, permission: 'write' });
+      },
+      updateGlobalRecordsFromBroken(options = {}) {
+        return request('updateGlobalRecordsFromBroken', {}, { ...options, permission: 'write' });
+      },
+      checkBrokenRecords(options = {}) {
+        return request('checkBrokenRecords', {}, { ...options, permission: 'write' });
+      }
     }
   };
 }
