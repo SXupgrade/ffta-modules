@@ -1,0 +1,91 @@
+.ffta-modules-shell .gdpr-page {
+  padding: var(--ffta-space-lg);
+  display: grid;
+  gap: var(--ffta-space-lg);
+}
+
+.ffta-modules-shell .gdpr-header h1 {
+  margin: 0 0 var(--ffta-space-xs);
+  font-size: var(--ffta-font-size-2xl);
+  font-weight: var(--ffta-font-weight-bold);
+}
+
+.ffta-modules-shell .gdpr-intro {
+  margin: 0 0 var(--ffta-space-md);
+  color: var(--ffta-color-muted);
+  font-size: var(--ffta-font-size-sm);
+  max-width: 60ch;
+}
+
+.ffta-modules-shell .gdpr-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ffta-space-sm);
+}
+
+.ffta-modules-shell .gdpr-events {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--ffta-space-lg);
+}
+
+.ffta-modules-shell .gdpr-events-column h2,
+.ffta-modules-shell .gdpr-options h2 {
+  margin: 0 0 var(--ffta-space-sm);
+  font-size: var(--ffta-font-size-lg);
+  font-weight: var(--ffta-font-weight-bold);
+}
+
+.ffta-modules-shell .gdpr-events-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--ffta-space-xs);
+}
+
+.ffta-modules-shell .gdpr-events-empty {
+  color: var(--ffta-color-muted);
+  font-size: var(--ffta-font-size-sm);
+}
+
+.ffta-modules-shell .gdpr-options {
+  display: grid;
+  gap: var(--ffta-space-xs);
+}
+
+.ffta-modules-shell .gdpr-option {
+  display: flex;
+  align-items: center;
+  gap: var(--ffta-space-xs);
+}
+
+.ffta-modules-shell .gdpr-preview {
+  border: 1px solid var(--ffta-color-border);
+  border-radius: var(--ffta-radius-card);
+  padding: var(--ffta-space-md);
+  background: var(--ffta-color-surface-raised);
+}
+
+.ffta-modules-shell .gdpr-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--ffta-space-sm);
+}
+
+.ffta-modules-shell .gdpr-preview-hint {
+  color: var(--ffta-color-muted);
+  font-size: var(--ffta-font-size-sm);
+}
+
+.ffta-modules-shell .gdpr-preview-payload {
+  max-height: 24rem;
+  overflow: auto;
+  padding: var(--ffta-space-sm);
+  border-radius: var(--ffta-radius-md);
+  background: rgba(15, 23, 42, 0.06);
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

@@ -1,0 +1,48 @@
+{
+  "title": "Publication RGPD",
+  "navigation": {
+    "title": "Publication RGPD"
+  },
+  "intro": "Publie les résultats vers ianseo.net comme le fait l'écran natif « Envoi vers Ianseo.net », à la différence près que les archers ayant refusé la publication publique de leurs résultats sont remplacés par un pseudonyme avant l'envoi.",
+  "messages": {
+    "loading": "Chargement...",
+    "publishing": "Publication en cours..."
+  },
+  "status": {
+    "optedOutNone": "Aucun archer de ce tournoi n'a refusé la publication publique de ses résultats.",
+    "optedOutSome": "{count} archer(s) de ce tournoi ont refusé la publication publique de leurs résultats -- ils seront remplacés par un pseudonyme dans ce qui sera publié.",
+    "credentialsMissing": "Aucun identifiant ianseo.net trouvé pour ce tournoi. Configurez-le d'abord sur l'écran natif « Envoi vers Ianseo.net » d'Ianseo (Tournoi > Envoi vers Ianseo.net > Définir les identifiants), puis revenez ici.",
+    "credentialsConfigured": "Identifiants ianseo.net trouvés pour ce tournoi."
+  },
+  "events": {
+    "individualTitle": "Épreuves individuelles",
+    "teamTitle": "Épreuves par équipe",
+    "empty": "Aucune épreuve trouvée pour ce tournoi."
+  },
+  "options": {
+    "title": "Contenu à publier",
+    "includeStartList": "Liste de départ",
+    "includeMedalList": "Liste des médaillés",
+    "includeMedalStanding": "Podium par pays",
+    "includeStats": "Statistiques d'inscription"
+  },
+  "actions": {
+    "reload": "Actualiser",
+    "preview": "Aperçu (rien n'est envoyé)",
+    "publish": "Publier (respect RGPD)",
+    "closePreview": "Fermer l'aperçu"
+  },
+  "preview": {
+    "title": "Aperçu",
+    "optedOutCount": "{count} archer(s) anonymisé(s) dans cet aperçu.",
+    "hint": "Voici ce qui serait envoyé -- rien n'a encore été envoyé à ianseo.net."
+  },
+  "result": {
+    "success": "Publié vers ianseo.net. {count} archer(s) ont été anonymisés.",
+    "failure": "ianseo.net a refusé l'envoi."
+  },
+  "errors": {
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "noSelection": "Sélectionnez au moins un élément à publier."
+  }
+}

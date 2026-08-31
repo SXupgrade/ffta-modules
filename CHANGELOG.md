@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.19 - New module : gdpr
+
+- Module qui publie les résultats vers ianseo.net comme l'écran natif « Envoi vers Ianseo.net », en remplaçant automatiquement les archers ayant refusé la publication publique (flag RGPD de Compet+) par un pseudonyme avant l'envoi.
+- Réutilise les identifiants ianseo.net déjà saisis par l'organisateur sur l'écran natif — aucune configuration supplémentaire.
+- Voir modules/gdpr/README.md pour le périmètre couvert et l'étape de vérification recommandée avant utilisation en production.
+
 ## v0.2.18 - New module : checkScorecard
 
 - Module qui permet de confirmer des feuilles de marques

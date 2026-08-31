@@ -1,0 +1,48 @@
+{
+  "title": "RGPD Publish",
+  "navigation": {
+    "title": "RGPD Publish"
+  },
+  "intro": "Publishes results to ianseo.net the same way Ianseo's own \"Send to Ianseo.net\" screen does, except archers who opted out of public results publication are replaced with an anonymous placeholder first.",
+  "messages": {
+    "loading": "Loading...",
+    "publishing": "Publishing..."
+  },
+  "status": {
+    "optedOutNone": "No archer in this tournament has opted out of public results publication.",
+    "optedOutSome": "{count} archer(s) in this tournament opted out of public results publication -- they will be replaced by an anonymous placeholder in what gets published.",
+    "credentialsMissing": "No ianseo.net credentials found for this tournament. Configure them first on Ianseo's own \"Send to Ianseo.net\" screen (Tournament > Send to Ianseo.net > Set credentials), then come back here.",
+    "credentialsConfigured": "ianseo.net credentials found for this tournament."
+  },
+  "events": {
+    "individualTitle": "Individual events",
+    "teamTitle": "Team events",
+    "empty": "No event found for this tournament."
+  },
+  "options": {
+    "title": "What to publish",
+    "includeStartList": "Start list",
+    "includeMedalList": "Medal list",
+    "includeMedalStanding": "Medal standing (by country)",
+    "includeStats": "Entry statistics"
+  },
+  "actions": {
+    "reload": "Reload",
+    "preview": "Preview (no data sent)",
+    "publish": "Publish (RGPD-safe)",
+    "closePreview": "Close preview"
+  },
+  "preview": {
+    "title": "Preview",
+    "optedOutCount": "{count} archer(s) anonymized in this preview.",
+    "hint": "This is what would be sent -- nothing has been sent to ianseo.net yet."
+  },
+  "result": {
+    "success": "Published to ianseo.net. {count} archer(s) were anonymized.",
+    "failure": "ianseo.net rejected the submission."
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "noSelection": "Select at least one item to publish."
+  }
+}
