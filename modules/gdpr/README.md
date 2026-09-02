@@ -1,13 +1,40 @@
 # gdpr
 
-Module `ffta-modules` that publishes results to ianseo.net the same way
-Ianseo's own "Send to Ianseo.net" screen (`Tournament/UploadResults.php`)
-does, except archers who opted out of public results publication (Compet+'s
-RGPD opt-out flag, `ModulesParameters` / `MpModule='CompetPlusPrivacy'`) are
-replaced by an anonymous placeholder (`Archer #<EnId>`, given name and date
-of birth blanked) before the payload is sent. Club/country stays visible.
+Module `ffta-modules` covering RGPD (GDPR) opt-out end to end, in three
+tabs:
 
-## Why this exists
+1. **Liste des participants** — mark an archer "RGPD private" (writes the
+   same opt-out flag Compet+ writes — see "Storage" below).
+2. **Impressions** — anonymized equivalents of two of Ianseo's own
+   printable documents (opted-out archers shown as `Archer #<EnId>`
+   instead of their real name).
+3. **Publication internet** — publishes results to ianseo.net the same way
+   Ianseo's own "Send to Ianseo.net" screen (`Tournament/UploadResults.php`)
+   does, except opted-out archers are replaced by an anonymous placeholder
+   (given name and date of birth blanked too) before the payload is sent.
+   Club/country stays visible throughout.
+
+## Storage
+
+Opt-out is a per-participant flag, scoped to the tournament, stored in
+Ianseo's native `ModulesParameters` table (`MpModule='CompetPlusPrivacy'`,
+`MpParameter='gdpr.optout.<EnId>'`, `MpTournament=<tournament id>`,
+`MpValue='1'`/`'0'`) — the same table and row shape Compet+'s own
+`core/services/entry-privacy.service.js` writes. **Both sides read and
+write these rows now**: originally Compet+-only (this module was
+read-only), the "Liste des participants" tab added in v0.2.0 makes this
+module a writer too, via `IanseoGdprRepository::setEntryOptOut()`. One
+row per participant (not one row per tournament with a list packed into
+`MpValue`) specifically so two independent writers — Compet+ and this
+module — can never clobber each other's write: `ModulesParameters`' real
+primary key is `(MpModule, MpParameter, MpTournament)`, so a fixed
+`MpParameter` would allow only one row per tournament total.
+
+Before v0.2.0, opt-out was a single global bucket (`MpParameter='optout.<EnId>'`,
+`MpTournament` always `0`) — Compet+'s own `PATCH_NOTES.md` documents the
+rescoping and its one-time migration of any rows still in that shape.
+
+## Why "Publication internet" rebuilds the payload itself
 
 Ianseo core has no hook, filter, or event system a module can use to
 intercept or rewrite an outgoing request (confirmed: `Tournament/UploadResults-upload.php`
@@ -26,7 +53,7 @@ Organizers who want RGPD-respecting publication should use this screen
 instead of Ianseo's native one. Nothing in this module hides or disables
 the native screen — see "Coexisting with the native screen" below.
 
-## Scope (v1)
+## Scope (v1 of "Publication internet")
 
 Covered result types: individual and team qualification (`IQ`/`TQ`),
 individual and team final ranking (`IF`/`TF`), medal list (`MEDLST`),
@@ -38,6 +65,23 @@ Not yet covered (use Ianseo's native screen for these): brackets/eliminations
 orderings (`ENE`/`ENC`/`ENA`), "Run Archery" (World Archery run-scoring)
 tournaments, the ORIS (World Archery) formatting toggle, and periodic
 auto-upload (this module always publishes on an explicit click).
+
+**Mode test**: Preview no longer requires ianseo.net credentials to be
+configured for the tournament — only Publish does, since only Publish
+actually sends anything. This lets an organizer or developer see exactly
+what an anonymized payload would look like on a tournament that isn't
+linked to ianseo.net yet (or at all).
+
+## Scope (v1 of "Impressions")
+
+Two documents, chosen as the v1 subset: the alphabetical participants
+list and the individual qualification ranking. Both are custom PHP
+scripts under `print/`, not a reuse of Ianseo's own native print scripts
+— see each file's own header comment for why (short version: the native
+alphabetical-listing query doesn't even select `Entries.EnId`, so there
+is no reliable key to redact by without patching Ianseo's own query,
+which this module must never do). Opened via `window.open()` in the
+"Impressions" tab, same UX as Ianseo's own native prints.
 
 ## Verification before production use
 
@@ -53,12 +97,18 @@ key whose *lowercased* name exactly matches a known PII field name
 `name`, `birthdate`), regardless of casing. This is a defense-in-depth
 choice, not a substitute for verification.
 
-**Before enabling this for a real tournament, use the "Preview" action**
-(`action=preview` on `api/gdpr.php`, or the "Preview" button in the
-screen) against a real tournament that has at least one archer flagged
-opted-out, and visually confirm every name/DOB field in the dumped
-payload for that archer reads as the anonymized placeholder, not real
-data. Preview never sends anything to ianseo.net.
+**Before enabling "Publication internet" for a real tournament, use the
+"Preview" action** (`action=preview` on `api/gdpr.php`, or the "Preview"
+button in the screen) against a real tournament that has at least one
+archer flagged opted-out, and visually confirm every name/DOB field in
+the dumped payload for that archer reads as the anonymized placeholder,
+not real data. Preview never sends anything to ianseo.net.
+
+The two "Impressions" documents (`print/PrintParticipantsAnonymized.php`,
+`print/PrintQualificationAnonymized.php`) were built and `php -l`'d
+without a running Ianseo instance/real PDF render available — verify a
+real print of each, for a tournament with at least one opted-out
+participant, before relying on them for a real event.
 
 ## Coexisting with the native screen
 
@@ -77,18 +127,20 @@ one instead, neither implemented by this module itself:
 
 ## Credentials
 
-Reuses whatever `OnlineId`/`OnlineAuth` the organizer already entered on
-Ianseo's native `Tournament/SetCredentials.php` screen for this
-tournament — same session-first, then `ModulesParameters`
+"Publication internet" reuses whatever `OnlineId`/`OnlineAuth` the
+organizer already entered on Ianseo's native `Tournament/SetCredentials.php`
+screen for this tournament — same session-first, then `ModulesParameters`
 (`MpModule='SendToIanseo'`) fallback order Ianseo's own upload script
 uses. This module never asks for or stores its own copy of these
 credentials.
 
 ## Architecture
 
-- `repositories/ianseo/IanseoGdprRepository.php` — direct SQL reads of
-  the two Ianseo-owned `ModulesParameters` namespaces this module doesn't
-  own (RGPD opt-outs, publish credentials) plus the event list.
+- `repositories/ianseo/IanseoGdprRepository.php` — reads/writes the two
+  Ianseo-owned `ModulesParameters` namespaces this module doesn't
+  otherwise own (RGPD opt-outs, publish credentials), plus the event list
+  and the tournament's participant list (`getParticipants()`, for the
+  "Liste des participants" tab).
 - `domain/Anonymizer.php` — the generic, casing-tolerant redaction walker.
 - `domain/PublishEnvelope.php` — builds the `$RET` envelope in the exact
   shape `Tournament/UploadResults-upload.php` builds it in.
@@ -98,6 +150,12 @@ credentials.
   (`gzcompress(serialize($RET))`), POSTs to
   `$CFG->IanseoServer . 'Upload-Competition.php'` (curl-first,
   `stream_context_create()` fallback — same pattern as this repo's only
-  other outbound HTTP call, `core/update/update.php`).
-- `api/gdpr.php` — `status` (opt-out count, credentials configured,
-  available events), `preview` (dry run, no network call), `publish`.
+  other outbound HTTP call, `core/update/update.php`). Also exposes
+  `listParticipants()`/`setParticipantOptOut()` for the participants tab
+  and `getAnonymizedQualificationSections()` for the qualification print.
+- `api/gdpr.php` — `status`, `preview`, `publish`, `list-participants`,
+  `set-participant-optout`.
+- `print/PrintParticipantsAnonymized.php`, `print/PrintQualificationAnonymized.php`
+  — the two "Impressions" documents, deployed under
+  `Modules/Custom/ffta-modules/modules/gdpr/print/` (this repo's own root
+  maps 1:1 onto `Modules/Custom/ffta-modules/`).

@@ -1,17 +1,38 @@
 {
-  "title": "RGPD Publish",
+  "title": "RGPD",
   "navigation": {
-    "title": "RGPD Publish"
+    "title": "RGPD"
   },
-  "intro": "Publishes results to ianseo.net the same way Ianseo's own \"Send to Ianseo.net\" screen does, except archers who opted out of public results publication are replaced with an anonymous placeholder first.",
+  "intro": "Manage which archers opted out of public visibility (RGPD), print anonymized documents, and publish results to ianseo.net with opted-out archers automatically replaced by an anonymous placeholder.",
+  "tabs": {
+    "participants": "Participants list",
+    "prints": "Prints",
+    "publish": "Internet publishing"
+  },
   "messages": {
     "loading": "Loading...",
     "publishing": "Publishing..."
   },
+  "participants": {
+    "intro": "Check \"RGPD private\" for an archer to opt them out of public results publication and anonymized prints. Saved immediately, one archer at a time.",
+    "columns": {
+      "name": "Name",
+      "club": "Club",
+      "category": "Category",
+      "optOut": "RGPD"
+    },
+    "optOutLabel": "RGPD private",
+    "empty": "No participant found for this tournament."
+  },
+  "prints": {
+    "intro": "Anonymized equivalents of Ianseo's own printable documents -- archers marked \"RGPD private\" on the Participants list tab are shown as \"Archer #<id>\" instead of their real name. Opens in a new window, same as Ianseo's native prints.",
+    "participants": "Participants list (alphabetical)",
+    "qualification": "Qualification ranking"
+  },
   "status": {
     "optedOutNone": "No archer in this tournament has opted out of public results publication.",
     "optedOutSome": "{count} archer(s) in this tournament opted out of public results publication -- they will be replaced by an anonymous placeholder in what gets published.",
-    "credentialsMissing": "No ianseo.net credentials found for this tournament. Configure them first on Ianseo's own \"Send to Ianseo.net\" screen (Tournament > Send to Ianseo.net > Set credentials), then come back here.",
+    "testMode": "No ianseo.net credentials configured for this tournament yet -- test mode: preview works, but Publish is disabled until credentials are set on Ianseo's own \"Send to Ianseo.net\" screen (Tournament > Send to Ianseo.net > Set credentials).",
     "credentialsConfigured": "ianseo.net credentials found for this tournament."
   },
   "events": {

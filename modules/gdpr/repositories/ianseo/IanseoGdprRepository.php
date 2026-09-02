@@ -2,31 +2,42 @@
 require_once(__DIR__ . '/../../../../core/adapters/ianseo/database/query.php');
 
 /**
- * Direct read access to two Ianseo-owned ModulesParameters namespaces this
- * module does not own: the RGPD opt-out flags Compet+ writes
- * (MpModule='CompetPlusPrivacy') and the ianseo.net publish credentials
- * Ianseo's own Tournament/SetCredentials.php writes (MpModule='SendToIanseo').
- * Both live in the same physical database as everything else Ianseo reads/
- * writes -- no HTTP call to Compet+ needed, just the same table.
+ * Read/write access to two Ianseo-owned ModulesParameters namespaces this
+ * module does not otherwise own: the RGPD opt-out flags -- historically
+ * Compet+-only, this module now also writes them from its own "Liste des
+ * participants" tab (MpModule='CompetPlusPrivacy') -- and the ianseo.net
+ * publish credentials Ianseo's own Tournament/SetCredentials.php writes
+ * (MpModule='SendToIanseo'). Both live in the same physical database as
+ * everything else Ianseo reads/writes -- no HTTP call to Compet+ needed,
+ * just the same table.
  */
 class IanseoGdprRepository {
     // Same key convention as Compet+'s core/services/entry-privacy.service.js:
-    // MpParameter = 'optout.<EnId>', MpTournament = 0 (global -- EnId is a
-    // globally auto-incrementing Entries.EnId, never reset per tournament).
+    // MpParameter = 'gdpr.optout.<EnId>', MpTournament = the entry's own
+    // tournament. Used to be a single global bucket (MpParameter =
+    // 'optout.<EnId>', MpTournament always 0) -- rescoped per-tournament so
+    // a tournament's own delete/export/import in Compet+ naturally carries
+    // its participants' opt-out flags with it. One row per participant
+    // (not one row per tournament with a list in MpValue): ModulesParameters'
+    // primary key is (MpModule, MpParameter, MpTournament), so with a fixed
+    // MpParameter only one row could ever exist per tournament -- this way,
+    // Compet+ and this module can both write opt-out flags without either
+    // one's write ever clobbering another archer's.
     const PRIVACY_MODULE = 'CompetPlusPrivacy';
-    const PRIVACY_PARAMETER_PREFIX = 'optout.';
+    const PRIVACY_PARAMETER_PREFIX = 'gdpr.optout.';
     const CREDENTIALS_MODULE = 'SendToIanseo';
     const CREDENTIALS_PARAMETER = 'Credentials';
 
     /**
-     * @return array<int,bool> set of Entries.EnId currently opted out of
-     * public results publication, as a lookup map (id => true).
+     * @return array<int,bool> set of Entries.EnId, scoped to $tourId,
+     * currently opted out of public results publication, as a lookup map
+     * (id => true).
      */
-    public function getOptedOutEntryIds() {
+    public function getOptedOutEntryIds($tourId) {
         $result = ffta_query(
             "select MpParameter from ModulesParameters
              where MpModule=" . ffta_sql_string(self::PRIVACY_MODULE) . "
-             and MpTournament=0
+             and MpTournament=" . (int)$tourId . "
              and MpValue='1'"
         );
         $ids = array();
@@ -41,6 +52,64 @@ class IanseoGdprRepository {
             }
         }
         return $ids;
+    }
+
+    /**
+     * Sets (or clears) the RGPD opt-out flag for one entry, scoped to
+     * $tourId -- writes the exact same row shape Compet+ writes (see the
+     * class-level comment), so either side can toggle it and the other
+     * reads a consistent result.
+     */
+    public function setEntryOptOut($entryId, $tourId, $optOut) {
+        $entryId = (int)$entryId;
+        $tourId = (int)$tourId;
+        if ($entryId <= 0 || $tourId <= 0) {
+            throw new InvalidArgumentException('setEntryOptOut requires a positive entryId and tourId.');
+        }
+        $parameter = self::PRIVACY_PARAMETER_PREFIX . $entryId;
+        $value = $optOut ? '1' : '0';
+        ffta_write(
+            "insert into ModulesParameters (MpModule, MpParameter, MpTournament, MpValue)
+             values (" . ffta_sql_string(self::PRIVACY_MODULE) . ", " . ffta_sql_string($parameter) . ", {$tourId}, " . ffta_sql_string($value) . ")
+             on duplicate key update MpValue=values(MpValue)"
+        );
+    }
+
+    /**
+     * Participants of $tourId for the "Liste des participants" tab --
+     * active entries only (EnStatus<=1, same filter LeagueQueries' own
+     * participant listing uses), joined against their current opt-out
+     * state so the UI can render the checkbox pre-checked.
+     *
+     * @return object[] { entryId, code, firstName, lastName, division,
+     *   class, clubCode, clubName, optedOut }
+     */
+    public function getParticipants($tourId) {
+        $tourId = (int)$tourId;
+        $rows = ffta_fetch_all(ffta_query(
+            "select e.EnId, e.EnCode, e.EnFirstName, e.EnName, e.EnDivision, e.EnClass,
+                    c.CoCode, c.CoName
+             from Entries e
+             left join Countries c on c.CoTournament=e.EnTournament and c.CoId=e.EnCountry
+             where e.EnTournament={$tourId}
+               and e.EnStatus<=1
+             order by e.EnName, e.EnFirstName"
+        ));
+        $optedOut = $this->getOptedOutEntryIds($tourId);
+        return array_map(function ($row) use ($optedOut) {
+            $entryId = (int)$row->EnId;
+            return (object)array(
+                'entryId' => $entryId,
+                'code' => (string)$row->EnCode,
+                'firstName' => (string)$row->EnFirstName,
+                'lastName' => (string)$row->EnName,
+                'division' => (string)$row->EnDivision,
+                'class' => (string)$row->EnClass,
+                'clubCode' => isset($row->CoCode) ? (string)$row->CoCode : '',
+                'clubName' => isset($row->CoName) ? (string)$row->CoName : '',
+                'optedOut' => isset($optedOut[$entryId]),
+            );
+        }, $rows);
     }
 
     /**

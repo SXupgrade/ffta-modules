@@ -37,7 +37,10 @@ try {
                 echo json_encode(array('ok' => false, 'error' => 'Invalid JSON payload'));
                 break;
             }
-            $built = $service->buildPayload($selection);
+            // Mode test: no ianseo.net credentials required to preview --
+            // only publish() actually needs to send anything anywhere. See
+            // GdprPublishService::buildPayload()'s own comment.
+            $built = $service->buildPayload($selection, false);
             // json_encode(), not the real gzcompress(serialize(...)) blob --
             // this is a human-readable dry run for verifying redaction
             // before ever hitting the live ianseo.net endpoint, not what
@@ -58,6 +61,25 @@ try {
                 break;
             }
             echo json_encode(array('ok' => true, 'data' => $service->publish($selection)));
+            break;
+
+        case 'list-participants':
+            ffta_acl_require($access, 'read');
+            echo json_encode(array('ok' => true, 'data' => array(
+                'participants' => $service->listParticipants(),
+            )));
+            break;
+
+        case 'set-participant-optout':
+            ffta_acl_require($access, 'write');
+            $body = json_decode(file_get_contents('php://input'), true);
+            if (!is_array($body) || !isset($body['entryId'])) {
+                http_response_code(400);
+                echo json_encode(array('ok' => false, 'error' => 'Invalid JSON payload'));
+                break;
+            }
+            $service->setParticipantOptOut((int)$body['entryId'], !empty($body['optOut']));
+            echo json_encode(array('ok' => true, 'data' => array('ok' => true)));
             break;
 
         default:

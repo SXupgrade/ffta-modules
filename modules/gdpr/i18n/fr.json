@@ -1,17 +1,38 @@
 {
-  "title": "Publication RGPD",
+  "title": "RGPD",
   "navigation": {
-    "title": "Publication RGPD"
+    "title": "RGPD"
   },
-  "intro": "Publie les résultats vers ianseo.net comme le fait l'écran natif « Envoi vers Ianseo.net », à la différence près que les archers ayant refusé la publication publique de leurs résultats sont remplacés par un pseudonyme avant l'envoi.",
+  "intro": "Gérez les archers ayant refusé la visibilité publique (RGPD), imprimez des documents anonymisés, et publiez les résultats vers ianseo.net avec les archers ayant refusé automatiquement remplacés par un pseudonyme.",
+  "tabs": {
+    "participants": "Liste des participants",
+    "prints": "Impressions",
+    "publish": "Publication internet"
+  },
   "messages": {
     "loading": "Chargement...",
     "publishing": "Publication en cours..."
   },
+  "participants": {
+    "intro": "Cochez « RGPD privé » pour qu'un archer refuse la publication publique de ses résultats et son affichage sur les impressions anonymisées. Enregistré immédiatement, un archer à la fois.",
+    "columns": {
+      "name": "Nom",
+      "club": "Club",
+      "category": "Catégorie",
+      "optOut": "RGPD"
+    },
+    "optOutLabel": "RGPD privé",
+    "empty": "Aucun participant trouvé pour ce tournoi."
+  },
+  "prints": {
+    "intro": "Équivalents anonymisés des documents imprimables natifs d'Ianseo -- les archers cochés « RGPD privé » dans l'onglet Liste des participants apparaissent comme « Archer #<id> » à la place de leur vrai nom. S'ouvre dans une nouvelle fenêtre, comme les impressions natives d'Ianseo.",
+    "participants": "Liste des participants (alphabétique)",
+    "qualification": "Classement qualificatif"
+  },
   "status": {
     "optedOutNone": "Aucun archer de ce tournoi n'a refusé la publication publique de ses résultats.",
     "optedOutSome": "{count} archer(s) de ce tournoi ont refusé la publication publique de leurs résultats -- ils seront remplacés par un pseudonyme dans ce qui sera publié.",
-    "credentialsMissing": "Aucun identifiant ianseo.net trouvé pour ce tournoi. Configurez-le d'abord sur l'écran natif « Envoi vers Ianseo.net » d'Ianseo (Tournoi > Envoi vers Ianseo.net > Définir les identifiants), puis revenez ici.",
+    "testMode": "Aucun identifiant ianseo.net configuré pour ce tournoi -- mode test : l'aperçu fonctionne, mais Publier reste désactivé tant que les identifiants ne sont pas définis sur l'écran natif « Envoi vers Ianseo.net » d'Ianseo (Tournoi > Envoi vers Ianseo.net > Définir les identifiants).",
     "credentialsConfigured": "Identifiants ianseo.net trouvés pour ce tournoi."
   },
   "events": {

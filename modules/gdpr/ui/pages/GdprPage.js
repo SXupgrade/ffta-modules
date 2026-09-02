@@ -1,5 +1,15 @@
 import { CpLoader } from '../../../../core/ui/components/CpLoader.js';
 
+// Custom, anonymized-print PHP endpoints this tab links to -- deployed
+// under Modules/Custom/ffta-modules/modules/gdpr/print/ (this repo's own
+// root maps 1:1 onto Modules/Custom/ffta-modules/, see README/AGENTS.md),
+// resolved via app.ianseo.resolveUrl() the same way prints-adapter resolves
+// Ianseo's own native print scripts.
+const PRINT_DOCUMENTS = [
+  { id: 'participants', path: 'Modules/Custom/ffta-modules/modules/gdpr/print/PrintParticipantsAnonymized.php', labelKey: 'gdpr.prints.participants' },
+  { id: 'qualification', path: 'Modules/Custom/ffta-modules/modules/gdpr/print/PrintQualificationAnonymized.php', labelKey: 'gdpr.prints.qualification' }
+];
+
 export function mountGdprPage({ root, vm, app }) {
   vm = vm || app.services.get('gdpr.vm');
   let unsubscribe;
@@ -41,8 +51,19 @@ export function mountGdprPage({ root, vm, app }) {
     const action = button?.dataset.action;
     if (!action) return;
 
+    if (action === 'tab') {
+      vm.setTab(button.dataset.tab || 'participants');
+      return;
+    }
+
     if (action === 'reload') {
       vm.load().catch(() => {});
+      return;
+    }
+
+    if (action === 'openPrint') {
+      const doc = PRINT_DOCUMENTS.find((entry) => entry.id === button.dataset.printId);
+      if (doc) window.open(app.ianseo.resolveUrl(doc.path), 'PrintOut');
       return;
     }
 
@@ -79,11 +100,23 @@ export function mountGdprPage({ root, vm, app }) {
     if (target.name === 'individualEvent') {
       if (target.checked) selection.individualEvents.add(target.value);
       else selection.individualEvents.delete(target.value);
-    } else if (target.name === 'teamEvent') {
+      return;
+    }
+    if (target.name === 'teamEvent') {
       if (target.checked) selection.teamEvents.add(target.value);
       else selection.teamEvents.delete(target.value);
-    } else if (target.name in selection) {
+      return;
+    }
+    if (target.name in selection) {
       selection[target.name] = target.checked;
+      return;
+    }
+    if (target.dataset.role === 'participant-optout') {
+      const entryId = Number(target.dataset.entryId || 0);
+      if (!entryId) return;
+      vm.setParticipantOptOut(entryId, target.checked).catch(() => {
+        render();
+      });
     }
   }
 
@@ -91,7 +124,9 @@ export function mountGdprPage({ root, vm, app }) {
   root.addEventListener('click', handleClick);
   root.addEventListener('change', handleChange);
   render();
-  vm.load().catch(() => {});
+  // Only the active tab's own data is fetched -- see vm.setTab()'s lazy
+  // per-tab loading. Participants is the default tab, so load it now.
+  vm.loadParticipants().catch(() => {});
 
   return function unmount() {
     if (unsubscribe) unsubscribe();
@@ -101,19 +136,102 @@ export function mountGdprPage({ root, vm, app }) {
 }
 
 function buildHtml(state, app, selection) {
-  if (state.isLoading) {
-    return `<section class="ffta-page gdpr-page">${CpLoader({ label: app.t('gdpr.messages.loading') })}</section>`;
-  }
-
+  const active = state.activeTab || 'participants';
   return `
     <section class="ffta-page gdpr-page">
       <header class="gdpr-header">
         <h1>${escapeHtml(app.t('gdpr.title'))}</h1>
         <p class="gdpr-intro">${escapeHtml(app.t('gdpr.intro'))}</p>
-        <button type="button" class="cp-button" data-action="reload">${escapeHtml(app.t('gdpr.actions.reload'))}</button>
       </header>
 
+      <div class="gdpr-tabs">
+        ${tabButton(app, active, 'participants', app.t('gdpr.tabs.participants'))}
+        ${tabButton(app, active, 'prints', app.t('gdpr.tabs.prints'))}
+        ${tabButton(app, active, 'publish', app.t('gdpr.tabs.publish'))}
+      </div>
+
       ${state.error ? `<div class="ffta-badge ffta-badge--error">${escapeHtml(state.error)}</div>` : ''}
+
+      ${active === 'participants' ? buildParticipantsTab(state, app) : ''}
+      ${active === 'prints' ? buildPrintsTab(state, app) : ''}
+      ${active === 'publish' ? buildPublishTab(state, app, selection) : ''}
+    </section>
+  `;
+}
+
+function tabButton(app, active, id, label) {
+  return `<button type="button" class="gdpr-tab ${active === id ? 'is-active' : ''}" data-action="tab" data-tab="${escapeAttribute(id)}">${escapeHtml(label)}</button>`;
+}
+
+// ── Tab 1: Liste des participants ────────────────────────────────────────
+function buildParticipantsTab(state, app) {
+  if (state.isLoadingParticipants) {
+    return CpLoader({ label: app.t('gdpr.messages.loading') });
+  }
+  const participants = state.participants || [];
+  const savingIds = new Set(state.savingParticipantIds || []);
+  return `
+    <div class="gdpr-participants">
+      <p class="gdpr-participants-intro">${escapeHtml(app.t('gdpr.participants.intro'))}</p>
+      ${participants.length ? `
+        <table class="gdpr-participants-table">
+          <thead>
+            <tr>
+              <th>${escapeHtml(app.t('gdpr.participants.columns.name'))}</th>
+              <th>${escapeHtml(app.t('gdpr.participants.columns.club'))}</th>
+              <th>${escapeHtml(app.t('gdpr.participants.columns.category'))}</th>
+              <th>${escapeHtml(app.t('gdpr.participants.columns.optOut'))}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${participants.map((participant) => `
+              <tr>
+                <td>${escapeHtml(`${participant.lastName} ${participant.firstName}`.trim())}</td>
+                <td>${escapeHtml(participant.clubName || participant.clubCode || '')}</td>
+                <td>${escapeHtml([participant.division, participant.class].filter(Boolean).join(' '))}</td>
+                <td>
+                  <label class="gdpr-participant-optout">
+                    <input type="checkbox" data-role="participant-optout" data-entry-id="${participant.entryId}" ${participant.optedOut ? 'checked' : ''} ${savingIds.has(participant.entryId) ? 'disabled' : ''}>
+                    ${escapeHtml(app.t('gdpr.participants.optOutLabel'))}
+                  </label>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      ` : `<p class="gdpr-events-empty">${escapeHtml(app.t('gdpr.participants.empty'))}</p>`}
+    </div>
+  `;
+}
+
+// ── Tab 2: Impressions ───────────────────────────────────────────────────
+function buildPrintsTab(state, app) {
+  return `
+    <div class="gdpr-prints">
+      <p class="gdpr-prints-intro">${escapeHtml(app.t('gdpr.prints.intro'))}</p>
+      <ul class="gdpr-prints-list">
+        ${PRINT_DOCUMENTS.map((doc) => `
+          <li>
+            <button type="button" class="cp-button" data-action="openPrint" data-print-id="${escapeAttribute(doc.id)}">
+              ${escapeHtml(app.t(doc.labelKey))}
+            </button>
+          </li>
+        `).join('')}
+      </ul>
+    </div>
+  `;
+}
+
+// ── Tab 3: Publication internet (previously this page's only content) ───
+function buildPublishTab(state, app, selection) {
+  if (state.isLoading) {
+    return CpLoader({ label: app.t('gdpr.messages.loading') });
+  }
+  return `
+    <div class="gdpr-publish">
+      <div class="gdpr-publish-header">
+        <button type="button" class="cp-button" data-action="reload">${escapeHtml(app.t('gdpr.actions.reload'))}</button>
+      </div>
 
       ${buildStatus(state, app)}
       ${buildEvents(state, app, selection)}
@@ -128,7 +246,7 @@ function buildHtml(state, app, selection) {
 
       ${buildPreview(state, app)}
       ${buildLastResult(state, app)}
-    </section>
+    </div>
   `;
 }
 
@@ -143,7 +261,7 @@ function buildStatus(state, app) {
       <div class="ffta-badge ffta-badge--${optedOutVariant}">${escapeHtml(optedOutMessage)}</div>
       ${state.credentialsConfigured
         ? `<div class="ffta-badge ffta-badge--info">${escapeHtml(app.t('gdpr.status.credentialsConfigured'))}</div>`
-        : `<div class="ffta-badge ffta-badge--error">${escapeHtml(app.t('gdpr.status.credentialsMissing'))}</div>`}
+        : `<div class="ffta-badge ffta-badge--warning">${escapeHtml(app.t('gdpr.status.testMode'))}</div>`}
     </div>
   `;
 }

@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.20 - gdpr : 3 onglets (participants, impressions, publication) + écriture RGPD
+
+- Module gdpr passe d'un simple écran de publication à 3 onglets : Liste des participants (case « RGPD privé » par participant, écriture immédiate), Impressions (2 documents anonymisés — liste des participants, classement qualificatif), Publication internet (écran existant, inchangé).
+- Le module devient aussi écrivain du flag RGPD (jusqu'ici lecture seule, seul Compet+ écrivait) — même table, format de clé revu pour que les deux systèmes puissent écrire sans se marcher dessus (voir modules/gdpr/README.md « Storage »).
+- Mode test : l'aperçu de la publication internet fonctionne désormais même sans identifiants ianseo.net configurés pour le tournoi.
+- Voir modules/gdpr/CHANGELOG.md pour le détail.
+
 ## v0.2.19 - New module : gdpr
 
 - Module qui publie les résultats vers ianseo.net comme l'écran natif « Envoi vers Ianseo.net », en remplaçant automatiquement les archers ayant refusé la publication publique (flag RGPD de Compet+) par un pseudonyme avant l'envoi.

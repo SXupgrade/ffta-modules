@@ -43,10 +43,56 @@ final class GdprPublishService {
         $credentials = $this->repository->getPublishCredentials($tourId);
         return array(
             'tournamentId' => $tourId,
-            'optedOutCount' => count($this->repository->getOptedOutEntryIds()),
+            'optedOutCount' => count($this->repository->getOptedOutEntryIds($tourId)),
             'credentialsConfigured' => $credentials !== null,
             'events' => $this->listEvents($tourId),
         );
+    }
+
+    /**
+     * "Liste des participants" tab: the current tournament's participants,
+     * each with their current opt-out state, plus a convenience checkbox
+     * toggle -- see setParticipantOptOut() below.
+     */
+    public function listParticipants() {
+        $tourId = $this->repository->getCurrentTournamentId();
+        return $this->repository->getParticipants($tourId);
+    }
+
+    public function setParticipantOptOut($entryId, $optOut) {
+        $tourId = $this->repository->getCurrentTournamentId();
+        $this->repository->setEntryOptOut($entryId, $tourId, $optOut);
+    }
+
+    /**
+     * "Impressions" tab -- anonymized qualification ranking, one section
+     * per individual event of the current tournament (getQualificationIndividual()
+     * is the exact same builder buildPayload() already uses for the IQ/IF
+     * publish fields, redacted the same way via Anonymizer -- see that
+     * method's own comment on why 'id' is a confirmed-reliable key for this
+     * specific row shape, unlike the alphabetical participants listing).
+     *
+     * @return array each entry shaped like one Obj_Rank_Abs section:
+     *   { meta: {...}, items: [{ id, familyname, givenname, rank, score,
+     *   completeScore, countryName, bib, ... }] }
+     */
+    public function getAnonymizedQualificationSections() {
+        $this->requireIanseoResultBuilders();
+
+        $tourId = $this->repository->getCurrentTournamentId();
+        $optedOutEntryIds = $this->repository->getOptedOutEntryIds($tourId);
+        $events = $this->listEvents($tourId);
+
+        $sections = array();
+        foreach ($events['individual'] as $eventItem) {
+            $data = Anonymizer::redact(getQualificationIndividual($eventItem['code'], false, false), $optedOutEntryIds);
+            if (isset($data->rankData['sections']) && is_array($data->rankData['sections'])) {
+                foreach ($data->rankData['sections'] as $section) {
+                    $sections[] = $section;
+                }
+            }
+        }
+        return $sections;
     }
 
     public function listEvents($tourId) {
@@ -79,14 +125,27 @@ final class GdprPublishService {
      * @param array $selection { individualEvents: string[], teamEvents: string[],
      *   includeStartList: bool, includeMedalList: bool, includeMedalStanding: bool,
      *   includeStats: bool }
+     * @param bool $requireCredentials true for a real publish (must have a
+     *   real ianseo.net link, refuses otherwise); false for "mode test" --
+     *   lets an organizer or a developer preview exactly what an anonymized
+     *   payload would look like on a tournament that isn't linked to
+     *   ianseo.net yet (or at all), without ever being able to actually send
+     *   it (publish() below always calls this with true).
      */
-    public function buildPayload(array $selection) {
+    public function buildPayload(array $selection, $requireCredentials = true) {
         $this->requireIanseoResultBuilders();
 
         $tourId = $this->repository->getCurrentTournamentId();
         $credentials = $this->repository->getPublishCredentials($tourId);
         if (!$credentials) {
-            throw new RuntimeException('No ianseo.net credentials found for this tournament. Configure them via Ianseo\'s own "Send to Ianseo.net" screen first.');
+            if ($requireCredentials) {
+                throw new RuntimeException('No ianseo.net credentials found for this tournament. Configure them via Ianseo\'s own "Send to Ianseo.net" screen first.');
+            }
+            // Mode test: a placeholder envelope identity, never sent anywhere
+            // (only buildPayload() + preview reach this branch -- publish()
+            // always passes $requireCredentials=true and would have thrown
+            // above instead).
+            $credentials = (object)array('OnlineId' => 0, 'OnlineAuth' => '');
         }
 
         $onlineEventCode = isset($_SESSION['OnlineEventCode']) ? $_SESSION['OnlineEventCode'] : '';
@@ -95,7 +154,7 @@ final class GdprPublishService {
             throw new RuntimeException('Run Archery tournaments are not supported by this module yet -- use Ianseo\'s native "Send to Ianseo.net" screen for this tournament.');
         }
 
-        $optedOutEntryIds = $this->repository->getOptedOutEntryIds();
+        $optedOutEntryIds = $this->repository->getOptedOutEntryIds($tourId);
         $ret = PublishEnvelope::create($credentials, $onlineEventCode, $isRunArchery);
         $oris = false;
         $showRecords = false;
@@ -144,7 +203,7 @@ final class GdprPublishService {
     }
 
     public function publish(array $selection) {
-        $built = $this->buildPayload($selection);
+        $built = $this->buildPayload($selection, true);
         $ret = $built['ret'];
 
         $body = http_build_query(array(

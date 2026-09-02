@@ -17,6 +17,79 @@
   max-width: 60ch;
 }
 
+.ffta-modules-shell .gdpr-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.ffta-modules-shell .gdpr-tab {
+  border: 0;
+  border-radius: var(--ffta-radius-full);
+  padding: .65rem 1rem;
+  background: var(--c-surface-muted, #f1f5f9);
+  color: var(--c-text, #0f172a);
+  cursor: pointer;
+}
+
+.ffta-modules-shell .gdpr-tab.is-active {
+  background: var(--c-primary, #2563eb);
+  color: white;
+}
+
+.ffta-modules-shell .gdpr-publish {
+  display: grid;
+  gap: var(--ffta-space-lg);
+}
+
+.ffta-modules-shell .gdpr-publish-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ffta-modules-shell .gdpr-participants,
+.ffta-modules-shell .gdpr-prints {
+  display: grid;
+  gap: var(--ffta-space-md);
+}
+
+.ffta-modules-shell .gdpr-participants-intro,
+.ffta-modules-shell .gdpr-prints-intro {
+  margin: 0;
+  color: var(--ffta-color-muted);
+  font-size: var(--ffta-font-size-sm);
+  max-width: 70ch;
+}
+
+.ffta-modules-shell .gdpr-participants-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ffta-modules-shell .gdpr-participants-table th,
+.ffta-modules-shell .gdpr-participants-table td {
+  text-align: left;
+  padding: var(--ffta-space-xs) var(--ffta-space-sm);
+  border-bottom: 1px solid var(--ffta-color-border);
+  font-size: var(--ffta-font-size-sm);
+}
+
+.ffta-modules-shell .gdpr-participant-optout {
+  display: flex;
+  align-items: center;
+  gap: var(--ffta-space-xs);
+  white-space: nowrap;
+}
+
+.ffta-modules-shell .gdpr-prints-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ffta-space-sm);
+}
+
 .ffta-modules-shell .gdpr-status {
   display: flex;
   flex-wrap: wrap;

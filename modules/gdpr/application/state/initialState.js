@@ -1,5 +1,6 @@
 export function createInitialGdprState() {
   return {
+    activeTab: 'participants',
     isLoading: false,
     isPublishing: false,
     error: null,
@@ -8,6 +9,9 @@ export function createInitialGdprState() {
     credentialsConfigured: false,
     events: { individual: [], team: [] },
     preview: null,
-    lastResult: null
+    lastResult: null,
+    participants: [],
+    isLoadingParticipants: false,
+    savingParticipantIds: []
   };
 }

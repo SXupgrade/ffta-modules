@@ -27,6 +27,16 @@ export function createIanseoGdprRepository({ app }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(selection)
       })).data;
+    },
+    async listParticipants() {
+      return (await request('list-participants')).data;
+    },
+    async setParticipantOptOut(entryId, optOut) {
+      return (await request('set-participant-optout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ entryId, optOut })
+      })).data;
     }
   };
 }

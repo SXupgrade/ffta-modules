@@ -32,6 +32,22 @@ export function createGdprStore() {
       });
     },
     setPreview(preview) { patch({ preview }); },
-    setLastResult(result) { patch({ lastResult: result }); }
+    setLastResult(result) { patch({ lastResult: result }); },
+    setTab(tab) { patch({ activeTab: tab }); },
+    setLoadingParticipants(value) { patch({ isLoadingParticipants: Boolean(value) }); },
+    setParticipants(participants) { patch({ participants: participants || [] }); },
+    setParticipantSaving(entryId, saving) {
+      const current = new Set(state.savingParticipantIds || []);
+      if (saving) current.add(entryId);
+      else current.delete(entryId);
+      patch({ savingParticipantIds: [...current] });
+    },
+    setParticipantOptedOut(entryId, optedOut) {
+      patch({
+        participants: (state.participants || []).map((participant) =>
+          participant.entryId === entryId ? { ...participant, optedOut } : participant
+        )
+      });
+    }
   };
 }
