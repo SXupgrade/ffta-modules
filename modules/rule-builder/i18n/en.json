@@ -1,0 +1,24 @@
+{
+  "title": "Rule Builder",
+  "navigation": {
+    "title": "Rule Builder"
+  },
+  "intro": "Export the current tournament's configured ruleset (divisions, classes, events, distances, target faces, sessions) as a JSON file compet+ can use to seed a new tournament.",
+  "messages": {
+    "loading": "Loading..."
+  },
+  "card": {
+    "title": "Current tournament",
+    "hint": "The export reflects exactly what is configured for this tournament right now -- divisions, classes, events, distances, target faces and sessions. Ages are exported as stored, without any season-based adjustment."
+  },
+  "summary": {
+    "name": "Tournament",
+    "type": "Type",
+    "dates": "Dates"
+  },
+  "actions": {
+    "reload": "Reload",
+    "download": "Download JSON",
+    "downloading": "Downloading..."
+  }
+}

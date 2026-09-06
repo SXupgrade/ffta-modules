@@ -1,0 +1,10 @@
+.ffta-modules-shell .rule-builder-page { display: grid; gap: 1rem; }
+.ffta-modules-shell .rule-builder-hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.25rem; border-radius: var(--ffta-radius-card); background: var(--c-surface, #fff); box-shadow: var(--shadow-soft, 0 12px 30px rgba(15, 23, 42, .08)); }
+.ffta-modules-shell .rule-builder-hero h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.5rem); }
+.ffta-modules-shell .rule-builder-hero p { margin: .35rem 0 0; color: var(--c-muted, #64748b); }
+.ffta-modules-shell .rule-builder-eyebrow { text-transform: uppercase; letter-spacing: 0.08em; font-size: .75rem; font-weight: 700; }
+.ffta-modules-shell .rule-builder-card { display: grid; gap: .85rem; }
+.ffta-modules-shell .rule-builder-summary { display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1rem; margin: 0; }
+.ffta-modules-shell .rule-builder-summary dt { color: var(--c-muted, #64748b); font-weight: 600; }
+.ffta-modules-shell .rule-builder-summary dd { margin: 0; }
+.ffta-modules-shell .rule-builder-hint { color: var(--c-muted, #64748b); }

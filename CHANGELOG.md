@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.21 - New module : rule-builder
+
+- Module qui exporte le règlement configuré du concours ouvert (divisions, catégories, épreuves, distances, blasons, départs) en JSON, dans le format exact que produit le générateur statique de compet+ (`scripts/rules/generate-fr-ianseo-sets.js`) — permet de repartir d'un concours réel déjà configuré plutôt que de retaper un règlement à la main.
+- Diffère volontairement d'un règlement statique sur 3 points documentés dans le README : `ToSubRule` absent (ce n'est pas une colonne Ianseo réelle), âges de catégories exportés tels quels sans décalage de saison (les données réelles d'un concours ouvert ne permettent pas de distinguer un décalage appliqué à la création d'une modification manuelle ultérieure), lignes SubClass fusionnées dans `Classes.items` (comme le fait le générateur statique).
+- Voir modules/rule-builder/README.md pour le détail et modules/rule-builder/CHANGELOG.md.
+
 ## v0.2.20 - gdpr : 3 onglets (participants, impressions, publication) + écriture RGPD
 
 - Module gdpr passe d'un simple écran de publication à 3 onglets : Liste des participants (case « RGPD privé » par participant, écriture immédiate), Impressions (2 documents anonymisés — liste des participants, classement qualificatif), Publication internet (écran existant, inchangé).
