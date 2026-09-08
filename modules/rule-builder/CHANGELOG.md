@@ -1,5 +1,23 @@
 # rule-builder module Changelog
 
+## Unreleased
+
+- Fix: `api/rule-builder.php` no longer lets a fatal error from Ianseo's
+  own DB helpers (`Common/Fun_DB.inc.php`'s `safe_error()`, which prints
+  an HTML fragment and calls `exit()` directly on a read-connection
+  failure -- bypassing this endpoint's own `try/catch`) leak an HTML body
+  behind the endpoint's `Content-Type: application/json` header. Reported
+  symptom: the screen showed `Unexpected token '<' ... is not valid JSON`
+  and a direct call to `rule-builder.php?action=status` returned Ianseo's
+  raw `[[TecError]@[en]@[Common]]` / "Read Server not reachable" HTML.
+  The endpoint now buffers its output and, in a shutdown handler, replaces
+  any non-JSON body with a real `{"ok":false,"error":...}` response --
+  and, since Ianseo's own message hides the actual `mysqli` failure behind
+  a fixed string, re-probes the read DB connection directly
+  (`mysqli_connect_error()`, 3s timeout) to surface the real reason (wrong
+  host, bad credentials, connection refused, etc.) instead of the opaque
+  wrapped message.
+
 ## 0.1.0
 
 - Initial version: exports the current tournament's live configured
