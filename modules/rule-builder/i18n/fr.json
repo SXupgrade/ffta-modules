@@ -1,0 +1,24 @@
+{
+  "title": "Générateur de règlement",
+  "navigation": {
+    "title": "Générateur de règlement"
+  },
+  "intro": "Exporte le règlement configuré du concours en cours (divisions, catégories, épreuves, distances, blasons, départs) au format JSON que compet+ peut utiliser pour créer un nouveau concours.",
+  "messages": {
+    "loading": "Chargement..."
+  },
+  "card": {
+    "title": "Concours en cours",
+    "hint": "L'export reflète exactement ce qui est configuré pour ce concours en ce moment -- divisions, catégories, épreuves, distances, blasons et départs. Les âges sont exportés tels quels, sans ajustement lié à la saison."
+  },
+  "summary": {
+    "name": "Concours",
+    "type": "Type",
+    "dates": "Dates"
+  },
+  "actions": {
+    "reload": "Actualiser",
+    "download": "Télécharger le JSON",
+    "downloading": "Téléchargement..."
+  }
+}

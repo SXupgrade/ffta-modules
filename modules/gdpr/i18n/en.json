@@ -1,0 +1,69 @@
+{
+  "title": "RGPD",
+  "navigation": {
+    "title": "RGPD"
+  },
+  "intro": "Manage which archers opted out of public visibility (RGPD), print anonymized documents, and publish results to ianseo.net with opted-out archers automatically replaced by an anonymous placeholder.",
+  "tabs": {
+    "participants": "Participants list",
+    "prints": "Prints",
+    "publish": "Internet publishing"
+  },
+  "messages": {
+    "loading": "Loading...",
+    "publishing": "Publishing..."
+  },
+  "participants": {
+    "intro": "Check \"RGPD private\" for an archer to opt them out of public results publication and anonymized prints. Saved immediately, one archer at a time.",
+    "columns": {
+      "name": "Name",
+      "club": "Club",
+      "category": "Category",
+      "optOut": "RGPD"
+    },
+    "optOutLabel": "RGPD private",
+    "empty": "No participant found for this tournament."
+  },
+  "prints": {
+    "intro": "Anonymized equivalents of Ianseo's own printable documents -- archers marked \"RGPD private\" on the Participants list tab are shown as \"Archer #<id>\" instead of their real name. Opens in a new window, same as Ianseo's native prints.",
+    "participants": "Participants list (alphabetical)",
+    "qualification": "Qualification ranking"
+  },
+  "status": {
+    "optedOutNone": "No archer in this tournament has opted out of public results publication.",
+    "optedOutSome": "{count} archer(s) in this tournament opted out of public results publication -- they will be replaced by an anonymous placeholder in what gets published.",
+    "testMode": "No ianseo.net credentials configured for this tournament yet -- test mode: preview works, but Publish is disabled until credentials are set on Ianseo's own \"Send to Ianseo.net\" screen (Tournament > Send to Ianseo.net > Set credentials).",
+    "credentialsConfigured": "ianseo.net credentials found for this tournament."
+  },
+  "events": {
+    "individualTitle": "Individual events",
+    "teamTitle": "Team events",
+    "empty": "No event found for this tournament."
+  },
+  "options": {
+    "title": "What to publish",
+    "includeStartList": "Start list",
+    "includeMedalList": "Medal list",
+    "includeMedalStanding": "Medal standing (by country)",
+    "includeStats": "Entry statistics"
+  },
+  "actions": {
+    "reload": "Reload",
+    "preview": "Preview (no data sent)",
+    "publish": "Publish (RGPD-safe)",
+    "closePreview": "Close preview"
+  },
+  "preview": {
+    "title": "Preview",
+    "optedOutCount": "{count} archer(s) anonymized in this preview.",
+    "hint": "This is what would be sent -- nothing has been sent to ianseo.net yet."
+  },
+  "result": {
+    "success": "Published to ianseo.net. {count} archer(s) were anonymized.",
+    "failure": "ianseo.net rejected the submission."
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "noSelection": "Select at least one item to publish."
+  }
+}

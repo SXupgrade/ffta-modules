@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.2.21 - New module : rule-builder
+
+- Module qui exporte le règlement configuré du concours ouvert (divisions, catégories, épreuves, distances, blasons, départs) en JSON, dans le format exact que produit le générateur statique de compet+ (`scripts/rules/generate-fr-ianseo-sets.js`) — permet de repartir d'un concours réel déjà configuré plutôt que de retaper un règlement à la main.
+- Diffère volontairement d'un règlement statique sur 3 points documentés dans le README : `ToSubRule` absent (ce n'est pas une colonne Ianseo réelle), âges de catégories exportés tels quels sans décalage de saison (les données réelles d'un concours ouvert ne permettent pas de distinguer un décalage appliqué à la création d'une modification manuelle ultérieure), lignes SubClass fusionnées dans `Classes.items` (comme le fait le générateur statique).
+- Voir modules/rule-builder/README.md pour le détail et modules/rule-builder/CHANGELOG.md.
+
+## v0.2.20 - gdpr : 3 onglets (participants, impressions, publication) + écriture RGPD
+
+- Module gdpr passe d'un simple écran de publication à 3 onglets : Liste des participants (case « RGPD privé » par participant, écriture immédiate), Impressions (2 documents anonymisés — liste des participants, classement qualificatif), Publication internet (écran existant, inchangé).
+- Le module devient aussi écrivain du flag RGPD (jusqu'ici lecture seule, seul Compet+ écrivait) — même table, format de clé revu pour que les deux systèmes puissent écrire sans se marcher dessus (voir modules/gdpr/README.md « Storage »).
+- Mode test : l'aperçu de la publication internet fonctionne désormais même sans identifiants ianseo.net configurés pour le tournoi.
+- Voir modules/gdpr/CHANGELOG.md pour le détail.
+
+## v0.2.19 - New module : gdpr
+
+- Module qui publie les résultats vers ianseo.net comme l'écran natif « Envoi vers Ianseo.net », en remplaçant automatiquement les archers ayant refusé la publication publique (flag RGPD de Compet+) par un pseudonyme avant l'envoi.
+- Réutilise les identifiants ianseo.net déjà saisis par l'organisateur sur l'écran natif — aucune configuration supplémentaire.
+- Voir modules/gdpr/README.md pour le périmètre couvert et l'étape de vérification recommandée avant utilisation en production.
 ## v0.2.21 - checkScorecard et records en JS pure
 
 - Suppression des backends PHP propres aux modules `check-scorecard` et `records` (`modules/*/api/*.php`, `IanseoRecordsRepository.php`) : toutes leurs lectures/écritures passent désormais par le canal partagé `api/data.php`, comme les autres modules 100% JS.
