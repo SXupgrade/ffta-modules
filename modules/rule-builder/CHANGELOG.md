@@ -37,6 +37,19 @@
     against both a real uncaught `Throwable` and a real parse error in
     a required file: both now come back as valid, specific JSON instead
     of a blank body or a fatal-error page.
+- **Root cause found and fixed** (in `core/adapters/ianseo/database/
+  bootstrap.php`, shared by every module -- see that repo's root
+  `CHANGELOG.md` for the full writeup): the diagnostics above surfaced
+  `Attempt to read property "LANGUAGE_PATH" on null in
+  Common/Globals.inc.php:834`, later `Attempt to assign property
+  "ROOT_DIR" on null in config.php:74` in a from-scratch reproduction --
+  `$CFG` was null in Ianseo core functions that do `global $CFG;`
+  themselves, despite `RuleBuilderExportService`'s constructor having
+  just loaded it. Fixed by declaring the Ianseo runtime globals before
+  `require_once`-ing Ianseo's `config.php` in the shared bootstrap
+  adapter. Reproduced against a real scratch Ianseo install + MariaDB
+  before and after the fix (`php -S` + a real DB), confirmed this
+  endpoint reaches and successfully queries the database end to end.
 
 ## 0.1.0
 

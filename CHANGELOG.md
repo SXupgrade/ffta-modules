@@ -1,5 +1,40 @@
 # Changelog
 
+## v0.2.22 - fix : `$CFG` perdu quand un module require la chaîne de bootstrap Ianseo depuis une méthode
+
+- Bug réel trouvé sur une installation en production (rule-builder cassait,
+  les autres modules non) : `core/adapters/ianseo/database/bootstrap.php`
+  fait `require_once($rootConfig)` sans jamais déclarer `global $CFG;`
+  d'abord. `require_once` exécute le fichier requis dans la portée de
+  l'appelant — quand cette chaîne démarre depuis l'intérieur d'une méthode
+  (ex. `RuleBuilderExportService::__construct()`, volontairement paresseux
+  pour permettre des tests unitaires avec un repository factice — voir
+  `modules/rule-builder/README.md`), `$CFG = new StdClass();` du
+  `config.php` d'Ianseo atterrissait dans la portée locale de cette
+  méthode et disparaissait dès son retour. Résultat : chaque fonction
+  cœur d'Ianseo qui fait elle-même `global $CFG;` (`SelectLanguage()`,
+  `safe_r_con()`, `CheckTourSession()`, ...) voyait ensuite `$CFG` à
+  `null` pour le reste de la requête — d'où des `Attempt to read/assign
+  property ... on null` dans `Common/Globals.inc.php`/`config.php`, et
+  `safe_r_con()` qui rapportait « Read Server not reachable » puisque
+  `mysqli_connect()` recevait un host/user/pass `null`.
+- Le module `gdpr` n'était pas touché car son service require son
+  repository au niveau fichier (`GdprPublishService.php` ligne 2, hors
+  classe) — donc toujours depuis la portée globale réelle, jamais depuis
+  une méthode.
+- Correctif : `bootstrap.php` déclare maintenant `global $CFG, $INFO,
+  $WRIT_CON, $READ_CON, $ERROR_REPORT;` avant son `require_once` — rend
+  le chargement robuste quelle que soit la portée (méthode ou globale)
+  d'où un module déclenche la chaîne de bootstrap, sans toucher au design
+  testable de `RuleBuilderExportService`.
+- Vérifié par reproduction réelle : installation Ianseo de test +
+  MariaDB scratch + `php -S`, bug reproduit avant le correctif (erreurs
+  fatales identiques à celles remontées en production), confirmé résolu
+  après (l'endpoint se connecte et interroge réellement la base).
+- Voir `modules/rule-builder/CHANGELOG.md` pour le fil complet du
+  diagnostic (3 correctifs successifs sur `api/rule-builder.php` avant
+  d'isoler cette cause réelle).
+
 ## v0.2.21 - New module : rule-builder
 
 - Module qui exporte le règlement configuré du concours ouvert (divisions, catégories, épreuves, distances, blasons, départs) en JSON, dans le format exact que produit le générateur statique de compet+ (`scripts/rules/generate-fr-ianseo-sets.js`) — permet de repartir d'un concours réel déjà configuré plutôt que de retaper un règlement à la main.
