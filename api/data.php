@@ -8,6 +8,8 @@ header('Content-Type: application/json; charset=utf-8');
 require_once(__DIR__ . '/../core/adapters/ianseo/database/query.php');
 require_once(__DIR__ . '/../core/adapters/ianseo/acl/acl.php');
 require_once(__DIR__ . '/ianseo/prints.service.php');
+require_once(__DIR__ . '/ianseo/check-scorecard.service.php');
+require_once(__DIR__ . '/ianseo/records.service.php');
 if (file_exists(dirname(__DIR__, 4) . '/Common/Fun_Sessions.inc.php')) {
     require_once(dirname(__DIR__, 4) . '/Common/Fun_Sessions.inc.php');
 }
@@ -15,6 +17,21 @@ if (file_exists(dirname(__DIR__, 4) . '/Common/Fun_Sessions.inc.php')) {
 $DATA_ACCESS = array(
     'acl' => 'AclCompetition',
     'subFeature' => 'cQualifications',
+    'read' => 'AclReadOnly',
+    'write' => 'AclReadWrite'
+);
+
+// Per-module access blocks, mirroring each module's own module.manifest.js `access`.
+// api/data.php is the single shared dispatcher, but different modules are still
+// gated by their own ACL/subFeature, not by $DATA_ACCESS above.
+$CHECK_SCORECARD_ACCESS = array(
+    'acl' => 'AclQualification',
+    'read' => 'AclReadOnly',
+    'write' => 'AclReadWrite'
+);
+$RECORDS_ACCESS = array(
+    'acl' => 'AclModules',
+    'subFeature' => 'fftaRecords',
     'read' => 'AclReadOnly',
     'write' => 'AclReadWrite'
 );
@@ -380,6 +397,62 @@ try {
         case 'listClasses':
             ffta_acl_require($DATA_ACCESS, 'read');
             ffta_data_response(ffta_data_list_classes($tourId));
+            break;
+        case 'getCheckScorecardContext':
+            ffta_acl_require($CHECK_SCORECARD_ACCESS, 'read');
+            ffta_data_response(ffta_check_scorecard_context($tourId));
+            break;
+        case 'listCheckScorecardSessions':
+            ffta_acl_require($CHECK_SCORECARD_ACCESS, 'read');
+            ffta_data_response(ffta_check_scorecard_sessions($tourId));
+            break;
+        case 'listCheckScorecardRows':
+            ffta_acl_require($CHECK_SCORECARD_ACCESS, 'read');
+            ffta_data_response(ffta_check_scorecard_rows($tourId, $payload));
+            break;
+        case 'setCheckScorecardConfirm':
+            ffta_acl_require($CHECK_SCORECARD_ACCESS, 'write');
+            ffta_data_response(ffta_check_scorecard_set_confirm($tourId, $payload));
+            break;
+        case 'getRecordsDashboard':
+            ffta_acl_require($RECORDS_ACCESS, 'read');
+            ffta_data_response(ffta_records_get_dashboard($tourId));
+            break;
+        case 'saveMonitoredRecord':
+            ffta_acl_require($RECORDS_ACCESS, 'write');
+            ffta_data_response(ffta_records_save_monitored_record($tourId, $payload));
+            break;
+        case 'saveRecord':
+            ffta_acl_require($RECORDS_ACCESS, 'write');
+            ffta_data_response(ffta_records_save_record($tourId, $payload));
+            break;
+        case 'importRecords':
+            ffta_acl_require($RECORDS_ACCESS, 'write');
+            ffta_data_response(ffta_records_import_records($payload));
+            break;
+        case 'activateTournamentRecords':
+            ffta_acl_require($RECORDS_ACCESS, 'write');
+            ffta_data_response(ffta_records_activate_tournament_records($tourId, $payload));
+            break;
+        case 'saveRecordArea':
+            ffta_acl_require($RECORDS_ACCESS, 'write');
+            ffta_data_response(ffta_records_save_record_area($payload));
+            break;
+        case 'deleteRecordArea':
+            ffta_acl_require($RECORDS_ACCESS, 'write');
+            ffta_data_response(ffta_records_delete_record_area($tourId, $payload));
+            break;
+        case 'syncTournamentRecordAreas':
+            ffta_acl_require($RECORDS_ACCESS, 'write');
+            ffta_data_response(ffta_records_sync_tournament_record_areas($tourId, $payload));
+            break;
+        case 'updateGlobalRecordsFromBroken':
+            ffta_acl_require($RECORDS_ACCESS, 'write');
+            ffta_data_response(ffta_records_update_global_records_from_broken($tourId));
+            break;
+        case 'checkBrokenRecords':
+            ffta_acl_require($RECORDS_ACCESS, 'write');
+            ffta_data_response(ffta_records_check_broken_records($tourId));
             break;
         default:
             http_response_code(400);

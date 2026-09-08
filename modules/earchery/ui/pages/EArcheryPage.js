@@ -77,7 +77,7 @@ export function mountEArcheryPage({ root, vm, app }) {
   };
 }
 
-function buildHtml(state, vm, app) {
+export function buildHtml(state, vm, app) {
   const target = state.target;
   const targetStyle = [
     `left:${target.x}px`,

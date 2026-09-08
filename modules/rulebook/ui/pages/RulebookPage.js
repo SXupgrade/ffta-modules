@@ -41,7 +41,7 @@ export function mountRulebookPage({ root, vm, app }) {
   };
 }
 
-function buildHtml(vm, app) {
+export function buildHtml(vm, app) {
   const stats = vm.getStats();
   const results = vm.getResults();
   const selectedEntry = vm.getSelectedEntry();

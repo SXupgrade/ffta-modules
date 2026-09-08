@@ -31,7 +31,7 @@ export function mountAchievementsPage({ root, vm, app }) {
   };
 }
 
-function buildHtml(vm, app) {
+export function buildHtml(vm, app) {
   const state = vm.state;
   return `
     <section class="ffta-page achievements-page">
