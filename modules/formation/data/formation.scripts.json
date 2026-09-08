@@ -6,9 +6,9 @@
           "type": "updateTournament",
           "values": {
             "ToCode": "FFTA-FORM",
-            "ToName": "FFTA Training Tournament",
-            "ToWhere": "Training hall",
-            "ToVenue": "Ianseo classroom",
+            "ToName": "",
+            "ToWhere": "",
+            "ToVenue": "",
             "ToWhenFrom": "{today}",
             "ToWhenTo": "{today}"
           }
@@ -20,9 +20,9 @@
         {
           "type": "updateTournament",
           "values": {
-            "ToLocRule": "FR",
-            "ToTypeName": "Indoor 18m",
-            "ToNumDist": 2,
+            "ToLocRule": "WA",
+            "ToTypeName": "Outdoor 70m",
+            "ToNumDist": 4,
             "ToNumSession": 2
           }
         }
@@ -47,7 +47,7 @@
             "SesOrder": 2,
             "SesName": "FFTA-FORM Depart 2",
             "SesTar4Session": 12,
-            "SesAth4Target": 4
+            "SesAth4Target": 0
           }
         },
         {
@@ -115,8 +115,8 @@
             "EnName": "Martin",
             "EnCountry": { "ref": "country:FFTA" },
             "EnDivision": "CL",
-            "EnClass": "S1F",
-            "EnAgeClass": "S1F",
+            "EnClass": "S1",
+            "EnAgeClass": "",
             "EnIocCode": "FRA",
             "EnDob": "2000-01-02",
             "EnSex": 1,
@@ -145,8 +145,8 @@
             "EnName": "Bernard",
             "EnCountry": { "ref": "country:FFTA" },
             "EnDivision": "CL",
-            "EnClass": "S2H",
-            "EnAgeClass": "S2H",
+            "EnClass": "S1",
+            "EnAgeClass": "",
             "EnIocCode": "FRA",
             "EnDob": "1990-09-02",
             "EnSex": 0,
@@ -197,7 +197,7 @@
         },
         {
           "type": "upsertQualification",
-          "entryCode": "FFTA-FORM-002",
+          "entryCode": "1000456Z",
           "values": {
             "QuScore": 511,
             "QuGold": 11,
@@ -324,6 +324,14 @@
           "operator": ">=",
           "expected": 2,
           "message": "Create at least two participants."
+        },
+        {
+          "type": "count",
+          "from": "Entries",
+          "where": { "EnAgeClass": { "operator": "!=", "value": "" } },
+          "operator": ">=",
+          "expected": 2,
+          "message": "Camille Martin and Noa Bernard are seeded without an age class: pick the FFTA-correct one for each (national FFTA rules use M/W, not H/F)."
         }
       ]
     },
@@ -335,12 +343,12 @@
           "join": "Entries",
           "where": {
             "Entries.EnCode": "1000123A",
-            "Qualifications.QuTarget": "1",
-            "Qualifications.QuPosition": "C"
+            "Qualifications.QuTarget": "2",
+            "Qualifications.QuLetter": "A"
           },
           "operator": "===",
           "expected": 1,
-          "message": "Camille Martin must be moved back to target 1C."
+          "message": "Camille Martin must be moved back to target 2A."
         }
       ]
     },

@@ -51,7 +51,8 @@
     "auto": "Auto OK"
   },
   "labels": {
-    "where": "Où trouver l'info ?"
+    "where": "Où trouver l'info ?",
+    "warning": "Piège à éviter"
   },
   "metrics": {
     "tournament": "Concours",
@@ -79,8 +80,24 @@
     "judge": {
       "responsible": {
         "title": "Déclarer l'arbitre responsable",
-        "description": "L'organisateur doit savoir qui valide le concours le jour J.",
-        "tooltip": "Écran Tournoi → Officiels / Personnes impliquées → ajouter l'arbitre responsable."
+        "description": "L'organisateur doit savoir qui valide le concours le jour J. Un concours officiel FFTA impose au moins un arbitre responsable, même si Ianseo ne bloque rien si on l'oublie.",
+        "tooltip": "Écran Tournoi → Équipe de terrain → ajouter l'arbitre responsable (jury d'appel, speaker et logistique pour les compétitions plus importantes)."
+      }
+    },
+    "rules": {
+      "trio": {
+        "title": "Verrouiller règle locale / type / sous-règle",
+        "description": "Choisir définitivement à la création le trio Règle locale, Type de compétition et Sous-règle FFTA.",
+        "tooltip": "Écran Compétition → Nouveau. Pour une compétition française : règle locale = Règles françaises, puis choisir le type (TAE, 2x18m, 2x25m, 18+25m 4 distances, Beursault) et une sous-règle FFTA.",
+        "warning": "Ce trio seede les classes, divisions et règlements dès la création. Le modifier après coup embrouille Ianseo : il recrée des classes par-dessus les existantes sans tout mettre à jour. Ne jamais y toucher une fois la compétition créée."
+      }
+    },
+    "organizer": {
+      "code": {
+        "title": "Vérifier le code organisateur FFTA",
+        "description": "Le champ « Organisé par » comporte un code organisateur et un nom. Seul le code compte vraiment.",
+        "tooltip": "Écran Compétition → Informations de la compétition → Organisé par. Le code doit correspondre au code de club FFTA à 7 chiffres (région + département + club, ex. 13 092 pour Aix-en-Provence).",
+        "warning": "Ce contrôle n'existe pas côté Ianseo, il est fait côté FFTA. Un mauvais code organisateur génère un fichier d'export qui ne peut pas être rattaché aux événements déclarés : impossible de transmettre les résultats."
       }
     },
     "target": {
@@ -95,18 +112,40 @@
       "description": "Coupes, médailles, goodies ou bons cadeaux. Facultatif, mais les organisateurs qui oublient deviennent des légendes pour de mauvaises raisons.",
       "tooltip": "Logistique externe pour le moment. Plus tard : Tournoi → Logistique."
     },
+    "archers": {
+      "database": {
+        "imported": {
+          "title": "Importer la base des archers licenciés FFTA",
+          "description": "Étape obligatoire mais peu visible : récupérer et importer le fichier de licenciés avant de pouvoir inscrire qui que ce soit correctement.",
+          "tooltip": "Participants → Synchronisation des compétiteurs → Synchronisation des compétiteurs. Récupérer parametres_ianseo.ffta (accès dirigeant requis) puis lancer la synchronisation des données athlètes."
+        },
+        "refreshed": {
+          "title": "Rafraîchir la base des archers avant le concours",
+          "description": "Refaire un import de la base FFTA juste avant le concours pour attraper les changements de club ou de catégorie de dernière minute.",
+          "tooltip": "Participants → Synchronisation des compétiteurs → Incohérence dans la base des archers.",
+          "warning": "Un nouvel import ne met pas à jour les inscriptions déjà faites. L'écran d'incohérences compare les deux bases, mais la base FFTA est en MAJUSCULES alors qu'Ianseo met les inscriptions en Majuscule initiale : beaucoup de faux positifs. Vérifier les changements à l'œil plutôt que de se fier uniquement au diff."
+        }
+      }
+    },
     "entries": {
       "imported": {
         "title": "Importer ou créer les inscriptions",
         "description": "Le concours doit contenir des archers avant que l'assignation et les feuilles de marque aient un sens.",
         "tooltip": "Inscriptions / Archers → importer les licences ou créer les archers manuellement."
+      },
+      "flags": {
+        "title": "Vérifier les options Tir ind. / Épreuve ind.",
+        "description": "Pour un archer inscrit sur plusieurs départs, seul son premier tir de la journée doit compter dans le classement du concours.",
+        "tooltip": "Fenêtre d'inscription → bloc des 5 cases oui/non, en bas à droite. Passer Tir ind. et Épreuve ind. à non sur les tirs qui ne sont pas le premier de l'archer.",
+        "warning": "Les 5 cases sont à oui par défaut. Un archer ajouté au dernier moment sur un second départ garde ses deux tirs en oui/oui : à la remise des prix il apparaît classé deux fois dans sa catégorie, sans qu'Ianseo n'alerte personne."
       }
     },
     "field": {
       "assigned": {
         "title": "Assigner tous les archers",
         "description": "Chaque archer inscrit doit avoir une cible et une position avant impression des feuilles.",
-        "tooltip": "Terrain / Assignation des cibles → déplacer les archers ou lancer l'assignation automatique."
+        "tooltip": "Terrain / Assignation des cibles → déplacer les archers ou lancer l'assignation automatique.",
+        "warning": "Le décalage d'affectations (Participants → Cible → déplacer les affectations) est brutal et sans confirmation : une erreur de plage peut superposer deux archers sur la même position, sans retour arrière possible. Faire une sauvegarde avant toute manipulation de ce type."
       },
       "installed": {
         "title": "Installer le terrain",
@@ -118,6 +157,13 @@
       "title": "Imprimer les feuilles de marque",
       "description": "Imprimer les feuilles une fois l'assignation stabilisée.",
       "tooltip": "Impression / Feuilles de marque ou actions terrain/export Compet+."
+    },
+    "flags": {
+      "clubs": {
+        "title": "Récupérer les drapeaux/logos de club",
+        "description": "Ianseo peut télécharger automatiquement les drapeaux des clubs des archers inscrits, mais seulement à la demande et pour la compétition en cours.",
+        "tooltip": "Participants → Synchronisation des compétiteurs → cocher « Logo/drapeaux Pays Club » puis Synchroniser les données des athlètes. À refaire si un archer d'un nouveau club est ajouté après coup."
+      }
     },
     "chronotir": {
       "title": "Recharger les Chronotir",
@@ -158,13 +204,19 @@
         "title": "Valider les classements",
         "description": "Vérifier classements, égalités et erreurs évidentes avant annonce officielle.",
         "tooltip": "Résultats / Classements → classement qualificatif et contrôles d'égalités."
+      },
+      "classement": {
+        "title": "Choisir la bonne impression de classement",
+        "description": "Distinguer « Tous résultats » (classement par division/classe telle que saisie) et « Classement des épreuves » (avec les regroupements de catégories FFTA) avant de faire les podiums.",
+        "tooltip": "Impressions ou Qualification → les deux impressions existent en parallèle et se ressemblent.",
+        "warning": "La FFTA regroupe parfois plusieurs classes d'âge dans une seule épreuve (ex. U21/S1/S2/S3 Hommes Barebow réunis dans « Adultes Hommes Barebow » avec un seul titre). Utiliser « Tous résultats » distribue alors trop de récompenses par rapport au règlement, sans qu'Ianseo ne prévienne. Cette distinction passe inaperçue pour la plupart des organisateurs."
       }
     },
     "ffta": {
       "export": {
         "title": "Générer le fichier FFTA",
         "description": "Générer l'export fédéral après validation des résultats finaux.",
-        "tooltip": "Module Export FFTA → générer l'export TXT."
+        "tooltip": "Module Export FFTA → générer l'export TXT, à déposer sur https://extranet.ffta.fr/gsportive/resultats-integrationtxt.html dans les 48h. Un correctif reste possible dans les 10 jours suivants ; conserver les feuilles de marque papier 1 an."
       }
     },
     "records": {

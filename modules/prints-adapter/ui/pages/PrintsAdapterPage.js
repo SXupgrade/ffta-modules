@@ -66,7 +66,7 @@ export function mountPrintsAdapterPage({ root, vm, app }) {
   };
 }
 
-function buildHtml(state, app) {
+export function buildHtml(state, app) {
   const data = state.data;
   return `
     <section class="ffta-page prints-adapter-page">

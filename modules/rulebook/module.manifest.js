@@ -10,7 +10,7 @@ export default {
   i18n: ['./i18n/en.json', './i18n/fr.json'],
   styles: ['./ui/styles/rulebook.css'],
   capabilities: ['i18n', 'routing', 'storage'],
-  runtimeCompatibility: ['ianseo', 'lab'],
+  runtimeCompatibility: ['ianseo', 'lab', 'competplus'],
   access: {
     acl: 'AclModules',
     subFeature: 'fftaRulebook',

@@ -51,7 +51,8 @@
     "auto": "Auto OK"
   },
   "labels": {
-    "where": "Where do I find this?"
+    "where": "Where do I find this?",
+    "warning": "Pitfall to avoid"
   },
   "metrics": {
     "tournament": "Tournament",
@@ -79,8 +80,24 @@
     "judge": {
       "responsible": {
         "title": "Declare the responsible judge",
-        "description": "The organizer must know who validates the competition on the day.",
-        "tooltip": "Tournament screen → Officials / Involved people → add the responsible judge."
+        "description": "The organizer must know who validates the competition on the day. A sanctioned FFTA competition requires at least one responsible judge, even though Ianseo never blocks anything if it is missing.",
+        "tooltip": "Tournament screen → Field team → add the responsible judge (appeal jury, speaker and logistics lead for bigger competitions)."
+      }
+    },
+    "rules": {
+      "trio": {
+        "title": "Lock local rule / type / sub-rule",
+        "description": "Pick the local rule, competition type and FFTA sub-rule for good at creation time.",
+        "tooltip": "Competition screen → New. For a French competition: local rule = French rules, then pick the type (TAE, 2x18m, 2x25m, 18+25m 4 distances, Beursault) and an FFTA sub-rule.",
+        "warning": "This trio seeds the classes, divisions and rule sets right at creation. Changing it afterwards confuses Ianseo: it recreates classes on top of the existing ones without updating everything. Never touch it once the competition has been created."
+      }
+    },
+    "organizer": {
+      "code": {
+        "title": "Check the FFTA organizer code",
+        "description": "The \"Organized by\" field has an organizer code and a name. Only the code really matters.",
+        "tooltip": "Competition screen → Competition information → Organized by. The code must match the 7-digit FFTA club code (region + department + club, e.g. 13 092 for Aix-en-Provence).",
+        "warning": "Ianseo does not validate this at all, only the FFTA side does. A wrong organizer code produces an export file that cannot be matched to the declared event: results cannot be transmitted."
       }
     },
     "target": {
@@ -95,18 +112,40 @@
       "description": "Cups, medals, goodies or vouchers. Optional, but organizers forgetting them become legends for the wrong reason.",
       "tooltip": "External logistics for now. Later: Tournament → Logistics."
     },
+    "archers": {
+      "database": {
+        "imported": {
+          "title": "Import the FFTA licensed archer database",
+          "description": "Mandatory but easy to miss: fetch and import the license file before anyone can be registered properly.",
+          "tooltip": "Participants → Competitors synchronization → Competitors synchronization. Download parametres_ianseo.ffta (requires an official's access) then run the athlete data synchronization."
+        },
+        "refreshed": {
+          "title": "Refresh the archer database before the event",
+          "description": "Re-import the FFTA database right before the competition to catch last-minute club or category changes.",
+          "tooltip": "Participants → Competitors synchronization → Archer database inconsistencies.",
+          "warning": "A fresh import never updates entries that already exist. The inconsistency screen compares both bases, but the FFTA base is all UPPERCASE while Ianseo title-cases entries on registration: expect a lot of false positives. Check the flagged changes by eye instead of trusting the diff alone."
+        }
+      }
+    },
     "entries": {
       "imported": {
         "title": "Import or create entries",
         "description": "The competition must contain archers before field assignment and scorecards make sense.",
         "tooltip": "Registrations / Entries → import licenses or create archers manually."
+      },
+      "flags": {
+        "title": "Check the Individual shoot / Individual event flags",
+        "description": "For an archer registered on several sessions, only their first shoot of the day should count in the competition ranking.",
+        "tooltip": "Registration window → the block of 5 yes/no toggles, bottom right. Switch Individual shoot and Individual event to no on any shoot that is not the archer's first.",
+        "warning": "All 5 toggles default to yes. An archer added at the last minute on a second session keeps both shoots at yes/yes: at the awards ceremony they show up ranked twice in their category, with nothing in Ianseo warning anyone."
       }
     },
     "field": {
       "assigned": {
         "title": "Assign all archers",
         "description": "Every registered archer should have a target and position before printing scorecards.",
-        "tooltip": "Field / Target assignment → drag archers to targets or run auto-assignment."
+        "tooltip": "Field / Target assignment → drag archers to targets or run auto-assignment.",
+        "warning": "Shifting target assignments (Participants → Target → move target assignments) is brutal and has no confirmation dialog: a wrong range can stack two archers on the same position, with no undo. Take a backup before any such operation."
       },
       "installed": {
         "title": "Install the field",
@@ -118,6 +157,13 @@
       "title": "Print scorecards",
       "description": "Print sheets once target assignment is stable.",
       "tooltip": "Print / Scorecards or Compet+ field/export actions."
+    },
+    "flags": {
+      "clubs": {
+        "title": "Download club flags/logos",
+        "description": "Ianseo can automatically download club flags for registered archers, but only on demand and only for the current competition.",
+        "tooltip": "Participants → Competitors synchronization → tick \"Country Club logo/flags\" then Synchronize athlete data. Re-run it if an archer from a new club is added afterwards."
+      }
     },
     "chronotir": {
       "title": "Recharge timing devices",
@@ -158,13 +204,19 @@
         "title": "Validate rankings",
         "description": "Check rankings, ties and obvious score mistakes before announcing results.",
         "tooltip": "Results / Rankings → qualification ranking and tie checks."
+      },
+      "classement": {
+        "title": "Pick the right ranking printout",
+        "description": "Distinguish \"All results\" (ranking by division/class as entered) from \"Event ranking\" (with FFTA category groupings) before doing the podiums.",
+        "tooltip": "Print or Qualification → both printouts exist side by side and look alike.",
+        "warning": "FFTA sometimes merges several age classes into one event (e.g. U21/S1/S2/S3 Men Barebow grouped into a single \"Adult Men Barebow\" title). Using \"All results\" then hands out more awards than the rule set allows, with nothing in Ianseo flagging it. Most organizers never notice this distinction."
       }
     },
     "ffta": {
       "export": {
         "title": "Generate the FFTA file",
         "description": "Generate the federal export after validating final results.",
-        "tooltip": "Export FFTA module → generate TXT export."
+        "tooltip": "Export FFTA module → generate the TXT export, to upload at https://extranet.ffta.fr/gsportive/resultats-integrationtxt.html within 48h. A correction is still possible within 10 days; keep the paper scorecards for 1 year."
       }
     },
     "records": {

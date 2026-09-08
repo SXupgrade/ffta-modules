@@ -10,7 +10,7 @@ export default {
   i18n: ['./i18n/en.json', './i18n/fr.json'],
   styles: ['./ui/styles/prints-adapter.css'],
   capabilities: ['i18n', 'routing', 'ianseo-services'],
-  runtimeCompatibility: ['ianseo'],
+  runtimeCompatibility: ['ianseo', 'competplus'],
   access: {
     acl: 'AclModules',
     subFeature: 'fftaPrintsAdapter',

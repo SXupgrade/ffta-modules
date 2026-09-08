@@ -10,7 +10,7 @@ export default {
   i18n: ['./i18n/en.json', './i18n/fr.json'],
   styles: ['./ui/styles/developer-wiki.css'],
   capabilities: ['i18n', 'routing', 'documentation', 'lab', 'certification'],
-  runtimeCompatibility: ['ianseo', 'lab'],
+  runtimeCompatibility: ['ianseo', 'lab', 'competplus'],
   access: {
     acl: 'AclModules',
     subFeature: 'developerWiki',
