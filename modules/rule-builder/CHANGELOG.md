@@ -17,6 +17,26 @@
   (`mysqli_connect_error()`, 3s timeout) to surface the real reason (wrong
   host, bad credentials, connection refused, etc.) instead of the opaque
   wrapped message.
+- Follow-up: on a real deployment this first pass came back with
+  `"The Ianseo core reported a fatal error before this endpoint could
+  respond with JSON."` -- the DB probe above found the read connection
+  reachable, proving the DB was never the actual cause here. Two more
+  fixes:
+  - `catch (Exception $error)` widened to `catch (Throwable $error)`. A
+    PHP `Error` (`TypeError`, `ArgumentCountError`, `Error`, ...) does
+    **not** extend `Exception`, so it fell straight through the
+    try/catch to a raw, undecorated PHP fatal instead of this module's
+    JSON error shape -- this is the most likely actual cause of the
+    reported bug, given nothing about the module's DB-access pattern
+    differs from the already-working `gdpr` module's.
+  - The shutdown-handler fallback now includes `error_get_last()`
+    (message/file/line) when the DB probe finds the connection fine,
+    for the remaining case a `Throwable` still can't catch -- a
+    compile-time fatal (e.g. a parse error in a required file), which
+    terminates the script outside any try/catch entirely. Verified
+    against both a real uncaught `Throwable` and a real parse error in
+    a required file: both now come back as valid, specific JSON instead
+    of a blank body or a fatal-error page.
 
 ## 0.1.0
 

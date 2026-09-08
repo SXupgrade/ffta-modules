@@ -30,12 +30,21 @@ register_shutdown_function(function () {
             header('Content-Type: application/json; charset=utf-8');
         }
         $dbError = ffta_rule_builder_probe_read_db();
-        echo json_encode(array(
-            'ok' => false,
-            'error' => $dbError !== null
-                ? ('Database read connection failed: ' . $dbError)
-                : 'The Ianseo core reported a fatal error before this endpoint could respond with JSON.',
-        ));
+        if ($dbError !== null) {
+            $message = 'Database read connection failed: ' . $dbError;
+        } else {
+            // The DB is reachable right now, so whatever bailed out wasn't
+            // safe_r_con() -- most likely a PHP Error (TypeError and
+            // friends aren't Exception subclasses, so the try/catch below
+            // never saw it) or a raw fatal from a require_once. PHP tracks
+            // the terminating error even past exit()/a fatal, so surface it
+            // instead of a guess.
+            $lastError = error_get_last();
+            $message = $lastError
+                ? sprintf('%s in %s:%d', $lastError['message'], $lastError['file'], $lastError['line'])
+                : 'The Ianseo core reported a fatal error before this endpoint could respond with JSON.';
+        }
+        echo json_encode(array('ok' => false, 'error' => $message));
         return;
     }
     echo $buffered;
@@ -109,10 +118,22 @@ try {
             http_response_code(400);
             echo json_encode(array('ok' => false, 'error' => "Unknown action: {$action}"));
     }
-} catch (Exception $error) {
+} catch (Throwable $error) {
+    // Throwable, not Exception: a PHP Error (TypeError, ArgumentCountError,
+    // Error, ...) doesn't extend Exception, so catching only Exception here
+    // let those fall through uncaught -- straight to a raw, undecorated PHP
+    // fatal-error body instead of this module's own JSON error shape (the
+    // shutdown handler above still catches that case too, but with only
+    // error_get_last() to go on instead of this Throwable's real message,
+    // file, and line).
     if (!headers_sent()) {
         http_response_code(500);
         header('Content-Type: application/json; charset=utf-8');
     }
-    echo json_encode(array('ok' => false, 'error' => $error->getMessage()));
+    echo json_encode(array('ok' => false, 'error' => sprintf(
+        '%s in %s:%d',
+        $error->getMessage(),
+        $error->getFile(),
+        $error->getLine()
+    )));
 }
